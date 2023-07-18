@@ -16,7 +16,13 @@
     "isolatedModules": true, // 파일 간의 연관성을 없애고 독립적인 모듈로 취급.
     "noEmit": true, // 컴파일된 결과를 출력하지 않고 오직 타입 체크만.
     "jsx": "preserve", // tsx 파일을 jsx로 어떻게 컴파일할 것인지 'preserve', 'react-native', 'react'
-    "noUnusedLocals": true //쓰지않는 지역변수 있으면 에러.
+    "noUnusedLocals": true, //쓰지않는 지역변수 있으면 에러.
+    "baseUrl": "./src",
+    "paths": {
+      "@pages/*": ["pages/*"],
+      "@components/*": ["components/*"],
+      "@hooks/*": ["hooks/*"]
+    }
   },
   "include": ["src"]
 }
