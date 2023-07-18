@@ -1,26 +1,22 @@
 {
   "compilerOptions": {
-    "target": "es5",
-    "lib": [
-      "dom",
-      "dom.iterable",
-      "esnext"
-    ],
-    "allowJs": true,
-    "skipLibCheck": true,
-    "esModuleInterop": true,
-    "allowSyntheticDefaultImports": true,
-    "strict": true,
-    "forceConsistentCasingInFileNames": true,
-    "noFallthroughCasesInSwitch": true,
-    "module": "esnext",
-    "moduleResolution": "node",
-    "resolveJsonModule": true,
-    "isolatedModules": true,
-    "noEmit": true,
-    "jsx": "react-jsx"
+    "target": "es5", // typescript 를 es5로 컴파일, es3, es5, es2015, es2016, es2017, esnext 가능
+    "lib": ["dom", "dom.iterable", "esnext"], // 사용하는 라이브러리 지정.
+    "allowJs": true, // js파일에서도 typscript 타입체크 적용.
+    "checkJs": true, // 일반 js 파일에서도 에러체크 여부
+    "skipLibCheck": true, // .d.ts 파일 타입체크 스킵. 라이브러리의 타입체크 시간 단축
+    "esModuleInterop": true, // commonjs 와 es 모듈 사이의 상호 운용성을 위해 es 모듈 형태로 컴파일.
+    "allowSyntheticDefaultImports": true, // 항상 자동 default 내보내기 생성.
+    "strict": true, // 엄격한 타입체크. 모든 타입체크 옵션 활성화.
+    "forceConsistentCasingInFileNames": true, //파일 이름 대소문자 일관성 강제.
+    "noFallthroughCasesInSwitch": true, // switch 문 case 블록 사이 break 강제요구.
+    "module": "ESNext", //ES 모듈 형태로 컴파일, commonjs, amd, es2015, esnext
+    "moduleResolution": "node", // 모듈 해결 방법을 node.js 스타일로 사용.
+    "resolveJsonModule": true, // .json 파일을 모듈로 불러올수 있도록 허용.
+    "isolatedModules": true, // 파일 간의 연관성을 없애고 독립적인 모듈로 취급.
+    "noEmit": true, // 컴파일된 결과를 출력하지 않고 오직 타입 체크만.
+    "jsx": "preserve", // tsx 파일을 jsx로 어떻게 컴파일할 것인지 'preserve', 'react-native', 'react'
+    "noUnusedLocals": true //쓰지않는 지역변수 있으면 에러.
   },
-  "include": [
-    "src"
-  ]
+  "include": ["src"]
 }
