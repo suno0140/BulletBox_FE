@@ -1,5 +1,11 @@
 {
   "editor.formatOnSave": true, // 파일 저장시 자동 코드 포맷팅
-
-  "editor.defaultFormatter": "esbenp.prettier-vscode"
+  "[typescript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[typescriptreact]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "files.autoSave": "afterDelay", // 파일 자동 저장
+  "files.autoSaveDelay": 1000
 }
