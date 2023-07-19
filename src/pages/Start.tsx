@@ -12,7 +12,7 @@ const StartPage = () => {
     <ContainerBox>
       <ImgDiv>
         <MainLogo />
-        <BulletBoxText>Bullet-Box</BulletBoxText>
+        <BulletBoxText>BulletBox</BulletBoxText>
       </ImgDiv>
       <TextDiv>당신의 할일을 담아보세요</TextDiv>
       <StartBtn

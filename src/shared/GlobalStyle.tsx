@@ -20,6 +20,7 @@ body{
     display: flex;
     align-items: center !important;
     justify-content: center;
+    background-color: #d9d9d9;
 }
 input {
     text-indent: 1em;

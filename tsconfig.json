@@ -12,5 +12,5 @@
       "@hooks/*": ["hooks/*"]
     }
   },
-  "include": ["src"]
+  "include": ["src", "craco.config.js"]
 }

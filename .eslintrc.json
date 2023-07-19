@@ -1,7 +1,8 @@
 {
   "env": {
     "browser": true,
-    "es2021": true
+    "es2021": true,
+    "node": true
   },
   "extends": [
     "eslint:recommended",
@@ -17,6 +18,6 @@
     "project": "./tsconfig.json",
     "sconfigRootDir": "__dirname"
   },
-  "plugins": ["@typescript-eslint", "react" ],
+  "plugins": ["@typescript-eslint", "react"],
   "rules": {}
 }
