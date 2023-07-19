@@ -8,15 +8,15 @@
     "plugin:@typescript-eslint/recommended-requiring-type-checking",
     "plugin:@typescript-eslint/eslint-recommended",
     "plugin:@typescript-eslint/recommended",
-    "@typescript-eslint/parser",
-    "prettier"
+    "plugin:prettier/recommended"
   ],
   "parserOptions": {
+    "parser": "@typescript-eslint/parser",
     "ecmaVersion": "latest",
     "sourceType": "module",
     "project": "./tsconfig.json",
     "sconfigRootDir": "__dirname"
   },
-  "plugins": ["@typescript-eslint", "react"],
+  "plugins": ["@typescript-eslint", "react" ],
   "rules": {}
 }
