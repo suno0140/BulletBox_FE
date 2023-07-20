@@ -1,5 +1,5 @@
 {
-  "editor.formatOnSave": true, // 파일 저장시 자동 코드 포맷팅
+  "editor.formatOnSave": true, 
   "editor.codeActionsOnSave": {
     "source.fixAll.eslint": true
   },
@@ -9,6 +9,6 @@
   "[typescriptreact]": {
     "editor.formatOnSave": true
   },
-  "files.autoSave": "afterDelay", // 파일 자동 저장
+  "files.autoSave": "afterDelay", 
   "files.autoSaveDelay": 1000
 }
