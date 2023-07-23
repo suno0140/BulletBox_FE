@@ -15,7 +15,3 @@ assignees: ''
 
 - [ ] todo
 - [ ] todo
-
-## Etc
-
-기타사항
