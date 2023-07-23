@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { ReactComponent as Logo } from '@imgs/logo-graphic.svg';
+import { ReactComponent as Logo } from '@imgs/start/logo-graphic.svg';
 import { useNavigate } from 'react-router-dom';
 
 const StartPage = () => {
