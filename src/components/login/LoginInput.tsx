@@ -1,7 +1,13 @@
 import React from 'react';
 import styled from 'styled-components';
+import { useNavigate } from 'react-router-dom';
 
 const LogInInput = () => {
+  const navigate = useNavigate();
+  const LoginHandle = () => {
+    navigate('/signup');
+  };
+
   return (
     <StForm>
       <StTitle>Login</StTitle>
@@ -16,7 +22,14 @@ const LogInInput = () => {
       <UserInfoBox>
         <SignupDiv>
           <SignUpSpan>아직 회원이 아니신가요?</SignUpSpan>
-          <StSignupBtn type="button">회원가입</StSignupBtn>
+          <StSignupBtn
+            type="button"
+            onClick={() => {
+              LoginHandle();
+            }}
+          >
+            회원가입
+          </StSignupBtn>
         </SignupDiv>
       </UserInfoBox>
     </StForm>

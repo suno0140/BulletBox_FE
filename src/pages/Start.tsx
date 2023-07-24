@@ -8,6 +8,7 @@ const StartPage = () => {
   const StartHandler = () => {
     navigate('/login');
   };
+
   return (
     <ContainerBox>
       <ImgDiv>
@@ -50,7 +51,7 @@ const MainLogo = styled(Logo)`
   width: 103px;
   height: 116px;
 `;
-const BulletBoxText = styled.text`
+const BulletBoxText = styled.span`
   font-size: 30px;
   font-weight: bold;
   font-family: 'HeirofLightBold';
