@@ -1,29 +1,31 @@
 import React from 'react';
 import styled from 'styled-components';
 import { ReactComponent as Logo } from '@imgs/login/logo-graphic.svg';
-import LogInInput from '@components/login/LoginInput';
+import SignUpInput from '@components/signup/SignupInput';
 
-const Login = () => {
+const Signup = () => {
   return (
-    <Container>
+    <ContainerBox>
       <TopContainer>
         <BulletLogo />
         <BulletBold>Bullet Box</BulletBold>
       </TopContainer>
-      <LogInInput />
-    </Container>
+
+      <SignUpInput />
+    </ContainerBox>
   );
 };
 
-export default Login;
+export default Signup;
 
-const Container = styled.div`
+const ContainerBox = styled.div`
   display: flex;
-  justify-content: flex-start;
   align-items: center;
+  justify-content: flex-start;
   flex-direction: column;
   width: 294px;
-  height: 607px;
+  height: 545px;
+  margin-bottom: 60px;
 `;
 
 const TopContainer = styled.div`
