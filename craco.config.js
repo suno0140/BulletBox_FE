@@ -9,6 +9,7 @@ module.exports = {
       '@imgs': path.resolve(__dirname, 'src/imgs'),
       '@hooks': path.resolve(__dirname, 'src/hooks'),
       '@layout': path.resolve(__dirname, 'src/layout'),
+      '@core': path.resolve(__dirname, 'src/core'),
     },
   },
 };
