@@ -1,10 +1,83 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { createUserWithEmailAndPassword } from '@firebase/auth';
+import { FireAuth } from '@core/Firebase';
 import styled from 'styled-components';
 
 const SignUpInput = () => {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [passwordConfirm, setPasswordConfirm] = useState('');
+
+  const [emailMessage, setEmailMessage] = useState('');
+  const [passwordMessage, setPasswordMessage] = useState('');
+  const [passwordConfirmMessage, setPasswordConfirmMessage] = useState('');
+
+  const [isEmail, setIsEmail] = useState(false);
+  const [isPassword, setIsPassword] = useState(false);
+  const [isPasswordConfirm, setIsPasswordConfirm] = useState(false);
+
   const navigate = useNavigate();
-  const SignupHandle = () => {
+
+  const handleEmail = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const emailRegEx =
+      /^[A-Za-z0-9]([-_.]?[A-Za-z0-9])*@[A-Za-z0-9]([-_.]?[A-Za-z0-9])*\.[A-Za-z]{2,3}$/i;
+    const emailCheck = e.target.value;
+    setEmail(emailCheck);
+
+    if (!emailRegEx.test(emailCheck)) {
+      setEmailMessage('* 올바른 이메일 형식이 아닙니다.');
+      setIsEmail(false);
+    } else {
+      setEmailMessage('* 올바른 이메일 형식입니다.');
+      setIsEmail(true);
+    }
+  };
+
+  const handlePassword = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const passwordRegEx = /^[A-Za-z0-9]{8,20}$/;
+    const passwordCheck = e.target.value;
+
+    setPassword(passwordCheck);
+
+    if (!passwordRegEx.test(passwordCheck)) {
+      setPasswordMessage('* 8자리이상 20자리이하로 입력해주세요.');
+      setIsPassword(false);
+    } else {
+      setPasswordMessage('* 사용 가능한 비밀번호입니다.');
+      setIsPassword(true);
+    }
+  };
+
+  const handlePasswordConfirm = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const passwordCheck = e.target.value;
+
+    setPasswordConfirm(passwordCheck);
+
+    if (password === passwordCheck) {
+      setPasswordConfirmMessage('* 비밀번호가 일치합니다.');
+      setIsPasswordConfirm(true);
+    } else {
+      setPasswordConfirmMessage('* 비밀번호가 일치하지 않습니다.');
+      setIsPasswordConfirm(false);
+    }
+  };
+
+  const handleSubit = (e: React.FormEvent) => {
+    e.preventDefault();
+
+    createUserWithEmailAndPassword(FireAuth, email, password)
+      .then(() => {
+        alert('회원가입 성공');
+        navigate('/login');
+      })
+      .catch((e) => {
+        console.log(e);
+        alert('회원가입 실패');
+      });
+  };
+
+  const handleLoginPage = () => {
     navigate('/login');
   };
 
@@ -12,22 +85,49 @@ const SignUpInput = () => {
     <StForm>
       <StTitle>Sign up</StTitle>
       <EmailDiv>
-        <StInput placeholder="이메일 주소를 입력하세요."></StInput>
-        <EmailBtn type="button"></EmailBtn>
+        <StInput
+          type="email"
+          placeholder="이메일 주소를 입력하세요."
+          value={email}
+          onChange={handleEmail}
+        ></StInput>
       </EmailDiv>
-      <StInput placeholder="닉네임을 입력하세요."></StInput>
-      <StInput placeholder="패스워드를 입력하세요." type="password"></StInput>
+
+      {email.length !== 0 && <AlarmSpan>{emailMessage}</AlarmSpan>}
+
+      <StInput
+        placeholder="패스워드를 입력하세요."
+        type="password"
+        value={password}
+        onChange={handlePassword}
+      ></StInput>
+
+      {password.length !== 0 && <AlarmSpan>{passwordMessage}</AlarmSpan>}
+
       <StInput
         placeholder="패스워드를 다시 한 번 입력하세요."
         type="password"
+        value={passwordConfirm}
+        onChange={handlePasswordConfirm}
       ></StInput>
+
+      {passwordConfirm.length !== 0 && (
+        <AlarmSpan>{passwordConfirmMessage}</AlarmSpan>
+      )}
+
       <StButtonBox>
-        <StSignupBtn type="submit">회원가입</StSignupBtn>
-      </StButtonBox>{' '}
+        <StSignupBtn
+          type="submit"
+          onClick={handleSubit}
+          disabled={!(isEmail && isPassword && isPasswordConfirm)}
+        >
+          회원가입
+        </StSignupBtn>
+      </StButtonBox>
       <CancelBtn
         type="button"
         onClick={() => {
-          SignupHandle();
+          handleLoginPage();
         }}
       >
         로그인 페이지로 돌아가기
@@ -92,18 +192,6 @@ const StButtonBox = styled.div`
   margin-top: 16px;
 `;
 
-const EmailBtn = styled.button`
-  width: 85px;
-  height: 16px;
-  margin-right: 3px;
-  font-size: 14px;
-  background: var(--color-default);
-  border: none;
-  border-radius: 8px;
-  color: var(--color-main);
-  font-weight: bold;
-`;
-
 const StSignupBtn = styled.button`
   width: 100%;
   height: 48px;
@@ -129,4 +217,16 @@ const CancelBtn = styled.button`
   color: var(--color-gray);
   border: none;
   background-color: transparent;
+`;
+
+const AlarmSpan = styled.span`
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  width: 100%;
+  height: 10px;
+  margin: 6px;
+  padding-left: 25px;
+  font-size: 12px;
+  font-weight: bold;
 `;

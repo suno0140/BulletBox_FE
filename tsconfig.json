@@ -10,7 +10,8 @@
       "@pages/*": ["pages/*"],
       "@imgs/*": ["imgs/*"],
       "@hooks/*": ["hooks/*"],
-      "@layout/*": ["layout/*"]
+      "@layout/*": ["layout/*"],
+      "@core/*": ["core/*"]
     }
   },
   "include": ["src", "craco.config.js"]
