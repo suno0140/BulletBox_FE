@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { createUserWithEmailAndPassword } from '@firebase/auth';
-import FireAuth from '@core/Firebase';
+import { FireAuth } from '@core/Firebase';
 import styled from 'styled-components';
 
 const SignUpInput = () => {
@@ -65,7 +65,6 @@ const SignUpInput = () => {
 
   const handleSubit = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log(FireAuth, email, password);
 
     createUserWithEmailAndPassword(FireAuth, email, password)
       .then(() => {
@@ -73,7 +72,8 @@ const SignUpInput = () => {
         navigate('/login');
       })
       .catch((e) => {
-        alert(e);
+        console.log(e);
+        alert('회원가입 실패');
       });
   };
 

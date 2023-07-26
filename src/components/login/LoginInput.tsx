@@ -1,9 +1,40 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
+import { signInWithEmailAndPassword } from '@firebase/auth';
+import { FireAuth } from '@core/Firebase';
 
 const LogInInput = () => {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
   const navigate = useNavigate();
+
+  const handleEmail = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const emailCheck = e.target.value;
+    setEmail(emailCheck);
+  };
+
+  const handlePassword = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const passwordCheck = e.target.value;
+    setPassword(passwordCheck);
+  };
+
+  const handleLogin = (e: React.FormEvent) => {
+    e.preventDefault();
+
+    signInWithEmailAndPassword(FireAuth, email, password)
+      .then((e) => {
+        alert('로그인 성공');
+        console.log(e);
+        navigate('/mypage');
+      })
+      .catch((e) => {
+        console.log(e);
+        alert('로그인 실패. 이메일과 비밀번호를 확인해주세요.');
+      });
+  };
+
   const LoginHandle = () => {
     navigate('/signup');
   };
@@ -11,13 +42,27 @@ const LogInInput = () => {
   return (
     <StForm>
       <StTitle>Login</StTitle>
-      <StInput placeholder="이메일 주소" name="userid" type="email"></StInput>
-      <StInput placeholder="패스워드" type="password" name="password"></StInput>
+      <StInput
+        placeholder="이메일 주소"
+        name="userid"
+        type="email"
+        value={email}
+        onChange={handleEmail}
+      ></StInput>
+      <StInput
+        placeholder="패스워드"
+        name="password"
+        type="password"
+        value={password}
+        onChange={handlePassword}
+      ></StInput>
       <StSpanDiv>
         <StSpanTag></StSpanTag>
       </StSpanDiv>
       <StButtonBox>
-        <StLoginBtn type="submit">로그인</StLoginBtn>
+        <StLoginBtn type="submit" onClick={handleLogin}>
+          로그인
+        </StLoginBtn>
       </StButtonBox>
       <UserInfoBox>
         <SignupDiv>

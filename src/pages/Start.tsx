@@ -1,16 +1,14 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import { ReactComponent as Logo } from '@imgs/start/logo-graphic.svg';
 import { useNavigate } from 'react-router-dom';
-import { AuthContext } from '@core/AuthContext';
 
 const StartPage = () => {
   const navigate = useNavigate();
   const StartHandler = () => {
     navigate('/login');
   };
-  const userInfo = useContext(AuthContext);
-  console.log(userInfo); // 로그인이 아닌경우 null
+
   return (
     <ContainerBox>
       <ImgDiv>
