@@ -8,7 +8,7 @@ type Props = {
 };
 
 const AuthProvider: React.FC<Props> = ({ children }) => {
-  const [user, setUser] = useState<User | null>(null);
+  const [user, setUser] = useState<User | null | object>({});
 
   useEffect(() => {
     const subscribe = FireAuth.onAuthStateChanged((fbUser) => {

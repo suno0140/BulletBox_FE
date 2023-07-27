@@ -3,8 +3,11 @@ import styled from 'styled-components';
 import { Outlet } from 'react-router-dom';
 import Header from '@layout/header/Header';
 import Footer from '@layout/footer/Footer';
+import useAuthRedirect from '@hooks/useAuthRedirect';
 
 const Layout = () => {
+  useAuthRedirect();
+
   return (
     <Container>
       <PageContainer>
