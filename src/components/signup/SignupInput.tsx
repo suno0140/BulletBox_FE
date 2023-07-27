@@ -1,8 +1,12 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { createUserWithEmailAndPassword } from '@firebase/auth';
-import { FireAuth } from '@core/Firebase';
 import styled from 'styled-components';
+
+import {
+  createUserWithEmailAndPassword,
+  fetchSignInMethodsForEmail,
+} from '@firebase/auth';
+import { FireAuth } from '@core/Firebase';
 
 const SignUpInput = () => {
   const [email, setEmail] = useState('');
@@ -29,9 +33,27 @@ const SignUpInput = () => {
       setEmailMessage('* 올바른 이메일 형식이 아닙니다.');
       setIsEmail(false);
     } else {
-      setEmailMessage('* 올바른 이메일 형식입니다.');
-      setIsEmail(true);
+      setEmailMessage('* 중복체크를 해주세요.');
+      setIsEmail(false);
     }
+  };
+
+  const handleEmailCheck = (e: React.MouseEvent<HTMLElement>) => {
+    e.preventDefault();
+
+    fetchSignInMethodsForEmail(FireAuth, email)
+      .then((e) => {
+        if (e.length === 0) {
+          alert('사용가능한 이메일입니다.');
+          setEmailMessage('* 사용가능한 이메일입니다.');
+          setIsEmail(true);
+        } else {
+          alert('이미 사용중인 이메일입니다.');
+        }
+      })
+      .catch((e) => {
+        alert(e);
+      });
   };
 
   const handlePassword = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -91,6 +113,7 @@ const SignUpInput = () => {
           value={email}
           onChange={handleEmail}
         ></StInput>
+        <EmailCheckBtn onClick={handleEmailCheck}>중복체크</EmailCheckBtn>
       </EmailDiv>
 
       {email.length !== 0 && <AlarmSpan>{emailMessage}</AlarmSpan>}
@@ -137,6 +160,7 @@ const SignUpInput = () => {
 };
 
 export default SignUpInput;
+
 const StForm = styled.form`
   display: flex;
   align-items: center;
@@ -152,6 +176,7 @@ const StTitle = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+  font-weight: bold;
   font-size: 20px;
   width: 30%;
   margin-bottom: 12px;
@@ -229,4 +254,15 @@ const AlarmSpan = styled.span`
   padding-left: 25px;
   font-size: 12px;
   font-weight: bold;
+`;
+
+const EmailCheckBtn = styled.button`
+  width: 25%;
+  font-size: 11px;
+  margin-top: 10px;
+  padding: 0;
+  color: var(--color-main);
+  border: 0;
+  outline: none;
+  background-color: transparent;
 `;
