@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-
 import {
   createUserWithEmailAndPassword,
   fetchSignInMethodsForEmail,
@@ -26,7 +25,7 @@ const SignUpInput = () => {
   const handleEmail = (e: React.ChangeEvent<HTMLInputElement>) => {
     const emailRegEx =
       /^[A-Za-z0-9]([-_.]?[A-Za-z0-9])*@[A-Za-z0-9]([-_.]?[A-Za-z0-9])*\.[A-Za-z]{2,3}$/i;
-    const emailCheck = e.target.value;
+    const emailCheck = e.currentTarget.value;
     setEmail(emailCheck);
 
     if (!emailRegEx.test(emailCheck)) {
@@ -58,7 +57,7 @@ const SignUpInput = () => {
 
   const handlePassword = (e: React.ChangeEvent<HTMLInputElement>) => {
     const passwordRegEx = /^[A-Za-z0-9]{8,20}$/;
-    const passwordCheck = e.target.value;
+    const passwordCheck = e.currentTarget.value;
 
     setPassword(passwordCheck);
 
@@ -72,7 +71,7 @@ const SignUpInput = () => {
   };
 
   const handlePasswordConfirm = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const passwordCheck = e.target.value;
+    const passwordCheck = e.currentTarget.value;
 
     setPasswordConfirm(passwordCheck);
 

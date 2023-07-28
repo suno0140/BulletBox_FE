@@ -11,12 +11,12 @@ const LogInInput = () => {
   const navigate = useNavigate();
 
   const handleEmail = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const emailCheck = e.target.value;
+    const emailCheck = e.currentTarget.value;
     setEmail(emailCheck);
   };
 
   const handlePassword = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const passwordCheck = e.target.value;
+    const passwordCheck = e.currentTarget.value;
     setPassword(passwordCheck);
   };
 
@@ -27,7 +27,7 @@ const LogInInput = () => {
       .then((e) => {
         alert('로그인 성공');
         console.log(e);
-        navigate('/mypage');
+        navigate('/main');
       })
       .catch((e) => {
         console.log(e);
@@ -104,6 +104,7 @@ const StTitle = styled.div`
   height: 22px;
   color: var(--color-main);
   font-family: 'HeirofLightBold';
+  font-weight: bold;
 `;
 
 const StInput = styled.input`

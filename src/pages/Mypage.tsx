@@ -1,18 +1,18 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { styled } from 'styled-components';
 import { ReactComponent as Logo } from '@imgs/mypage/logo-graphic.svg';
 import Logout from '@components/mypage/Logout';
+import { AuthContext } from '@core/AuthContext';
 
 const Mypage = () => {
+  const user = useContext(AuthContext);
   return (
     <Container>
       <MyInfo>
         <LogoDiv>
           <MainLogo />
         </LogoDiv>
-        <MyDetailInfo>
-          <EmailTag>email</EmailTag>
-        </MyDetailInfo>
+        <MyDetailInfo>{user && <EmailTag>{user.email}</EmailTag>}</MyDetailInfo>
         <Logout />
       </MyInfo>
     </Container>

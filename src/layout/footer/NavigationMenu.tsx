@@ -6,21 +6,36 @@ import { ReactComponent as dailyLogIcon } from '@imgs/navigation/daily.svg';
 import { ReactComponent as diaryLogIcon } from '@imgs/navigation/diary.svg';
 import { BsPerson } from 'react-icons/bs';
 import { HiSearch } from 'react-icons/hi';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 const NavigationMenu = () => {
+  const navigate = useNavigate();
+  const location = useLocation();
+
   const buttons = [
-    <DiaryBtn key="diary/일기장" />,
-    <DailylogBtn key="dailys/할일추가" />,
-    <HomeMenuBtn key="home/홈" />,
-    <SearchBtn key="search/검색" />,
-    <MyPageBtn key="mypage/마이페이지" />,
+    { key: 'diary/일기장', icon: <DiaryBtn /> },
+    { key: 'dailys/할일', icon: <DailylogBtn /> },
+    { key: 'main/home', icon: <HomeMenuBtn /> },
+    { key: 'search/검색', icon: <SearchBtn /> },
+    { key: 'mypage/마이페이지', icon: <MyPageBtn /> },
   ];
+
+  const handleNavigation = (e: React.MouseEvent<HTMLElement>) => {
+    navigate(`/${e.currentTarget.id}`);
+  };
 
   return (
     <Container>
       {buttons.map((btn, idx) => (
-        <Button key={idx}>
-          <span>{btn}</span>
+        <Button
+          key={idx}
+          id={btn.key.split('/')[0]}
+          title={btn.key.split('/')[1]}
+          onClick={handleNavigation}
+          active={location.pathname === `/${btn.key.split('/')[0]}`}
+        >
+          <span>{btn.icon}</span>
+          <ButtonText>{btn.key.split('/')[1]}</ButtonText>
         </Button>
       ))}
     </Container>
@@ -37,7 +52,7 @@ const Container = styled.div`
   height: 52px;
 `;
 
-const Button = styled.button`
+const Button = styled.button<{ active: boolean }>`
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -54,6 +69,10 @@ const Button = styled.button`
   &:focus {
     color: var(--color-main);
   }
+
+  color: ${(props) => {
+    return props.active ? 'var(--color-main)' : 'inherit';
+  }};
 `;
 const DiaryBtn = styled(diaryLogIcon)`
   width: 24px;
@@ -74,4 +93,8 @@ const MyPageBtn = styled(BsPerson)`
 const SearchBtn = styled(HiSearch)`
   width: 24px;
   height: 24px;
+`;
+
+const ButtonText = styled.span`
+  font-size: 10px;
 `;
