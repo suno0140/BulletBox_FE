@@ -1,9 +1,14 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import styled from 'styled-components';
 import { ReactComponent as Logo } from '@imgs/login/logo-graphic.svg';
 import LogInInput from '@components/login/LoginInput';
+import { AuthContext } from '@core/AuthContext';
 
 const Login = () => {
+  const userInfo = useContext(AuthContext);
+
+  console.log(userInfo);
+
   return (
     <Container>
       <TopContainer>
