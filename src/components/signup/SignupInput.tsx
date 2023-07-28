@@ -10,27 +10,29 @@ import { getDatabase, ref, set } from 'firebase/database';
 
 const SignUpInput = () => {
   const [email, setEmail] = useState('');
+  const [nickName, setNickName] = useState('');
   const [password, setPassword] = useState('');
   const [passwordConfirm, setPasswordConfirm] = useState('');
-  const [nickName, setNickName] = useState('');
 
   const [emailMessage, setEmailMessage] = useState('');
+  const [nickNameMessage, setNickNameMessage] = useState('');
   const [passwordMessage, setPasswordMessage] = useState('');
   const [passwordConfirmMessage, setPasswordConfirmMessage] = useState('');
 
   const [isEmail, setIsEmail] = useState(false);
+  const [isNickName, setIsNickName] = useState(false);
   const [isPassword, setIsPassword] = useState(false);
   const [isPasswordConfirm, setIsPasswordConfirm] = useState(false);
 
   const navigate = useNavigate();
 
   const handleEmail = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const emailRegEx =
+    const emailRegex =
       /^[A-Za-z0-9]([-_.]?[A-Za-z0-9])*@[A-Za-z0-9]([-_.]?[A-Za-z0-9])*\.[A-Za-z]{2,3}$/i;
     const emailCheck = e.currentTarget.value;
     setEmail(emailCheck);
 
-    if (!emailRegEx.test(emailCheck)) {
+    if (!emailRegex.test(emailCheck)) {
       setEmailMessage('* 올바른 이메일 형식이 아닙니다.');
       setIsEmail(false);
     } else {
@@ -58,18 +60,27 @@ const SignUpInput = () => {
   };
 
   const handleNickName = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const nickNameRegex = /^(?=.*[a-z0-9가-힣])[a-z0-9가-힣]{2,16}$/;
     const nickNameCheck = e.currentTarget.value;
 
     setNickName(nickNameCheck);
+
+    if (!nickNameRegex.test(nickNameCheck)) {
+      setNickNameMessage(`* 2자이상 16자이하로 입력해주세요.`);
+      setIsNickName(false);
+    } else {
+      setNickNameMessage(`* 사용 가능한 닉네임입니다.`);
+      setIsNickName(true);
+    }
   };
 
   const handlePassword = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const passwordRegEx = /^[A-Za-z0-9]{8,20}$/;
+    const passwordRegex = /^[A-Za-z0-9]{8,20}$/;
     const passwordCheck = e.currentTarget.value;
 
     setPassword(passwordCheck);
 
-    if (!passwordRegEx.test(passwordCheck)) {
+    if (!passwordRegex.test(passwordCheck)) {
       setPasswordMessage('* 8자리이상 20자리이하로 입력해주세요.');
       setIsPassword(false);
     } else {
@@ -141,6 +152,8 @@ const SignUpInput = () => {
         onChange={handleNickName}
       ></StInput>
 
+      {nickName.length !== 0 && <AlarmSpan>{nickNameMessage}</AlarmSpan>}
+
       <StInput
         placeholder="패스워드를 입력하세요."
         type="password"
@@ -165,7 +178,7 @@ const SignUpInput = () => {
         <StSignupBtn
           type="submit"
           onClick={handleSubmit}
-          disabled={!(isEmail && isPassword && isPasswordConfirm)}
+          disabled={!(isEmail && isNickName && isPassword && isPasswordConfirm)}
         >
           회원가입
         </StSignupBtn>
