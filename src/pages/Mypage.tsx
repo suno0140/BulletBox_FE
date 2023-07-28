@@ -1,18 +1,45 @@
-import React, { useContext } from 'react';
+import React, { useState, useEffect } from 'react';
 import { styled } from 'styled-components';
 import { ReactComponent as Logo } from '@imgs/mypage/logo-graphic.svg';
 import Logout from '@components/mypage/Logout';
-import { AuthContext } from '@core/AuthContext';
+import { getDatabase, ref, onValue } from 'firebase/database';
+import { onAuthStateChanged } from 'firebase/auth';
+import { FireAuth } from '@core/Firebase';
 
 const Mypage = () => {
-  const user = useContext(AuthContext);
+  const [email, setEmail] = useState('');
+  const [nickname, setNickname] = useState('');
+
+  type UserData = {
+    email: string;
+    nickname: string;
+  };
+
+  useEffect(() => {
+    onAuthStateChanged(FireAuth, (user) => {
+      if (user) {
+        const db = getDatabase();
+        const userRef = ref(db, 'users/' + user.uid);
+
+        onValue(userRef, (snapshot) => {
+          const data: UserData = snapshot.val() as UserData;
+          setEmail(data.email);
+          setNickname(data.nickname);
+        });
+      }
+    });
+  }, []);
+
   return (
     <Container>
       <MyInfo>
         <LogoDiv>
           <MainLogo />
         </LogoDiv>
-        <MyDetailInfo>{user && <EmailTag>{user.email}</EmailTag>}</MyDetailInfo>
+        <MyDetailInfo>
+          <NicknameTag>{nickname}</NicknameTag>
+          <EmailTag>{email}</EmailTag>
+        </MyDetailInfo>
         <Logout />
       </MyInfo>
     </Container>
@@ -60,5 +87,10 @@ const MainLogo = styled(Logo)`
 const EmailTag = styled.span`
   font-size: 12px;
   color: #7c7c7c;
+  font-weight: bold;
+`;
+
+const NicknameTag = styled.span`
+  font-size: 14px;
   font-weight: bold;
 `;
