@@ -6,11 +6,13 @@ import {
   fetchSignInMethodsForEmail,
 } from '@firebase/auth';
 import { FireAuth } from '@core/Firebase';
+import { getDatabase, ref, set } from 'firebase/database';
 
 const SignUpInput = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [passwordConfirm, setPasswordConfirm] = useState('');
+  const [nickName, setNickName] = useState('');
 
   const [emailMessage, setEmailMessage] = useState('');
   const [passwordMessage, setPasswordMessage] = useState('');
@@ -55,6 +57,12 @@ const SignUpInput = () => {
       });
   };
 
+  const handleNickName = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const nickNameCheck = e.currentTarget.value;
+
+    setNickName(nickNameCheck);
+  };
+
   const handlePassword = (e: React.ChangeEvent<HTMLInputElement>) => {
     const passwordRegEx = /^[A-Za-z0-9]{8,20}$/;
     const passwordCheck = e.currentTarget.value;
@@ -84,11 +92,21 @@ const SignUpInput = () => {
     }
   };
 
-  const handleSubit = (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
     createUserWithEmailAndPassword(FireAuth, email, password)
-      .then(() => {
+      .then((userCredential) => {
+        const userId = userCredential.user.uid;
+        const db = getDatabase();
+
+        const userRef = ref(db, 'users/' + userId);
+
+        void set(userRef, {
+          email: email,
+          nickname: nickName,
+        });
+
         alert('회원가입 성공');
         navigate('/login');
       })
@@ -101,7 +119,6 @@ const SignUpInput = () => {
   const handleLoginPage = () => {
     navigate('/login');
   };
-
   return (
     <StForm>
       <StTitle>Sign up</StTitle>
@@ -116,6 +133,13 @@ const SignUpInput = () => {
       </EmailDiv>
 
       {email.length !== 0 && <AlarmSpan>{emailMessage}</AlarmSpan>}
+
+      <StInput
+        placeholder="닉네임을 입력하세요."
+        type="text"
+        value={nickName}
+        onChange={handleNickName}
+      ></StInput>
 
       <StInput
         placeholder="패스워드를 입력하세요."
@@ -140,7 +164,7 @@ const SignUpInput = () => {
       <StButtonBox>
         <StSignupBtn
           type="submit"
-          onClick={handleSubit}
+          onClick={handleSubmit}
           disabled={!(isEmail && isPassword && isPasswordConfirm)}
         >
           회원가입

@@ -14,9 +14,9 @@ const NavigationMenu = () => {
 
   const buttons = [
     { key: 'diary/일기장', icon: <DiaryBtn /> },
-    { key: 'dailys/할일', icon: <DailylogBtn /> },
-    { key: 'main/home', icon: <HomeMenuBtn /> },
-    { key: 'search/검색', icon: <SearchBtn /> },
+    { key: 'dailys/할일추가', icon: <DailylogBtn /> },
+    { key: 'main/홈', icon: <HomeMenuBtn /> },
+    { key: 'search/할일검색', icon: <SearchBtn /> },
     { key: 'mypage/마이페이지', icon: <MyPageBtn /> },
   ];
 

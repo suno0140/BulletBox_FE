@@ -1,5 +1,3 @@
-// Import the functions you need from the SDKs you need
-
 import { initializeApp } from 'firebase/app';
 import { getAnalytics } from 'firebase/analytics';
 import { getAuth } from 'firebase/auth';
@@ -12,6 +10,7 @@ const firebaseConfig = {
   messagingSenderId: process.env.REACT_APP_FIREBASE_MESSAGINGSENDERID,
   appId: process.env.REACT_APP_FIREBASE_APPID,
   measurementId: process.env.REACT_APP_FIREBASE_MEASUREMENTID,
+  databaseURL: process.env.REACT_APP_FIREBASE_DATABASE_URL,
 };
 
 export const app = initializeApp(firebaseConfig);
