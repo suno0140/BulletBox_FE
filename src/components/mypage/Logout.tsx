@@ -9,21 +9,23 @@ import { ReactComponent as Logo } from '@imgs/mypage/logout.svg';
 const Logout = () => {
   const navigate = useNavigate();
 
-  const onClickButton = () => {
-    signOut(FireAuth)
-      .then((e) => {
-        console.log(e);
-        navigate('/login');
-      })
-      .catch((e) => {
-        console.log(e);
-        alert('로그아웃 실패');
-      });
+  const onClickButton = async () => {
+    try {
+      await signOut(FireAuth);
+      navigate('/login');
+    } catch (e) {
+      console.log(e);
+      alert('로그아웃 실패');
+    }
   };
 
   return (
     <LogoutBtnContainer>
-      <LogoutBtn onClick={onClickButton}>
+      <LogoutBtn
+        onClick={() => {
+          void onClickButton();
+        }}
+      >
         <LogoutImg />
       </LogoutBtn>
       로그아웃

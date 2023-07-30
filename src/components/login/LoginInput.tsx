@@ -20,19 +20,22 @@ const LogInInput = () => {
     setPassword(passwordCheck);
   };
 
-  const handleLogin = (e: React.FormEvent) => {
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    signInWithEmailAndPassword(FireAuth, email, password)
-      .then((e) => {
-        alert('로그인 성공');
-        console.log(e);
-        navigate('/main');
-      })
-      .catch((e) => {
-        console.log(e);
-        alert('로그인 실패. 이메일과 비밀번호를 확인해주세요.');
-      });
+    try {
+      const userCredential = await signInWithEmailAndPassword(
+        FireAuth,
+        email,
+        password,
+      );
+      alert('로그인 성공');
+      console.log(userCredential);
+      navigate('/mypage');
+    } catch (e) {
+      console.log(e);
+      alert('로그인 실패. 이메일과 비밀번호를 확인해주세요.');
+    }
   };
 
   const LoginHandle = () => {
@@ -60,7 +63,12 @@ const LogInInput = () => {
         <StSpanTag></StSpanTag>
       </StSpanDiv>
       <StButtonBox>
-        <StLoginBtn type="submit" onClick={handleLogin}>
+        <StLoginBtn
+          type="submit"
+          onClick={(e) => {
+            void handleLogin(e);
+          }}
+        >
           로그인
         </StLoginBtn>
       </StButtonBox>

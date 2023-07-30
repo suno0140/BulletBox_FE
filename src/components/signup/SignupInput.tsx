@@ -10,27 +10,29 @@ import { getDatabase, ref, set } from 'firebase/database';
 
 const SignUpInput = () => {
   const [email, setEmail] = useState('');
+  const [nickName, setNickName] = useState('');
   const [password, setPassword] = useState('');
   const [passwordConfirm, setPasswordConfirm] = useState('');
-  const [nickName, setNickName] = useState('');
 
   const [emailMessage, setEmailMessage] = useState('');
+  const [nickNameMessage, setNickNameMessage] = useState('');
   const [passwordMessage, setPasswordMessage] = useState('');
   const [passwordConfirmMessage, setPasswordConfirmMessage] = useState('');
 
   const [isEmail, setIsEmail] = useState(false);
+  const [isNickName, setIsNickName] = useState(false);
   const [isPassword, setIsPassword] = useState(false);
   const [isPasswordConfirm, setIsPasswordConfirm] = useState(false);
 
   const navigate = useNavigate();
 
   const handleEmail = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const emailRegEx =
+    const emailRegex =
       /^[A-Za-z0-9]([-_.]?[A-Za-z0-9])*@[A-Za-z0-9]([-_.]?[A-Za-z0-9])*\.[A-Za-z]{2,3}$/i;
     const emailCheck = e.currentTarget.value;
     setEmail(emailCheck);
 
-    if (!emailRegEx.test(emailCheck)) {
+    if (!emailRegex.test(emailCheck)) {
       setEmailMessage('* 올바른 이메일 형식이 아닙니다.');
       setIsEmail(false);
     } else {
@@ -39,37 +41,44 @@ const SignUpInput = () => {
     }
   };
 
-  const handleEmailCheck = (e: React.MouseEvent<HTMLElement>) => {
+  const handleEmailCheck = async (e: React.MouseEvent<HTMLElement>) => {
     e.preventDefault();
-
-    fetchSignInMethodsForEmail(FireAuth, email)
-      .then((e) => {
-        if (e.length === 0) {
-          alert('사용가능한 이메일입니다.');
-          setEmailMessage('* 사용가능한 이메일입니다.');
-          setIsEmail(true);
-        } else {
-          alert('이미 사용중인 이메일입니다.');
-        }
-      })
-      .catch((e) => {
-        alert(e);
-      });
+    try {
+      const methods = await fetchSignInMethodsForEmail(FireAuth, email);
+      if (methods.length === 0) {
+        alert('사용가능한 이메일입니다.');
+        setEmailMessage('* 사용가능한 이메일입니다.');
+        setIsEmail(true);
+      } else {
+        alert('이미 사용중인 이메일입니다.');
+      }
+    } catch (e) {
+      alert(e);
+    }
   };
 
   const handleNickName = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const nickNameRegex = /^(?=.*[a-z0-9가-힣])[a-z0-9가-힣]{2,16}$/;
     const nickNameCheck = e.currentTarget.value;
 
     setNickName(nickNameCheck);
+
+    if (!nickNameRegex.test(nickNameCheck)) {
+      setNickNameMessage(`* 2자이상 16자이하로 입력해주세요.`);
+      setIsNickName(false);
+    } else {
+      setNickNameMessage(`* 사용 가능한 닉네임입니다.`);
+      setIsNickName(true);
+    }
   };
 
   const handlePassword = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const passwordRegEx = /^[A-Za-z0-9]{8,20}$/;
+    const passwordRegex = /^[A-Za-z0-9]{8,20}$/;
     const passwordCheck = e.currentTarget.value;
 
     setPassword(passwordCheck);
 
-    if (!passwordRegEx.test(passwordCheck)) {
+    if (!passwordRegex.test(passwordCheck)) {
       setPasswordMessage('* 8자리이상 20자리이하로 입력해주세요.');
       setIsPassword(false);
     } else {
@@ -91,29 +100,28 @@ const SignUpInput = () => {
       setIsPasswordConfirm(false);
     }
   };
-
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    createUserWithEmailAndPassword(FireAuth, email, password)
-      .then((userCredential) => {
-        const userId = userCredential.user.uid;
-        const db = getDatabase();
-
-        const userRef = ref(db, 'users/' + userId);
-
-        void set(userRef, {
-          email: email,
-          nickname: nickName,
-        });
-
-        alert('회원가입 성공');
-        navigate('/login');
-      })
-      .catch((e) => {
-        console.log(e);
-        alert('회원가입 실패');
+    try {
+      const userCredential = await createUserWithEmailAndPassword(
+        FireAuth,
+        email,
+        password,
+      );
+      const userId = userCredential.user.uid;
+      const db = getDatabase();
+      const userRef = ref(db, 'users/' + userId);
+      await set(userRef, {
+        email: email,
+        nickname: nickName,
       });
+      alert('회원가입 성공');
+      navigate('/login');
+    } catch (e) {
+      console.log(e);
+      alert('회원가입 실패');
+    }
   };
 
   const handleLoginPage = () => {
@@ -129,7 +137,13 @@ const SignUpInput = () => {
           value={email}
           onChange={handleEmail}
         ></StInput>
-        <EmailCheckBtn onClick={handleEmailCheck}>중복체크</EmailCheckBtn>
+        <EmailCheckBtn
+          onClick={(e) => {
+            void handleEmailCheck(e);
+          }}
+        >
+          중복체크
+        </EmailCheckBtn>
       </EmailDiv>
 
       {email.length !== 0 && <AlarmSpan>{emailMessage}</AlarmSpan>}
@@ -140,6 +154,8 @@ const SignUpInput = () => {
         value={nickName}
         onChange={handleNickName}
       ></StInput>
+
+      {nickName.length !== 0 && <AlarmSpan>{nickNameMessage}</AlarmSpan>}
 
       <StInput
         placeholder="패스워드를 입력하세요."
@@ -164,8 +180,10 @@ const SignUpInput = () => {
       <StButtonBox>
         <StSignupBtn
           type="submit"
-          onClick={handleSubmit}
-          disabled={!(isEmail && isPassword && isPasswordConfirm)}
+          onClick={(e) => {
+            void handleSubmit(e);
+          }}
+          disabled={!(isEmail && isNickName && isPassword && isPasswordConfirm)}
         >
           회원가입
         </StSignupBtn>

@@ -32,7 +32,9 @@ const NavigationMenu = () => {
           id={btn.key.split('/')[0]}
           title={btn.key.split('/')[1]}
           onClick={handleNavigation}
-          active={location.pathname === `/${btn.key.split('/')[0]}`}
+          active={
+            location.pathname === `/${btn.key.split('/')[0]}` ? true : false
+          }
         >
           <span>{btn.icon}</span>
           <ButtonText>{btn.key.split('/')[1]}</ButtonText>
