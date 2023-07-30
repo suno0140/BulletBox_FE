@@ -41,22 +41,20 @@ const SignUpInput = () => {
     }
   };
 
-  const handleEmailCheck = (e: React.MouseEvent<HTMLElement>) => {
+  const handleEmailCheck = async (e: React.MouseEvent<HTMLElement>) => {
     e.preventDefault();
-
-    fetchSignInMethodsForEmail(FireAuth, email)
-      .then((e) => {
-        if (e.length === 0) {
-          alert('사용가능한 이메일입니다.');
-          setEmailMessage('* 사용가능한 이메일입니다.');
-          setIsEmail(true);
-        } else {
-          alert('이미 사용중인 이메일입니다.');
-        }
-      })
-      .catch((e) => {
-        alert(e);
-      });
+    try {
+      const methods = await fetchSignInMethodsForEmail(FireAuth, email);
+      if (methods.length === 0) {
+        alert('사용가능한 이메일입니다.');
+        setEmailMessage('* 사용가능한 이메일입니다.');
+        setIsEmail(true);
+      } else {
+        alert('이미 사용중인 이메일입니다.');
+      }
+    } catch (e) {
+      alert(e);
+    }
   };
 
   const handleNickName = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -102,29 +100,28 @@ const SignUpInput = () => {
       setIsPasswordConfirm(false);
     }
   };
-
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    createUserWithEmailAndPassword(FireAuth, email, password)
-      .then((userCredential) => {
-        const userId = userCredential.user.uid;
-        const db = getDatabase();
-
-        const userRef = ref(db, 'users/' + userId);
-
-        void set(userRef, {
-          email: email,
-          nickname: nickName,
-        });
-
-        alert('회원가입 성공');
-        navigate('/login');
-      })
-      .catch((e) => {
-        console.log(e);
-        alert('회원가입 실패');
+    try {
+      const userCredential = await createUserWithEmailAndPassword(
+        FireAuth,
+        email,
+        password,
+      );
+      const userId = userCredential.user.uid;
+      const db = getDatabase();
+      const userRef = ref(db, 'users/' + userId);
+      await set(userRef, {
+        email: email,
+        nickname: nickName,
       });
+      alert('회원가입 성공');
+      navigate('/login');
+    } catch (e) {
+      console.log(e);
+      alert('회원가입 실패');
+    }
   };
 
   const handleLoginPage = () => {
@@ -140,7 +137,13 @@ const SignUpInput = () => {
           value={email}
           onChange={handleEmail}
         ></StInput>
-        <EmailCheckBtn onClick={handleEmailCheck}>중복체크</EmailCheckBtn>
+        <EmailCheckBtn
+          onClick={(e) => {
+            void handleEmailCheck(e);
+          }}
+        >
+          중복체크
+        </EmailCheckBtn>
       </EmailDiv>
 
       {email.length !== 0 && <AlarmSpan>{emailMessage}</AlarmSpan>}
@@ -177,7 +180,9 @@ const SignUpInput = () => {
       <StButtonBox>
         <StSignupBtn
           type="submit"
-          onClick={handleSubmit}
+          onClick={(e) => {
+            void handleSubmit(e);
+          }}
           disabled={!(isEmail && isNickName && isPassword && isPasswordConfirm)}
         >
           회원가입
