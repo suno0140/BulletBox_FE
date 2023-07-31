@@ -11,7 +11,8 @@
       "@imgs/*": ["imgs/*"],
       "@hooks/*": ["hooks/*"],
       "@layout/*": ["layout/*"],
-      "@core/*": ["core/*"]
+      "@core/*": ["core/*"],
+      "@api/*": ["api/*"]
     }
   },
   "include": ["src", "craco.config.js"]

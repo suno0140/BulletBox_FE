@@ -10,6 +10,7 @@ module.exports = {
       '@hooks': path.resolve(__dirname, 'src/hooks'),
       '@layout': path.resolve(__dirname, 'src/layout'),
       '@core': path.resolve(__dirname, 'src/core'),
+      '@api': path.resolve(__dirname, 'src/api'),
     },
   },
 };
