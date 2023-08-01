@@ -1,10 +1,32 @@
 import { styled } from 'styled-components';
+export const GrayBoldText = styled.span`
+  font-size: 12px;
+  color: var(--color-gray);
+  font-weight: bold;
+`;
+
+export const DefaultBoldText = styled.span`
+  font-size: 14px;
+  font-weight: bold;
+`;
 
 export const StartBulletBoxText = styled.span`
   font-size: 30px;
   font-weight: bold;
   font-family: 'HeirofLightBold';
   margin-top: auto;
+`;
+
+export const BulletBold = styled.span`
+  display: flex;
+  justify-content: center;
+  color: var(--color-main);
+  font-size: 14px;
+  font-weight: bold;
+  font-family: 'HeirofLightBold';
+  margin-top: 5px;
+  width: 80px;
+  height: 21px;
 `;
 
 export const MainTitle = styled.span`

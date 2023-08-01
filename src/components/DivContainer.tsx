@@ -17,22 +17,20 @@ export const ContainerBox = styled.div`
   height: 100%;
 `;
 
+export const EmailFormDiv = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  height: 5vh;
+  border: solid 2px var(--color-main);
+  border-radius: 25px;
+`;
+
 export const StartTextDiv = styled.div`
   font-size: 1.5rem;
   font-weight: 700;
   margin: 50px 0;
-`;
-
-export const BulletBold = styled.span`
-  display: flex;
-  justify-content: center;
-  color: var(--color-main);
-  font-size: 14px;
-  font-weight: bold;
-  font-family: 'HeirofLightBold';
-  margin-top: 5px;
-  width: 80px;
-  height: 21px;
 `;
 
 export const JoinMembership = styled.div`
@@ -46,15 +44,33 @@ export const JoinMembership = styled.div`
   button {
     background-color: transparent;
     border: none;
-    font-size: 10px;
-    font-family: 'NanumGothic';
+    font-size: 11px;
     font-weight: bold;
     color: var(--color-main);
   }
 
   span {
     color: var(--color-gray);
-    font-size: 8px;
+    font-size: 11px;
     font-weight: bold;
   }
+`;
+
+export const LogoutBtnContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  flex-direction: column;
+  margin-left: 80px;
+  color: var(--color-main);
+  font-weight: bold;
+`;
+
+export const MyDetailInfo = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 25%;
+  margin-left: 14px;
+  font-size: 14px;
+  letter-spacing: 0.4px;
 `;

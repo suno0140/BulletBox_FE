@@ -12,12 +12,11 @@ import {
 
 import { SignupApi } from '@api/SignupApi';
 import { StForm } from '@components/Form';
-import { AlarmSpan, MainTitle } from '@components/Span';
-import { FormInput } from '@components/Input';
+import { AlarmSpan, BulletBold, MainTitle } from '@components/Span';
+import { FormEmailInput, FormInput } from '@components/Input';
 import { EmailCheckBtn, GoBackBtn, MainBtn } from '@components/Button';
-import { RelativeDiv } from '@components/Container';
 import { BulletLogo } from '@components/Logo';
-import { BulletBold, ContainerBox } from '@components/DivContainer';
+import { ContainerBox, EmailFormDiv } from '@components/DivContainer';
 
 const Signup = () => {
   const [email, setEmail] = useState('');
@@ -117,13 +116,13 @@ const Signup = () => {
       <BulletBold>Bullet Box</BulletBold>
       <StForm>
         <MainTitle>Sign up</MainTitle>
-        <RelativeDiv>
-          <FormInput
+        <EmailFormDiv>
+          <FormEmailInput
             type="email"
             placeholder="이메일 주소를 입력하세요."
             value={email}
             onChange={handleEmail}
-          ></FormInput>
+          ></FormEmailInput>
           <EmailCheckBtn
             onClick={(e) => {
               void handleEmailCheck(e);
@@ -131,50 +130,48 @@ const Signup = () => {
           >
             중복체크
           </EmailCheckBtn>
+        </EmailFormDiv>
+        {email.length !== 0 && <AlarmSpan>{emailMessage}</AlarmSpan>}
 
-          {email.length !== 0 && <AlarmSpan>{emailMessage}</AlarmSpan>}
+        <FormInput
+          placeholder="닉네임을 입력하세요."
+          type="text"
+          value={nickName}
+          onChange={handleNickName}
+        ></FormInput>
 
-          <FormInput
-            placeholder="닉네임을 입력하세요."
-            type="text"
-            value={nickName}
-            onChange={handleNickName}
-          ></FormInput>
+        {nickName.length !== 0 && <AlarmSpan>{nickNameMessage}</AlarmSpan>}
 
-          {nickName.length !== 0 && <AlarmSpan>{nickNameMessage}</AlarmSpan>}
+        <FormInput
+          placeholder="패스워드를 입력하세요."
+          type="password"
+          value={password}
+          onChange={handlePassword}
+        ></FormInput>
 
-          <FormInput
-            placeholder="패스워드를 입력하세요."
-            type="password"
-            value={password}
-            onChange={handlePassword}
-          ></FormInput>
+        {password.length !== 0 && <AlarmSpan>{passwordMessage}</AlarmSpan>}
 
-          {password.length !== 0 && <AlarmSpan>{passwordMessage}</AlarmSpan>}
+        <FormInput
+          placeholder="패스워드를 다시 한 번 입력하세요."
+          type="password"
+          value={passwordConfirm}
+          onChange={handlePasswordConfirm}
+        ></FormInput>
 
-          <FormInput
-            placeholder="패스워드를 다시 한 번 입력하세요."
-            type="password"
-            value={passwordConfirm}
-            onChange={handlePasswordConfirm}
-          ></FormInput>
+        {passwordConfirm.length !== 0 && (
+          <AlarmSpan>{passwordConfirmMessage}</AlarmSpan>
+        )}
 
-          {passwordConfirm.length !== 0 && (
-            <AlarmSpan>{passwordConfirmMessage}</AlarmSpan>
-          )}
+        <MainBtn
+          type="submit"
+          onClick={(e) => {
+            void handleSubmit(e);
+          }}
+          disabled={!(isEmail && isNickName && isPassword && isPasswordConfirm)}
+        >
+          회원가입
+        </MainBtn>
 
-          <MainBtn
-            type="submit"
-            onClick={(e) => {
-              void handleSubmit(e);
-            }}
-            disabled={
-              !(isEmail && isNickName && isPassword && isPasswordConfirm)
-            }
-          >
-            회원가입
-          </MainBtn>
-        </RelativeDiv>
         <GoBackBtn
           type="button"
           onClick={() => {

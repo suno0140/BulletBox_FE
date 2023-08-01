@@ -7,9 +7,5 @@ type UserInfo = {
 };
 
 export const LoginApi = async ({ email, password }: UserInfo) => {
-  try {
-    await signInWithEmailAndPassword(FireAuth, email, password);
-  } catch (e) {
-    console.log(e);
-  }
+  await signInWithEmailAndPassword(FireAuth, email, password);
 };

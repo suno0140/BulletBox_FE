@@ -28,14 +28,16 @@ export const GoBackBtn = styled.button`
 `;
 
 export const EmailCheckBtn = styled.button`
-  width: 25%;
+  width: 21%;
   font-size: 11px;
-  padding: 0;
   color: var(--color-main);
   border: 0;
-  outline: none;
   background-color: transparent;
-  position: absolute;
-  right: 1px;
-  top: 10%;
+`;
+
+export const LogoutBtn = styled.button`
+  background-color: white;
+  width: 100%;
+  border: none;
+  font-size: 10px;
 `;

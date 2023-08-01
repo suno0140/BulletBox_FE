@@ -18,3 +18,20 @@ export const FormInput = styled.input`
     padding-right: 1em;
   }
 `;
+
+export const FormEmailInput = styled.input`
+  width: 80%;
+  border: 0px;
+  font-size: 14px;
+  font-family: 'NanumGothic';
+  font-weight: bold;
+  background: transparent;
+  border-radius: 25px;
+  ::placeholder {
+    font-family: 'NanumGothic';
+    font-size: 14px;
+    font-weight: bold;
+    color: var(--color-c1-gray);
+    padding-right: 1em;
+  }
+`;

@@ -32,9 +32,7 @@ const NavigationMenu = () => {
           id={btn.key.split('/')[0]}
           title={btn.key.split('/')[1]}
           onClick={handleNavigation}
-          active={
-            location.pathname === `/${btn.key.split('/')[0]}` ? true : false
-          }
+          $active={location.pathname === `/${btn.key.split('/')[0]}`}
         >
           <span>{btn.icon}</span>
           <ButtonText>{btn.key.split('/')[1]}</ButtonText>
@@ -54,7 +52,7 @@ const Container = styled.div`
   height: 52px;
 `;
 
-const Button = styled.button<{ active: boolean }>`
+const Button = styled.button<{ $active: boolean }>`
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -72,9 +70,7 @@ const Button = styled.button<{ active: boolean }>`
     color: var(--color-main);
   }
 
-  color: ${(props) => {
-    return props.active ? 'var(--color-main)' : 'inherit';
-  }};
+  color: ${(props) => (props.$active ? 'var(--color-main)' : 'inherit')};
 `;
 const DiaryBtn = styled(diaryLogIcon)`
   width: 24px;
