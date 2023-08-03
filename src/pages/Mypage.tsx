@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { MypageApi } from '@api/MypageApi';
 import { useLogout } from '@api/LogoutApi';
 
-import { ColumnBox, LogoutBtnContainer, MyDetailInfo } from '@components/Div';
+import { LogoutBtnContainer, MyDetailInfo } from '@components/Div';
 import { LogoutBtn } from '@components/Button';
 import { LogoutImg, MypageLogo } from '@components/Logo';
 import { Flexbox } from '@components/Div';
@@ -44,25 +44,23 @@ const Mypage = ({ setLoading }: LoadingProps) => {
   };
 
   return (
-    <ColumnBox>
-      <Flexbox>
-        <MypageLogo />
-        <MyDetailInfo>
-          <DefaultBoldSpan>{nickname}</DefaultBoldSpan>
-          <GrayBoldText>{email}</GrayBoldText>
-        </MyDetailInfo>
-        <LogoutBtnContainer>
-          <LogoutBtn
-            onClick={() => {
-              onClickButton();
-            }}
-          >
-            <LogoutImg />
-          </LogoutBtn>
-          <DefaultBoldSpan>로그아웃</DefaultBoldSpan>
-        </LogoutBtnContainer>
-      </Flexbox>
-    </ColumnBox>
+    <Flexbox>
+      <MypageLogo />
+      <MyDetailInfo>
+        <DefaultBoldSpan>{nickname}</DefaultBoldSpan>
+        <GrayBoldText>{email}</GrayBoldText>
+      </MyDetailInfo>
+      <LogoutBtnContainer>
+        <LogoutBtn
+          onClick={() => {
+            onClickButton();
+          }}
+        >
+          <LogoutImg />
+        </LogoutBtn>
+        <DefaultBoldSpan>로그아웃</DefaultBoldSpan>
+      </LogoutBtnContainer>
+    </Flexbox>
   );
 };
 

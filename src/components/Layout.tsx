@@ -5,10 +5,9 @@ export const LayoutBox = styled.div`
   align-items: center;
   justify-content: center;
   flex-direction: column;
-  width: 450px;
+  min-width: 340px;
   height: 100vh;
   background-color: var(--color-light-gray);
-  font-size: 1.5rem;
   font-family: 'HeirofLightBold';
 `;
 
@@ -28,7 +27,7 @@ export const LayoutDiv = styled.div`
 
 export const PageContainer = styled.div`
   width: 100%;
-  height: 75%;
+  height: 100%;
   background-color: white;
   overflow: auto;
 `;

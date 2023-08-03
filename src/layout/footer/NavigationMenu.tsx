@@ -49,7 +49,7 @@ const Container = styled.div`
   align-items: center;
   justify-content: center;
   width: 100%;
-  height: 52px;
+  border-top: solid 1px var(--color-light-gray);
 `;
 
 const Button = styled.button<{ $active: boolean }>`
@@ -70,7 +70,7 @@ const Button = styled.button<{ $active: boolean }>`
     color: var(--color-main);
   }
 
-  color: ${(props) => (props.$active ? 'var(--color-main)' : 'inherit')};
+  color: ${(props) => (props.$active ? 'var(--color-main)' : 'black')};
 `;
 const DiaryBtn = styled(diaryLogIcon)`
   width: 24px;
