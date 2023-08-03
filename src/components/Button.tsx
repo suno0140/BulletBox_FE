@@ -5,8 +5,8 @@ export const MainBtn = styled.button`
   font-family: 'HeirofLightBold';
   background-color: var(--color-main);
   color: white;
-  width: 100%;
-  height: 48px;
+  width: 70%;
+  height: 5vh;
   margin-top: 20px;
   border: none;
   border-radius: 8px;

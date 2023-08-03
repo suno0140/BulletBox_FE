@@ -10,9 +10,8 @@ export const MainLogo = styled(Logo)`
 `;
 
 export const BulletLogo = styled(Logo)`
-  width: 39.27px;
-  height: 64.4px;
-  margin-top: 50px;
+  width: 13%;
+  height: 10%;
   fill: var(--color-main);
 `;
 

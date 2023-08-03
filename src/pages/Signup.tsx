@@ -12,11 +12,14 @@ import {
 
 import { SignupApi } from '@api/SignupApi';
 import { StForm } from '@components/Form';
-import { AlarmSpan, BulletBold, MainTitle } from '@components/Span';
+import { AlarmSpan, BulletBold, MainSpan } from '@components/Span';
 import { FormEmailInput, FormInput } from '@components/Input';
 import { EmailCheckBtn, GoBackBtn, MainBtn } from '@components/Button';
 import { BulletLogo } from '@components/Logo';
-import { ContainerBox, EmailFormDiv } from '@components/DivContainer';
+import { ColumnBox, EmailFormDiv, EmptyBox } from '@components/Div';
+import { useErrorToast, useSuccessToast } from '@hooks/useSnackBar';
+
+import { Toaster } from 'react-hot-toast';
 
 const Signup = () => {
   const [email, setEmail] = useState('');
@@ -48,14 +51,14 @@ const Signup = () => {
     try {
       const methods = await fetchSignInMethodsForEmail(FireAuth, email);
       if (methods.length === 0) {
-        alert('사용가능한 이메일입니다.');
+        useSuccessToast('사용가능한 이메일입니다.');
         setEmailMessage('* 사용가능한 이메일입니다.');
         setIsEmail(true);
       } else {
-        alert('이미 사용중인 이메일입니다.');
+        useErrorToast('이미 사용중인 이메일입니다.');
       }
     } catch (e) {
-      alert(e);
+      useErrorToast('사용 불가능한 이메일 입니다.');
     }
   };
 
@@ -111,11 +114,12 @@ const Signup = () => {
     navigate('/login');
   };
   return (
-    <ContainerBox>
+    <ColumnBox>
       <BulletLogo />
       <BulletBold>Bullet Box</BulletBold>
+
       <StForm>
-        <MainTitle>Sign up</MainTitle>
+        <MainSpan>Sign up</MainSpan>
         <EmailFormDiv>
           <FormEmailInput
             type="email"
@@ -181,7 +185,9 @@ const Signup = () => {
           로그인 페이지로 돌아가기
         </GoBackBtn>
       </StForm>
-    </ContainerBox>
+      <EmptyBox />
+      <Toaster />
+    </ColumnBox>
   );
 };
 

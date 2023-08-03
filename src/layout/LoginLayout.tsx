@@ -1,14 +1,14 @@
 import React from 'react';
 import { Outlet } from 'react-router-dom';
-import { LayoutContainer, LayoutDiv } from '@components/Container';
+import { LayoutBox, LayoutDiv } from '@components/Layout';
 
 const StartLayout = () => {
   return (
-    <LayoutContainer>
+    <LayoutBox>
       <LayoutDiv>
         <Outlet></Outlet>
       </LayoutDiv>
-    </LayoutContainer>
+    </LayoutBox>
   );
 };
 

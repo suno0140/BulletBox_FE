@@ -1,14 +1,17 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import { ContainerBox } from '@components/DivContainer';
+import { ColumnBox, EmptyBox } from '@components/Div';
 import { BulletLogo } from '@components/Logo';
 import { MainBtn } from '@components/Button';
-import { JoinMembership } from '@components/DivContainer';
+import { JoinMembership } from '@components/Div';
 import { FormInput } from '@components/Input';
-import { BulletBold, MainTitle } from '@components/Span';
+import { BulletBold, MainSpan } from '@components/Span';
 import { StForm } from '@components/Form';
 import { LoginApi } from '@api/LoginApi';
+
+import { Toaster } from 'react-hot-toast';
+import { useErrorToast } from '@hooks/useSnackBar';
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -31,12 +34,10 @@ const Login = () => {
 
     LoginApi({ email, password })
       .then(() => {
-        alert('로그인 성공');
         navigate('/mypage');
       })
-      .catch((e) => {
-        alert('로그인 실패. 이메일과 비밀번호를 확인해주세요.');
-        console.log(e);
+      .catch(() => {
+        useErrorToast('로그인 실패. 이메일과 비밀번호를 확인해주세요.');
       });
   };
 
@@ -45,11 +46,11 @@ const Login = () => {
   };
 
   return (
-    <ContainerBox>
+    <ColumnBox>
       <BulletLogo />
       <BulletBold>Bullet Box</BulletBold>
       <StForm>
-        <MainTitle>Login</MainTitle>
+        <MainSpan>Login</MainSpan>
         <FormInput
           placeholder="이메일 주소"
           name="userid"
@@ -86,7 +87,9 @@ const Login = () => {
           </button>
         </JoinMembership>
       </StForm>
-    </ContainerBox>
+      <EmptyBox />
+      <Toaster />
+    </ColumnBox>
   );
 };
 

@@ -4,15 +4,11 @@ import { useNavigate } from 'react-router-dom';
 import { MypageApi } from '@api/MypageApi';
 import { useLogout } from '@api/LogoutApi';
 
-import {
-  ContainerBox,
-  LogoutBtnContainer,
-  MyDetailInfo,
-} from '@components/DivContainer';
+import { ColumnBox, LogoutBtnContainer, MyDetailInfo } from '@components/Div';
 import { LogoutBtn } from '@components/Button';
 import { LogoutImg, MypageLogo } from '@components/Logo';
-import { Container } from '@components/Container';
-import { DefaultBoldText, GrayBoldText } from '@components/Span';
+import { Flexbox } from '@components/Div';
+import { DefaultBoldSpan, GrayBoldText } from '@components/Span';
 
 const Mypage = () => {
   const [email, setEmail] = useState('');
@@ -36,11 +32,11 @@ const Mypage = () => {
   };
 
   return (
-    <ContainerBox>
-      <Container>
+    <ColumnBox>
+      <Flexbox>
         <MypageLogo />
         <MyDetailInfo>
-          <DefaultBoldText>{nickname}</DefaultBoldText>
+          <DefaultBoldSpan>{nickname}</DefaultBoldSpan>
           <GrayBoldText>{email}</GrayBoldText>
         </MyDetailInfo>
         <LogoutBtnContainer>
@@ -51,10 +47,10 @@ const Mypage = () => {
           >
             <LogoutImg />
           </LogoutBtn>
-          <DefaultBoldText>로그아웃</DefaultBoldText>
+          <DefaultBoldSpan>로그아웃</DefaultBoldSpan>
         </LogoutBtnContainer>
-      </Container>
-    </ContainerBox>
+      </Flexbox>
+    </ColumnBox>
   );
 };
 

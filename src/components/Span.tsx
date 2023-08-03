@@ -5,15 +5,14 @@ export const GrayBoldText = styled.span`
   font-weight: bold;
 `;
 
-export const DefaultBoldText = styled.span`
+export const DefaultBoldSpan = styled.span`
   font-size: 14px;
   font-weight: bold;
 `;
 
-export const StartBulletBoxText = styled.span`
+export const StartBulletBoxSpan = styled.span`
   font-size: 30px;
   font-weight: bold;
-  font-family: 'HeirofLightBold';
   margin-top: auto;
 `;
 
@@ -21,25 +20,18 @@ export const BulletBold = styled.span`
   display: flex;
   justify-content: center;
   color: var(--color-main);
-  font-size: 14px;
+  font-size: 16px;
   font-weight: bold;
-  font-family: 'HeirofLightBold';
-  margin-top: 5px;
-  width: 80px;
-  height: 21px;
 `;
 
-export const MainTitle = styled.span`
+export const MainSpan = styled.span`
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 25px;
-  margin-top: 10px;
-  margin-bottom: 10px;
   width: 50%;
-  height: 22px;
+  height: 10%;
   color: var(--color-main);
-  font-family: 'HeirofLightBold';
 `;
 
 export const AlarmSpan = styled.span`

@@ -2,18 +2,12 @@ import React from 'react';
 import { Outlet } from 'react-router-dom';
 import Header from '@layout/header/Header';
 import Footer from '@layout/footer/Footer';
-import useAuthRedirect from '@hooks/useAuthRedirect';
-import {
-  LayoutContainer,
-  LayoutDiv,
-  PageContainer,
-} from '@components/Container';
+
+import { LayoutBox, LayoutDiv, PageContainer } from '@components/Layout';
 
 const Layout = () => {
-  useAuthRedirect();
-
   return (
-    <LayoutContainer>
+    <LayoutBox>
       <LayoutDiv>
         <Header />
         <PageContainer>
@@ -21,7 +15,7 @@ const Layout = () => {
         </PageContainer>
         <Footer />
       </LayoutDiv>
-    </LayoutContainer>
+    </LayoutBox>
   );
 };
 

@@ -1,26 +1,37 @@
 import styled from 'styled-components';
 
+export const Flexbox = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+
+export const ColumnBox = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+`;
+
+export const EmptyBox = styled.div`
+  height: 10%;
+`;
+
 export const ImgDiv = styled.div`
-  width: 149.29px;
-  height: 165px;
+  height: 18%;
   display: flex;
   align-items: center;
   justify-content: center;
   flex-direction: column;
 `;
 
-export const ContainerBox = styled.div`
-  display: flex;
-  align-items: center;
-  flex-direction: column;
-  width: 100%;
-  height: 100%;
-`;
-
 export const EmailFormDiv = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
+  margin-top: 5%;
   width: 100%;
   height: 5vh;
   border: solid 2px var(--color-main);
@@ -28,9 +39,9 @@ export const EmailFormDiv = styled.div`
 `;
 
 export const StartTextDiv = styled.div`
-  font-size: 1.5rem;
+  font-size: 20px;
   font-weight: 700;
-  margin: 50px 0;
+  margin-top: 15%;
 `;
 
 export const JoinMembership = styled.div`

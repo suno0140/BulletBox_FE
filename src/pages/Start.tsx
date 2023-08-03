@@ -1,18 +1,19 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ImgDiv, ContainerBox, StartTextDiv } from '@components/DivContainer';
+import { EmptyBox, ImgDiv, StartTextDiv } from '@components/Div';
 import { MainBtn } from '@components/Button';
 import { MainLogo } from '@components/Logo';
-import { StartBulletBoxText } from '@components/Span';
+import { StartBulletBoxSpan } from '@components/Span';
+import { ColumnBox } from '@components/Div';
 
 const StartPage = () => {
   const navigate = useNavigate();
 
   return (
-    <ContainerBox>
+    <ColumnBox>
       <ImgDiv>
         <MainLogo />
-        <StartBulletBoxText>BulletBox</StartBulletBoxText>
+        <StartBulletBoxSpan>BulletBox</StartBulletBoxSpan>
       </ImgDiv>
       <StartTextDiv>당신의 할일을 담아보세요</StartTextDiv>
       <MainBtn
@@ -22,7 +23,8 @@ const StartPage = () => {
       >
         시작하기
       </MainBtn>
-    </ContainerBox>
+      <EmptyBox />
+    </ColumnBox>
   );
 };
 
