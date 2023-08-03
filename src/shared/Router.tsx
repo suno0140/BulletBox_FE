@@ -27,7 +27,7 @@ const Router = () => {
         </Route>
 
         <Route element={<Layout />}>
-          <Route path="/mypage" element={<Mypage />} />
+          <Route path="/mypage" element={<Mypage setLoading={setLoading} />} />
           <Route path="/main" element={<Main />} />
           <Route path="/search" element={<Search />} />
           <Route path="/diary" element={<Diary />} />

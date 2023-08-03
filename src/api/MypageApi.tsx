@@ -13,20 +13,27 @@ type UserData = {
 };
 
 export const MypageApi = ({ setEmail, setNickname }: SetUserData) => {
-  try {
+  return new Promise<void>((resolve, reject) => {
     onAuthStateChanged(FireAuth, (user) => {
       if (user) {
         const db = getDatabase();
         const userRef = ref(db, 'users/' + user.uid);
 
-        onValue(userRef, (snapshot) => {
-          const data: UserData = snapshot.val() as UserData;
-          setEmail(data.email);
-          setNickname(data.nickname);
-        });
+        onValue(
+          userRef,
+          (snapshot) => {
+            const data: UserData = snapshot.val() as UserData;
+            setEmail(data.email);
+            setNickname(data.nickname);
+            resolve();
+          },
+          (error) => {
+            reject(error);
+          },
+        );
+      } else {
+        reject('사용자가 로그인하지 않았습니다.');
       }
     });
-  } catch (error) {
-    console.log(error);
-  }
+  });
 };

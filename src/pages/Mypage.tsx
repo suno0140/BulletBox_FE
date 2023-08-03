@@ -10,15 +10,27 @@ import { LogoutImg, MypageLogo } from '@components/Logo';
 import { Flexbox } from '@components/Div';
 import { DefaultBoldSpan, GrayBoldText } from '@components/Span';
 import { useErrorToast } from '@hooks/useSnackBar';
+import { LoadingProps } from '@components/types';
 
-const Mypage = () => {
-  const [email, setEmail] = useState('');
-  const [nickname, setNickname] = useState('');
+const Mypage = ({ setLoading }: LoadingProps) => {
+  const [email, setEmail] = useState('email');
+  const [nickname, setNickname] = useState('닉네임');
 
   const navigate = useNavigate();
 
   useEffect(() => {
-    MypageApi({ setEmail, setNickname });
+    setLoading(true);
+    const fetchData = async () => {
+      try {
+        await MypageApi({ setEmail, setNickname });
+      } catch (error) {
+        console.log(error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    void fetchData();
   }, []);
 
   const onClickButton = () => {
