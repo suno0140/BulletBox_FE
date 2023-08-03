@@ -20,8 +20,9 @@ import { ColumnBox, EmailFormDiv, EmptyBox } from '@components/Div';
 import { useErrorToast, useSuccessToast } from '@hooks/useSnackBar';
 
 import { Toaster } from 'react-hot-toast';
+import { LoadingProps } from '@components/types';
 
-const Signup = () => {
+const Signup = ({ setLoading }: LoadingProps) => {
   const [email, setEmail] = useState('');
   const [nickName, setNickName] = useState('');
   const [password, setPassword] = useState('');
@@ -48,6 +49,7 @@ const Signup = () => {
 
   const handleEmailCheck = async (e: React.MouseEvent<HTMLElement>) => {
     e.preventDefault();
+    setLoading(true);
     try {
       const methods = await fetchSignInMethodsForEmail(FireAuth, email);
       if (methods.length === 0) {
@@ -59,6 +61,8 @@ const Signup = () => {
       }
     } catch (e) {
       useErrorToast('사용 불가능한 이메일 입니다.');
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -98,15 +102,16 @@ const Signup = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setLoading(true);
 
     try {
-      const result = await SignupApi({ email, password, nickName });
-      alert('회원가입 성공');
-      console.log(result);
+      await SignupApi({ email, password, nickName });
       navigate('/login');
     } catch (e) {
       console.log(e);
-      alert('회원가입 실패');
+      useErrorToast('회원가입 실패');
+    } finally {
+      setLoading(false);
     }
   };
 

@@ -9,6 +9,7 @@ import { LogoutBtn } from '@components/Button';
 import { LogoutImg, MypageLogo } from '@components/Logo';
 import { Flexbox } from '@components/Div';
 import { DefaultBoldSpan, GrayBoldText } from '@components/Span';
+import { useErrorToast } from '@hooks/useSnackBar';
 
 const Mypage = () => {
   const [email, setEmail] = useState('');
@@ -23,11 +24,10 @@ const Mypage = () => {
   const onClickButton = () => {
     useLogout()
       .then(() => {
-        alert('로그아웃 하셨습니다.');
         navigate('/login');
       })
-      .catch((error) => {
-        console.log(error);
+      .catch(() => {
+        useErrorToast('로그아웃 실패.');
       });
   };
 

@@ -27,7 +27,7 @@ export const LayoutDiv = styled.div`
 `;
 
 export const PageContainer = styled.div`
-  width: 450px;
+  width: 100%;
   height: 75%;
   background-color: white;
   overflow: auto;

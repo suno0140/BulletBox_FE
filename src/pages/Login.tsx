@@ -9,11 +9,10 @@ import { FormInput } from '@components/Input';
 import { BulletBold, MainSpan } from '@components/Span';
 import { StForm } from '@components/Form';
 import { LoginApi } from '@api/LoginApi';
-
-import { Toaster } from 'react-hot-toast';
 import { useErrorToast } from '@hooks/useSnackBar';
+import { LoadingProps } from '@components/types';
 
-const Login = () => {
+const Login = ({ setLoading }: LoadingProps) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
@@ -31,6 +30,7 @@ const Login = () => {
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
+    setLoading(true);
 
     LoginApi({ email, password })
       .then(() => {
@@ -38,6 +38,9 @@ const Login = () => {
       })
       .catch(() => {
         useErrorToast('로그인 실패. 이메일과 비밀번호를 확인해주세요.');
+      })
+      .finally(() => {
+        setLoading(false);
       });
   };
 
@@ -88,7 +91,6 @@ const Login = () => {
         </JoinMembership>
       </StForm>
       <EmptyBox />
-      <Toaster />
     </ColumnBox>
   );
 };
