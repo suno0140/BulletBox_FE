@@ -8,13 +8,13 @@ import { LayoutBox, LayoutDiv, PageContainer } from '@components/Layout';
 const Layout = () => {
   return (
     <LayoutBox>
+      <Header />
       <LayoutDiv>
-        <Header />
         <PageContainer>
           <Outlet></Outlet>
         </PageContainer>
-        <Footer />
       </LayoutDiv>
+      <Footer />
     </LayoutBox>
   );
 };
