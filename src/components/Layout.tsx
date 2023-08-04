@@ -5,6 +5,7 @@ export const LayoutBox = styled.div`
   align-items: center;
   justify-content: center;
   flex-direction: column;
+  width: 50vw;
   min-width: 340px;
   height: 100vh;
   background-color: var(--color-light-gray);
