@@ -12,7 +12,7 @@ export const MainCalendar = () => {
     <Calendarcontainer>
       <Calendar
         ref={todayRef}
-        calendarType="US"
+        calendarType="gregory"
         nextLabel={<NextIcon />}
         prevLabel={<PrevIcon />}
         next2Label={null}

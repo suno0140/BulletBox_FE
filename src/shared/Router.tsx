@@ -10,6 +10,8 @@ import Main from '@pages/Main';
 import Search from '@pages/Search';
 import Diary from '@pages/Diary';
 import DailyLog from '@pages/DailyLog';
+import DailyLogAdd from '@pages/DailyLogAdd';
+
 import { Toaster } from 'react-hot-toast';
 import LoadingIndicator from '@components/LodingIndicator';
 
@@ -28,10 +30,11 @@ const Router = () => {
 
         <Route element={<Layout />}>
           <Route path="/mypage" element={<Mypage setLoading={setLoading} />} />
-          <Route path="/main" element={<Main />} />
+          <Route path="/main" element={<Main setLoading={setLoading} />} />
           <Route path="/search" element={<Search />} />
           <Route path="/diary" element={<Diary />} />
           <Route path="/dailys" element={<DailyLog />} />
+          <Route path="/dailyAdd" element={<DailyLogAdd />} />
         </Route>
       </Routes>
       <Toaster />
