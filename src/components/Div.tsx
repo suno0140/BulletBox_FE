@@ -85,3 +85,11 @@ export const MyDetailInfo = styled.div`
   font-size: 14px;
   letter-spacing: 0.4px;
 `;
+
+export const AddInputButtonGroup = styled.div`
+  display: flex;
+  justify-content: space-around;
+  margin: 0 auto;
+  width: 100%;
+  margin-top: 3vh;
+`;

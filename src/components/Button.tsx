@@ -16,10 +16,28 @@ export const MainBtn = styled.button`
   }
 `;
 
+export const SubmitBtn = styled.button`
+  width: 40%;
+  height: 5vh;
+  font-size: 14px;
+  background-color: var(--color-main);
+  border: 0;
+  border-radius: 8px;
+  color: white;
+`;
+export const CancleBtn = styled.button`
+  width: 40%;
+  height: 5vh;
+  font-size: 14px;
+  border: 0;
+  border-radius: 8px;
+  background-color: var(--color-default);
+  color: var(--color-gray);
+`;
+
 export const GoBackBtn = styled.button`
-  width: 155px;
-  height: 12px;
-  margin-top: 16px;
+  width: 50%;
+  margin-top: 5%;
   font-size: 12px;
   font-weight: 700;
   color: var(--color-gray);

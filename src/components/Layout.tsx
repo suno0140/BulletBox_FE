@@ -5,7 +5,8 @@ export const LayoutBox = styled.div`
   align-items: center;
   justify-content: center;
   flex-direction: column;
-  min-width: 340px;
+  width: 100vw;
+  max-width: 450px;
   height: 100vh;
   background-color: var(--color-light-gray);
   font-family: 'HeirofLightBold';
