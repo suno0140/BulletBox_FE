@@ -12,7 +12,7 @@ type UserData = {
   nickname: string;
 };
 
-export const MypageApi = ({ setEmail, setNickname }: SetUserData) => {
+export const getUserInfo = ({ setEmail, setNickname }: SetUserData) => {
   return new Promise<void>((resolve, reject) => {
     onAuthStateChanged(FireAuth, (user) => {
       if (user) {
