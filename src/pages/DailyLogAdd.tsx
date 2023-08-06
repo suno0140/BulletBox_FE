@@ -43,7 +43,13 @@ const DailyLogAdd = () => {
           >
             완료
           </SubmitBtn>
-          <CancleBtn>취소</CancleBtn>
+          <CancleBtn
+            onClick={() => {
+              navigete('/main');
+            }}
+          >
+            취소
+          </CancleBtn>
         </AddInputButtonGroup>
       </StForm>
     </Flexbox>

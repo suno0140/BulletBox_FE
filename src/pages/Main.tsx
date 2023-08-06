@@ -33,7 +33,7 @@ const Main = ({ setLoading }: LoadingProps) => {
             ...data[key],
           }));
           setTodos(todosArray);
-          console.log(todosArray);
+
           setLoading(false);
         });
       }

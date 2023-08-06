@@ -14,7 +14,6 @@ const GlobalStyle = createGlobalStyle`
   }
 body{
     margin: 0 auto;
-    width: 450px;
     height: 100vh;
     font-family: 'NanumSquare';
     display: flex;
