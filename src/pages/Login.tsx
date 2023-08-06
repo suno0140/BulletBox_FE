@@ -34,7 +34,7 @@ const Login = ({ setLoading }: LoadingProps) => {
 
     LoginApi({ email, password })
       .then(() => {
-        navigate('/mypage');
+        navigate('/main');
       })
       .catch(() => {
         useErrorToast('로그인 실패. 이메일과 비밀번호를 확인해주세요.');
