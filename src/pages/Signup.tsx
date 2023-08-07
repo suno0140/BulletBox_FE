@@ -4,11 +4,11 @@ import { fetchSignInMethodsForEmail } from '@firebase/auth';
 import { FireAuth } from '@core/Firebase';
 
 import {
-  useEmailValidation,
-  useNickNameValidation,
-  usePasswordConfirmValidation,
-  usePasswordValidation,
-} from '@hooks/useValidation';
+  emailvalidation,
+  nickNameValidation,
+  passwordConfirmValidation,
+  passwordValidation,
+} from 'utils/validation';
 
 import { SignupApi } from '@api/SignupApi';
 import { StForm } from '@components/Form';
@@ -17,10 +17,10 @@ import { FormEmailInput, FormInput } from '@components/Input';
 import { EmailCheckBtn, GoBackBtn, MainBtn } from '@components/Button';
 import { BulletLogo } from '@components/Logo';
 import { ColumnBox, EmailFormDiv, EmptyBox } from '@components/Div';
-import { useErrorToast, useSuccessToast } from '@hooks/useSnackBar';
 
 import { Toaster } from 'react-hot-toast';
 import { LoadingProps } from '@components/types';
+import { errorToast, successToast } from '@components/atoms/toast';
 
 const Signup = ({ setLoading }: LoadingProps) => {
   const [email, setEmail] = useState('');
@@ -44,7 +44,7 @@ const Signup = ({ setLoading }: LoadingProps) => {
     const emailCheck = e.currentTarget.value;
     setEmail(emailCheck);
 
-    useEmailValidation({ emailCheck, setEmailMessage, setIsEmail });
+    emailvalidation({ emailCheck, setEmailMessage, setIsEmail });
   };
 
   const handleEmailCheck = async (e: React.MouseEvent<HTMLElement>) => {
@@ -53,14 +53,14 @@ const Signup = ({ setLoading }: LoadingProps) => {
     try {
       const methods = await fetchSignInMethodsForEmail(FireAuth, email);
       if (methods.length === 0) {
-        useSuccessToast('사용가능한 이메일입니다.');
+        successToast('사용가능한 이메일입니다.');
         setEmailMessage('* 사용가능한 이메일입니다.');
         setIsEmail(true);
       } else {
-        useErrorToast('이미 사용중인 이메일입니다.');
+        errorToast('이미 사용중인 이메일입니다.');
       }
     } catch (e) {
-      useErrorToast('사용 불가능한 이메일 입니다.');
+      errorToast('사용 불가능한 이메일 입니다.');
     } finally {
       setLoading(false);
     }
@@ -70,7 +70,7 @@ const Signup = ({ setLoading }: LoadingProps) => {
     const nickNameCheck = e.currentTarget.value;
     setNickName(nickNameCheck);
 
-    useNickNameValidation({
+    nickNameValidation({
       nickNameCheck,
       setNickNameMessage,
       setIsNickName,
@@ -81,7 +81,7 @@ const Signup = ({ setLoading }: LoadingProps) => {
     const passwordCheck = e.currentTarget.value;
     setPassword(passwordCheck);
 
-    usePasswordValidation({
+    passwordValidation({
       passwordCheck,
       setPasswordMessage,
       setIsPassword,
@@ -92,7 +92,7 @@ const Signup = ({ setLoading }: LoadingProps) => {
     const passwordConfirm = e.currentTarget.value;
     setPasswordConfirm(passwordConfirm);
 
-    usePasswordConfirmValidation({
+    passwordConfirmValidation({
       password,
       passwordConfirm,
       setPasswordConfirmMessage,
@@ -109,7 +109,7 @@ const Signup = ({ setLoading }: LoadingProps) => {
       navigate('/login');
     } catch (e) {
       console.log(e);
-      useErrorToast('회원가입 실패');
+      errorToast('회원가입 실패');
     } finally {
       setLoading(false);
     }

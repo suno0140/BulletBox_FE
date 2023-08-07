@@ -9,8 +9,8 @@ import { LogoutBtn } from '@components/Button';
 import { LogoutImg, MypageLogo } from '@components/Logo';
 import { Flexbox } from '@components/Div';
 import { DefaultBoldSpan, GrayBoldText } from '@components/Span';
-import { useErrorToast } from '@hooks/useSnackBar';
 import { LoadingProps } from '@components/types';
+import { errorToast } from '@components/atoms/toast';
 
 const Mypage = ({ setLoading }: LoadingProps) => {
   const [email, setEmail] = useState('email');
@@ -39,7 +39,7 @@ const Mypage = ({ setLoading }: LoadingProps) => {
         navigate('/login');
       })
       .catch(() => {
-        useErrorToast('로그아웃 실패.');
+        errorToast('로그아웃 실패.');
       });
   };
 
