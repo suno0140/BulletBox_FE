@@ -1,13 +1,18 @@
-import { MainCalendar } from '@components/Calendar';
-import { ColumnBox, Flexbox } from '@components/Div';
+import { MainCalendar } from '@components/molecules/Calendar';
+import { ColumnContainer, FlexContainer } from '@components/atoms/Container';
 import { FireAuth } from '@core/Firebase';
 import { onAuthStateChanged } from 'firebase/auth';
 import { getDatabase, onValue, ref } from 'firebase/database';
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import {
+  TodoCardContainer,
+  TodoAddContainer,
+} from '@components/atoms/Container';
 
-import { TodoCard, TodoTitle } from '@components/todos/TodoDiv';
-import { LoadingProps } from '@components/types';
+type LoadingProps = {
+  setLoading: (loading: boolean) => void;
+};
 
 const Main = ({ setLoading }: LoadingProps) => {
   const navigate = useNavigate();
@@ -43,20 +48,20 @@ const Main = ({ setLoading }: LoadingProps) => {
   return (
     <>
       <MainCalendar />
-      <Flexbox>
-        <ColumnBox>
+      <FlexContainer>
+        <ColumnContainer>
           {todos.map((todo) => (
-            <TodoCard key={todo.id}>{todo.todo}</TodoCard>
+            <TodoCardContainer key={todo.id}>{todo.todo}</TodoCardContainer>
           ))}
-          <TodoTitle
+          <TodoAddContainer
             onClick={() => {
               navigate('/dailyAdd');
             }}
           >
             할일 추가 하기
-          </TodoTitle>
-        </ColumnBox>
-      </Flexbox>
+          </TodoAddContainer>
+        </ColumnContainer>
+      </FlexContainer>
     </>
   );
 };

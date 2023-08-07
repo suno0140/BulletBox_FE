@@ -4,13 +4,19 @@ import { useNavigate } from 'react-router-dom';
 import { getUserInfo } from '@api/MypageApi';
 import { logoutApi } from '@api/AuthApi';
 
-import { LogoutBtnContainer, MyDetailInfo } from '@components/Div';
-import { LogoutBtn } from '@components/Button';
-import { LogoutImg, MypageLogo } from '@components/Logo';
-import { Flexbox } from '@components/Div';
-import { DefaultBoldSpan, GrayBoldText } from '@components/Span';
-import { LoadingProps } from '@components/types';
+import {
+  LogoutBtnContainer,
+  UserInfoContainer,
+} from '@components/atoms/Container';
+import { LogoutBtn } from '@components/atoms/Button';
+import { LogoutIcon, MypageIcon } from '@components/atoms/Icon';
+import { FlexContainer } from '@components/atoms/Container';
+import { DefaultBoldSpan, GrayBoldSpan } from '@components/atoms/Span';
 import { errorToast } from '@components/atoms/toast';
+
+type LoadingProps = {
+  setLoading: (loading: boolean) => void;
+};
 
 const Mypage = ({ setLoading }: LoadingProps) => {
   const [email, setEmail] = useState('email');
@@ -44,23 +50,23 @@ const Mypage = ({ setLoading }: LoadingProps) => {
   };
 
   return (
-    <Flexbox>
-      <MypageLogo />
-      <MyDetailInfo>
+    <FlexContainer>
+      <MypageIcon />
+      <UserInfoContainer>
         <DefaultBoldSpan>{nickname}</DefaultBoldSpan>
-        <GrayBoldText>{email}</GrayBoldText>
-      </MyDetailInfo>
+        <GrayBoldSpan>{email}</GrayBoldSpan>
+      </UserInfoContainer>
       <LogoutBtnContainer>
         <LogoutBtn
           onClick={() => {
             onClickButton();
           }}
         >
-          <LogoutImg />
+          <LogoutIcon />
         </LogoutBtn>
         <DefaultBoldSpan>로그아웃</DefaultBoldSpan>
       </LogoutBtnContainer>
-    </Flexbox>
+    </FlexContainer>
   );
 };
 

@@ -1,21 +1,25 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { EmptyBox, ImgDiv, StartTextDiv } from '@components/Div';
-import { MainBtn } from '@components/Button';
-import { MainLogo } from '@components/Logo';
-import { StartBulletBoxSpan } from '@components/Span';
-import { ColumnBox } from '@components/Div';
+import {
+  EmptyContainer,
+  ImgContainer,
+  StartTextContainer,
+} from '@components/atoms/Container';
+import { MainBtn } from '@components/atoms/Button';
+import { MainIcon } from '@components/atoms/Icon';
+import { StartBulletBoxSpan } from '@components/atoms/Span';
+import { ColumnContainer } from '@components/atoms/Container';
 
 const StartPage = () => {
   const navigate = useNavigate();
 
   return (
-    <ColumnBox>
-      <ImgDiv>
-        <MainLogo />
+    <ColumnContainer>
+      <ImgContainer>
+        <MainIcon />
         <StartBulletBoxSpan>BulletBox</StartBulletBoxSpan>
-      </ImgDiv>
-      <StartTextDiv>당신의 할일을 담아보세요</StartTextDiv>
+      </ImgContainer>
+      <StartTextContainer>당신의 할일을 담아보세요</StartTextContainer>
       <MainBtn
         onClick={() => {
           navigate('/login');
@@ -23,8 +27,8 @@ const StartPage = () => {
       >
         시작하기
       </MainBtn>
-      <EmptyBox />
-    </ColumnBox>
+      <EmptyContainer />
+    </ColumnContainer>
   );
 };
 

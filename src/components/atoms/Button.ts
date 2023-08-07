@@ -59,3 +59,41 @@ export const LogoutBtn = styled.button`
   border: none;
   font-size: 10px;
 `;
+
+export const QuestionBtn = styled.button`
+  margin-right: 20px;
+  border-radius: 60%;
+  background-color: white;
+  border: white;
+  -webkit-tap-highlight-color: transparent !important;
+  :focus {
+    outline: none;
+  }
+`;
+
+export const HeaderBtn = styled.button`
+  background-color: transparent;
+  border: none;
+  width: 108px;
+`;
+
+export const NavigateBtn = styled.button<{ $active: boolean }>`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: white;
+  padding: 3px 0;
+  width: 25%;
+  height: 48px;
+  border: 0;
+  & > span {
+    pointer-events: none;
+  }
+  &:active,
+  &:hover,
+  &:focus {
+    color: var(--color-main);
+  }
+
+  color: ${(props) => (props.$active ? 'var(--color-main)' : 'black')};
+`;
