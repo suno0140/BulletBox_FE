@@ -10,7 +10,7 @@ import {
   passwordValidation,
 } from 'utils/validation';
 
-import { SignupApi } from '@api/SignupApi';
+import { signupApi } from '@api/AuthApi';
 import { StForm } from '@components/Form';
 import { AlarmSpan, BulletBold, MainSpan } from '@components/Span';
 import { FormEmailInput, FormInput } from '@components/Input';
@@ -105,7 +105,7 @@ const Signup = ({ setLoading }: LoadingProps) => {
     setLoading(true);
 
     try {
-      await SignupApi({ email, password, nickName });
+      await signupApi({ email, password, nickName });
       navigate('/login');
     } catch (e) {
       console.log(e);
