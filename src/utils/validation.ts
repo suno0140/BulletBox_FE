@@ -17,7 +17,7 @@ type validation = {
   setIsPasswordConfirm?: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-export const useEmailValidation = ({
+export const emailvalidation = ({
   emailCheck,
   setEmailMessage,
   setIsEmail,
@@ -34,7 +34,7 @@ export const useEmailValidation = ({
   }
 };
 
-export const useNickNameValidation = ({
+export const nickNameValidation = ({
   nickNameCheck,
   setNickNameMessage,
   setIsNickName,
@@ -50,7 +50,7 @@ export const useNickNameValidation = ({
   }
 };
 
-export const usePasswordValidation = ({
+export const passwordValidation = ({
   passwordCheck,
   setPasswordMessage,
   setIsPassword,
@@ -66,7 +66,7 @@ export const usePasswordValidation = ({
   }
 };
 
-export const usePasswordConfirmValidation = ({
+export const passwordConfirmValidation = ({
   password,
   passwordConfirm,
   setPasswordConfirmMessage,

@@ -1,13 +1,13 @@
 import toast from 'react-hot-toast';
 
-export const useDefaultToast = (message: string) => {
+export const defaultToast = (message: string) => {
   toast(message, { duration: 2000, style: { fontSize: '14px' } });
 };
 
-export const useSuccessToast = (message: string) => {
+export const successToast = (message: string) => {
   toast.success(message, { duration: 2000, style: { fontSize: '14px' } });
 };
 
-export const useErrorToast = (message: string) => {
+export const errorToast = (message: string) => {
   toast.error(message, { duration: 2000, style: { fontSize: '14px' } });
 };
