@@ -8,7 +8,7 @@ import { JoinMembership } from '@components/Div';
 import { FormInput } from '@components/Input';
 import { BulletBold, MainSpan } from '@components/Span';
 import { StForm } from '@components/Form';
-import { LoginApi } from '@api/LoginApi';
+import { LoginApi } from '@api/AuthApi';
 import { useErrorToast } from '@hooks/useSnackBar';
 import { LoadingProps } from '@components/types';
 

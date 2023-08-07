@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import { MypageApi } from '@api/MypageApi';
-import { useLogout } from '@api/LogoutApi';
+import { getUserInfo } from '@api/MypageApi';
+import { logoutApi } from '@api/AuthApi';
 
 import { LogoutBtnContainer, MyDetailInfo } from '@components/Div';
 import { LogoutBtn } from '@components/Button';
@@ -22,7 +22,7 @@ const Mypage = ({ setLoading }: LoadingProps) => {
     setLoading(true);
     const fetchData = async () => {
       try {
-        await MypageApi({ setEmail, setNickname });
+        await getUserInfo({ setEmail, setNickname });
       } catch (error) {
         console.log(error);
       } finally {
@@ -34,7 +34,7 @@ const Mypage = ({ setLoading }: LoadingProps) => {
   }, []);
 
   const onClickButton = () => {
-    useLogout()
+    logoutApi()
       .then(() => {
         navigate('/login');
       })

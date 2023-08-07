@@ -3,7 +3,7 @@ import { AddInputButtonGroup, Flexbox } from '@components/Div';
 import { StForm } from '@components/Form';
 import { FormInput } from '@components/Input';
 import { CancleBtn, SubmitBtn } from '@components/Button';
-import { AddTodoApi } from '@api/AddTodoApi';
+import { addTodoApi } from '@api/TodoApi';
 import { useNavigate } from 'react-router-dom';
 
 const DailyLogAdd = () => {
@@ -17,7 +17,7 @@ const DailyLogAdd = () => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
-    AddTodoApi({ todo })
+    addTodoApi({ todo })
       .then(() => {
         navigete('/main');
       })
