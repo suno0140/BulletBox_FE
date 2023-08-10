@@ -32,15 +32,17 @@ const Main = ({ setLoading }: LoadingProps) => {
         const todoRef = ref(db, `users/${user.uid}/todos`);
 
         onValue(todoRef, (snapshot) => {
-          const data = snapshot.val() as Record<string, Todo>;
-          const todosArray = Object.keys(data).map((key) => ({
-            id: key,
-            ...data[key],
-          }));
-          setTodos(todosArray);
-          console.log(todosArray);
-          setLoading(false);
+          const data = (snapshot.val() as Record<string, Todo>) || null;
+          if (data) {
+            const todosArray = Object.keys(data).map((key) => ({
+              id: key,
+              ...data[key],
+            }));
+            setTodos(todosArray);
+            console.log(todosArray);
+          }
         });
+        setLoading(false);
       }
     });
   }, []);
