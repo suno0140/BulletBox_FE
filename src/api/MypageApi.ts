@@ -19,20 +19,16 @@ export const getUserInfo = ({ setEmail, setNickname }: SetUserData) => {
         const db = getDatabase();
         const userRef = ref(db, 'users/' + user.uid);
 
-        onValue(
-          userRef,
-          (snapshot) => {
-            const data: UserData = snapshot.val() as UserData;
+        onValue(userRef, (snapshot) => {
+          const data: UserData = (snapshot.val() as UserData) || null;
+          if (data) {
             setEmail(data.email);
             setNickname(data.nickname);
             resolve();
-          },
-          (error) => {
-            reject(error);
-          },
-        );
-      } else {
-        reject('사용자가 로그인하지 않았습니다.');
+          } else {
+            reject('사용자가 로그인하지 않았습니다.');
+          }
+        });
       }
     });
   });
