@@ -14,9 +14,11 @@ type UserInfo = {
 
 export const loginApi = async ({ email, password }: UserInfo) => {
   try {
-    await signInWithEmailAndPassword(FireAuth, email, password);
+    const result = await signInWithEmailAndPassword(FireAuth, email, password);
+    return result;
   } catch (error) {
     console.log(error);
+    throw error;
   }
 };
 
