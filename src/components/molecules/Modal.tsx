@@ -1,6 +1,6 @@
-import { SubmitBtn } from '@components/atoms/Button';
 import React from 'react';
 import { styled } from 'styled-components';
+import PotalContainer from 'Portal';
 
 type ModalProps = {
   content: string;
@@ -12,12 +12,12 @@ export const Modal: React.FC<ModalProps> = ({ content, isOpen, onClose }) => {
   if (!isOpen) return null;
 
   return (
-    <ModalContainer>
-      <ModalContentContainer>
-        {content}
-        <SubmitBtn onClick={onClose}>x</SubmitBtn>
-      </ModalContentContainer>
-    </ModalContainer>
+    <PotalContainer>
+      <ModalContainer>
+        <button onClick={onClose}>x</button>
+        <ModalContentContainer>{content}</ModalContentContainer>
+      </ModalContainer>
+    </PotalContainer>
   );
 };
 
@@ -37,4 +37,6 @@ const ModalContentContainer = styled.div`
   background: white;
   padding: 20px;
   border-radius: 5px;
+  width: 300px;
+  height: 505px;
 `;

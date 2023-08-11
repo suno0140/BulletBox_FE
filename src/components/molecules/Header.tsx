@@ -8,6 +8,7 @@ import {
   SpaceContainer,
 } from '@components/atoms/Container';
 import { Modal } from './Modal';
+import ModalPortal from 'Portal';
 
 const Header = () => {
   const navigate = useNavigate();
@@ -34,7 +35,9 @@ const Header = () => {
       <QuestionBtn aria-label="Question" onClick={handleModal}>
         <QuestionIcon />
       </QuestionBtn>
-      <Modal content="modal" isOpen={isModalOpen} onClose={handleModal} />
+      <ModalPortal>
+        <Modal content="modal" isOpen={isModalOpen} onClose={handleModal} />
+      </ModalPortal>
     </HeaderContainer>
   );
 };
