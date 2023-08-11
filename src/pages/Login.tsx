@@ -39,7 +39,8 @@ const Login = ({ setLoading }: LoadingProps) => {
       .then(() => {
         navigate('/main');
       })
-      .catch(() => {
+      .catch((error) => {
+        console.log(error);
         errorToast('로그인 실패. 이메일과 비밀번호를 확인해주세요.');
       })
       .finally(() => {

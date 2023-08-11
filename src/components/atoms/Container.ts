@@ -198,6 +198,43 @@ export const NavigateContainer = styled.div`
   border-top: solid 1px var(--color-light-gray);
 `;
 
+export const ModalContainer = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
+export const ModalContentContainer = styled.div`
+  position: relative;
+  background: white;
+  padding: 20px;
+  border-radius: 5px;
+  width: 45vw;
+  min-width: 220px;
+  height: 60%;
+`;
+
+export const SliderContainer = styled.div`
+  .slick-dots {
+    .slick-active {
+      button::before {
+        color: var(--color-main);
+        font-size: 14px;
+      }
+    }
+    button::before {
+      color: var(--color-gray);
+      font-size: 12px;
+    }
+  }
+`;
+
 export const CalendarContainer = styled.div`
   position: relative;
   .react-calendar {
@@ -236,7 +273,7 @@ export const CalendarContainer = styled.div`
     }
   }
   .react-calendar__month-view__weekdays {
-    width: 93% !important;
+    width: 74% !important;
     height: 10% !important;
   }
   .react-calendar__month-view__weekdays__weekday {

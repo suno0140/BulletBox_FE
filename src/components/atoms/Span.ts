@@ -50,3 +50,15 @@ export const AlarmSpan = styled.span`
 export const NavigateSpan = styled.span`
   font-size: 10px;
 `;
+
+export const GuideSpan = styled.span`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 8%;
+  width: 100%;
+  height: 5%;
+  font-size: 14px;
+  font-weight: bold;
+  color: var(--color-black);
+`;

@@ -1,12 +1,15 @@
 import React from 'react';
 import { ClipLoader } from 'react-spinners';
 import { LoadingIndicatorContainer } from '@components/atoms/Container';
+import PotalContainer from 'Portal';
 
 const LoadingIndicator = () => {
   return (
-    <LoadingIndicatorContainer>
-      <ClipLoader size={80} color={'var(--color-main)'} loading={true} />
-    </LoadingIndicatorContainer>
+    <PotalContainer>
+      <LoadingIndicatorContainer>
+        <ClipLoader size={80} color={'var(--color-main)'} loading={true} />
+      </LoadingIndicatorContainer>
+    </PotalContainer>
   );
 };
 

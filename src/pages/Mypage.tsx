@@ -26,11 +26,13 @@ const Mypage = ({ setLoading }: LoadingProps) => {
 
   useEffect(() => {
     setLoading(true);
+
     const fetchData = async () => {
       try {
         await getUserInfo({ setEmail, setNickname });
       } catch (error) {
         console.log(error);
+        navigate('/login');
       } finally {
         setLoading(false);
       }

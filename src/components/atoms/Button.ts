@@ -60,7 +60,7 @@ export const LogoutBtn = styled.button`
   font-size: 10px;
 `;
 
-export const QuestionBtn = styled.button`
+export const GuideBtn = styled.button`
   margin-right: 20px;
   border-radius: 60%;
   background-color: white;
@@ -69,6 +69,13 @@ export const QuestionBtn = styled.button`
   :focus {
     outline: none;
   }
+`;
+export const GuideCancleBtn = styled.button`
+  position: absolute;
+  top: 20px;
+  right: 10px;
+  border: none;
+  background-color: transparent;
 `;
 
 export const HeaderBtn = styled.button`
