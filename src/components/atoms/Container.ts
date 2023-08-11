@@ -215,8 +215,9 @@ export const ModalContentContainer = styled.div`
   background: white;
   padding: 20px;
   border-radius: 5px;
-  width: 45vw;
+  width: 50%;
   min-width: 220px;
+  max-width: 320px;
   height: 60%;
 `;
 
