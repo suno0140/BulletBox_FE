@@ -236,7 +236,7 @@ export const CalendarContainer = styled.div`
     }
   }
   .react-calendar__month-view__weekdays {
-    width: 93% !important;
+    width: 74% !important;
     height: 10% !important;
   }
   .react-calendar__month-view__weekdays__weekday {
