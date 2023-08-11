@@ -1,16 +1,19 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import { ColumnBox, EmptyBox } from '@components/Div';
-import { BulletLogo } from '@components/Logo';
-import { MainBtn } from '@components/Button';
-import { JoinMembership } from '@components/Div';
-import { FormInput } from '@components/Input';
-import { BulletBold, MainSpan } from '@components/Span';
-import { StForm } from '@components/Form';
-import { LoginApi } from '@api/AuthApi';
-import { useErrorToast } from '@hooks/useSnackBar';
-import { LoadingProps } from '@components/types';
+import { ColumnContainer, EmptyContainer } from '@components/atoms/Container';
+import { BulletIcon } from '@components/atoms/Icon';
+import { MainBtn } from '@components/atoms/Button';
+import { JoinMembershipContainer } from '@components/atoms/Container';
+import { FormInput } from '@components/atoms/Input';
+import { BulletBoldSpan, MainSpan } from '@components/atoms/Span';
+import { MainForm } from '@components/atoms/Form';
+import { errorToast } from '@components/atoms/toast';
+import { loginApi } from '@api/AuthApi';
+
+type LoadingProps = {
+  setLoading: (loading: boolean) => void;
+};
 
 const Login = ({ setLoading }: LoadingProps) => {
   const [email, setEmail] = useState('');
@@ -32,12 +35,12 @@ const Login = ({ setLoading }: LoadingProps) => {
     e.preventDefault();
     setLoading(true);
 
-    LoginApi({ email, password })
+    loginApi({ email, password })
       .then(() => {
         navigate('/main');
       })
       .catch(() => {
-        useErrorToast('로그인 실패. 이메일과 비밀번호를 확인해주세요.');
+        errorToast('로그인 실패. 이메일과 비밀번호를 확인해주세요.');
       })
       .finally(() => {
         setLoading(false);
@@ -49,10 +52,10 @@ const Login = ({ setLoading }: LoadingProps) => {
   };
 
   return (
-    <ColumnBox>
-      <BulletLogo />
-      <BulletBold>Bullet Box</BulletBold>
-      <StForm>
+    <ColumnContainer>
+      <BulletIcon />
+      <BulletBoldSpan>Bullet Box</BulletBoldSpan>
+      <MainForm>
         <MainSpan>Login</MainSpan>
         <FormInput
           placeholder="이메일 주소"
@@ -78,7 +81,7 @@ const Login = ({ setLoading }: LoadingProps) => {
           로그인
         </MainBtn>
 
-        <JoinMembership>
+        <JoinMembershipContainer>
           <span>아직 회원이 아니신가요?</span>
           <button
             type="button"
@@ -88,10 +91,10 @@ const Login = ({ setLoading }: LoadingProps) => {
           >
             회원가입
           </button>
-        </JoinMembership>
-      </StForm>
-      <EmptyBox />
-    </ColumnBox>
+        </JoinMembershipContainer>
+      </MainForm>
+      <EmptyContainer />
+    </ColumnContainer>
   );
 };
 

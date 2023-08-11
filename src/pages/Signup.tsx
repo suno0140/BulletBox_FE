@@ -11,16 +11,22 @@ import {
 } from 'utils/validation';
 
 import { signupApi } from '@api/AuthApi';
-import { StForm } from '@components/Form';
-import { AlarmSpan, BulletBold, MainSpan } from '@components/Span';
-import { FormEmailInput, FormInput } from '@components/Input';
-import { EmailCheckBtn, GoBackBtn, MainBtn } from '@components/Button';
-import { BulletLogo } from '@components/Logo';
-import { ColumnBox, EmailFormDiv, EmptyBox } from '@components/Div';
-
+import { MainForm } from '@components/atoms/Form';
+import { AlarmSpan, BulletBoldSpan, MainSpan } from '@components/atoms/Span';
+import { FormEmailInput, FormInput } from '@components/atoms/Input';
+import { EmailCheckBtn, GoBackBtn, MainBtn } from '@components/atoms/Button';
+import { BulletIcon } from '@components/atoms/Icon';
+import {
+  ColumnContainer,
+  EmailFormContainer,
+  EmptyContainer,
+} from '@components/atoms/Container';
 import { Toaster } from 'react-hot-toast';
-import { LoadingProps } from '@components/types';
 import { errorToast, successToast } from '@components/atoms/toast';
+
+type LoadingProps = {
+  setLoading: (loading: boolean) => void;
+};
 
 const Signup = ({ setLoading }: LoadingProps) => {
   const [email, setEmail] = useState('');
@@ -119,13 +125,13 @@ const Signup = ({ setLoading }: LoadingProps) => {
     navigate('/login');
   };
   return (
-    <ColumnBox>
-      <BulletLogo />
-      <BulletBold>Bullet Box</BulletBold>
+    <ColumnContainer>
+      <BulletIcon />
+      <BulletBoldSpan>Bullet Box</BulletBoldSpan>
 
-      <StForm>
+      <MainForm>
         <MainSpan>Sign up</MainSpan>
-        <EmailFormDiv>
+        <EmailFormContainer>
           <FormEmailInput
             type="email"
             placeholder="이메일 주소를 입력하세요."
@@ -139,7 +145,7 @@ const Signup = ({ setLoading }: LoadingProps) => {
           >
             중복체크
           </EmailCheckBtn>
-        </EmailFormDiv>
+        </EmailFormContainer>
         {email.length !== 0 && <AlarmSpan>{emailMessage}</AlarmSpan>}
 
         <FormInput
@@ -189,10 +195,10 @@ const Signup = ({ setLoading }: LoadingProps) => {
         >
           로그인 페이지로 돌아가기
         </GoBackBtn>
-      </StForm>
-      <EmptyBox />
+      </MainForm>
+      <EmptyContainer />
       <Toaster />
-    </ColumnBox>
+    </ColumnContainer>
   );
 };
 

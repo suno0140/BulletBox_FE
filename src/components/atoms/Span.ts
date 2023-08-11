@@ -1,5 +1,6 @@
 import { styled } from 'styled-components';
-export const GrayBoldText = styled.span`
+
+export const GrayBoldSpan = styled.span`
   font-size: 12px;
   color: var(--color-gray);
   font-weight: bold;
@@ -16,7 +17,7 @@ export const StartBulletBoxSpan = styled.span`
   margin-top: auto;
 `;
 
-export const BulletBold = styled.span`
+export const BulletBoldSpan = styled.span`
   display: flex;
   justify-content: center;
   color: var(--color-main);
@@ -44,4 +45,8 @@ export const AlarmSpan = styled.span`
   padding-left: 25px;
   font-size: 12px;
   font-weight: bold;
+`;
+
+export const NavigateSpan = styled.span`
+  font-size: 10px;
 `;

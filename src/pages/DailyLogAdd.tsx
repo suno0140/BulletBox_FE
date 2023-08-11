@@ -1,8 +1,11 @@
 import React, { useState } from 'react';
-import { AddInputButtonGroup, Flexbox } from '@components/Div';
-import { StForm } from '@components/Form';
-import { FormInput } from '@components/Input';
-import { CancleBtn, SubmitBtn } from '@components/Button';
+import {
+  AddInputButtonContainer,
+  FlexContainer,
+} from '@components/atoms/Container';
+import { MainForm } from '@components/atoms/Form';
+import { FormInput } from '@components/atoms/Input';
+import { CancleBtn, SubmitBtn } from '@components/atoms/Button';
 import { addTodoApi } from '@api/TodoApi';
 import { useNavigate } from 'react-router-dom';
 
@@ -27,14 +30,14 @@ const DailyLogAdd = () => {
   };
 
   return (
-    <Flexbox>
-      <StForm>
+    <FlexContainer>
+      <MainForm>
         <FormInput
           placeholder="할일을 추가해보세요"
           value={todo}
           onChange={handleTodo}
         ></FormInput>
-        <AddInputButtonGroup>
+        <AddInputButtonContainer>
           <SubmitBtn
             type="submit"
             onClick={(e) => {
@@ -44,9 +47,9 @@ const DailyLogAdd = () => {
             완료
           </SubmitBtn>
           <CancleBtn>취소</CancleBtn>
-        </AddInputButtonGroup>
-      </StForm>
-    </Flexbox>
+        </AddInputButtonContainer>
+      </MainForm>
+    </FlexContainer>
   );
 };
 

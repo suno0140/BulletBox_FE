@@ -1,35 +1,204 @@
-import React, { useRef } from 'react';
-import Calendar from 'react-calendar';
 import styled from 'styled-components';
 
-import { IoIosArrowBack } from 'react-icons/io';
-import { IoIosArrowForward } from 'react-icons/io';
+export const FlexContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
 
-export const MainCalendar = () => {
-  const todayRef = useRef();
+export const ColumnContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+`;
 
-  return (
-    <Calendarcontainer>
-      <Calendar
-        ref={todayRef}
-        calendarType="gregory"
-        nextLabel={<NextIcon />}
-        prevLabel={<PrevIcon />}
-        next2Label={null}
-        prev2Label={null}
-        formatDay={(locale, date) =>
-          date.toLocaleString('en', { day: 'numeric' })
-        }
-        formatShortWeekday={(locale, date) =>
-          ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'][date.getDay()]
-        }
-        view={'month'}
-      />
-    </Calendarcontainer>
-  );
-};
+export const EmptyContainer = styled.div`
+  height: 10%;
+`;
 
-const Calendarcontainer = styled.div`
+export const ImgContainer = styled.div`
+  height: 18%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+`;
+
+export const EmailFormContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 5%;
+  width: 100%;
+  height: 5vh;
+  border: solid 2px var(--color-main);
+  border-radius: 25px;
+`;
+
+export const StartTextContainer = styled.div`
+  font-size: 20px;
+  font-weight: 700;
+  margin-top: 15%;
+`;
+
+export const JoinMembershipContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 20px;
+  color: var(--color-gray);
+  font-weight: bold;
+
+  button {
+    background-color: transparent;
+    border: none;
+    font-size: 11px;
+    font-weight: bold;
+    color: var(--color-main);
+  }
+
+  span {
+    color: var(--color-gray);
+    font-size: 11px;
+    font-weight: bold;
+  }
+`;
+
+export const LogoutBtnContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  flex-direction: column;
+  margin-left: 80px;
+  color: var(--color-main);
+  font-weight: bold;
+`;
+
+export const UserInfoContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 25%;
+  margin-left: 14px;
+  font-size: 14px;
+  letter-spacing: 0.4px;
+`;
+
+export const AddInputButtonContainer = styled.div`
+  display: flex;
+  justify-content: space-around;
+  margin: 0 auto;
+  width: 100%;
+  margin-top: 3vh;
+`;
+
+export const TodoAddContainer = styled.div`
+  margin-top: 2%;
+  font-size: 16px;
+  font-weight: bold;
+  color: var(--color-main);
+  cursor: pointer;
+`;
+
+export const TodoCardContainer = styled.div`
+  display: flex;
+  align-items: center;
+  width: 55%;
+  height: 5vh;
+  margin-top: 2%;
+  container-shadow: 0px 0px 4px rgba(0, 0, 0, 0.3);
+  border-radius: 8px;
+  color: var(--color-black);
+  border: solid 1px var(--color-main);
+`;
+
+export const LayoutContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  width: 100vw;
+  max-width: 450px;
+  height: 100vh;
+  background-color: var(--color-light-gray);
+  font-family: 'HeirofLightBold';
+`;
+
+export const LayoutSubContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  background-color: white;
+  color: var(--color-main);
+  width: 100%;
+  height: 100%;
+  container-shadow:
+    rgba(0, 0, 0, 0.1) 0px 20px 25px -5px,
+    rgba(0, 0, 0, 0.04) 0px 10px 10px -5px;
+`;
+
+export const PageContainer = styled.div`
+  width: 100%;
+  height: 100%;
+  background-color: white;
+  overflow: auto;
+`;
+
+export const FooterContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 52px;
+  bottom: 0;
+  margin: 0%, auto;
+`;
+
+export const SpaceContainer = styled.div`
+  width: 36px;
+  margin-left: 20px;
+`;
+export const HeaderContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: white;
+  padding-top: 20px;
+  width: 100%;
+  height: 72px;
+`;
+
+export const HeaderLogoContainer = styled.div`
+  font-size: 18px;
+  font-weight: bold;
+  font-family: 'HeirofLightBold';
+`;
+
+export const LoadingIndicatorContainer = styled.div`
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  width: 100%;
+  height: 100%;
+  transform: translate(-50%, -50%);
+  background-color: rgba(0, 0, 0, 0.3);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
+export const NavigateContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  border-top: solid 1px var(--color-light-gray);
+`;
+
+export const CalendarContainer = styled.div`
   position: relative;
   .react-calendar {
     width: 100%;
@@ -127,9 +296,9 @@ const Calendarcontainer = styled.div`
   .react-calendar *,
   .react-calendar *:before,
   .react-calendar *:after {
-    -moz-box-sizing: border-box;
-    -webkit-box-sizing: border-box;
-    box-sizing: border-box;
+    -moz-container-sizing: border-Container;
+    -webkit-container-sizing: border-Container;
+    container-sizing: border-Container;
   }
   .react-calendar button {
     margin: 0;
@@ -254,19 +423,4 @@ const Calendarcontainer = styled.div`
   .react-calendar--selectRange .react-calendar__tile--hover {
     background-color: #e6e6e6;
   }
-`;
-
-const NextIcon = styled(IoIosArrowForward)`
-  width: 2rem;
-  height: 2.5vh;
-  margin-right: 28vw;
-  margin-left: 1vw;
-  color: var(--color-main);
-`;
-const PrevIcon = styled(IoIosArrowBack)`
-  width: 2rem;
-  height: 2.5vh;
-  margin-left: 3vw;
-  margin-right: 1vw;
-  color: var(--color-main);
 `;
