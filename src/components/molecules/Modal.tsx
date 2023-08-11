@@ -1,6 +1,13 @@
 import React from 'react';
-import { styled } from 'styled-components';
 import PotalContainer from 'Portal';
+import SimpleSlider from './Slider';
+import { CloseIcon } from '@components/atoms/Icon';
+import { GuideCancleBtn } from '@components/atoms/Button';
+import { GuideSpan } from '@components/atoms/Span';
+import {
+  ModalContainer,
+  ModalContentContainer,
+} from '@components/atoms/Container';
 
 type ModalProps = {
   content: string;
@@ -8,35 +15,20 @@ type ModalProps = {
   onClose: () => void;
 };
 
-export const Modal: React.FC<ModalProps> = ({ content, isOpen, onClose }) => {
+export const GuideModal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
   if (!isOpen) return null;
 
   return (
     <PotalContainer>
       <ModalContainer>
-        <button onClick={onClose}>x</button>
-        <ModalContentContainer>{content}</ModalContentContainer>
+        <ModalContentContainer>
+          <GuideCancleBtn onClick={onClose}>
+            <CloseIcon />
+          </GuideCancleBtn>
+          <GuideSpan>도움말</GuideSpan>
+          <SimpleSlider />
+        </ModalContentContainer>
       </ModalContainer>
     </PotalContainer>
   );
 };
-
-const ModalContainer = styled.div`
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: rgba(0, 0, 0, 0.5);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`;
-
-const ModalContentContainer = styled.div`
-  background: white;
-  padding: 20px;
-  border-radius: 5px;
-  width: 300px;
-  height: 505px;
-`;

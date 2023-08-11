@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { HeaderBtn, QuestionBtn } from '@components/atoms/Button';
+import { HeaderBtn, GuideBtn } from '@components/atoms/Button';
 import { QuestionIcon } from '@components/atoms/Icon';
 import {
   HeaderContainer,
   HeaderLogoContainer,
   SpaceContainer,
 } from '@components/atoms/Container';
-import { Modal } from './Modal';
+import { GuideModal } from './Modal';
 import ModalPortal from 'Portal';
 
 const Header = () => {
@@ -32,11 +32,11 @@ const Header = () => {
       >
         <HeaderLogoContainer>Bullet Box</HeaderLogoContainer>
       </HeaderBtn>
-      <QuestionBtn aria-label="Question" onClick={handleModal}>
+      <GuideBtn aria-label="Question" onClick={handleModal}>
         <QuestionIcon />
-      </QuestionBtn>
+      </GuideBtn>
       <ModalPortal>
-        <Modal content="modal" isOpen={isModalOpen} onClose={handleModal} />
+        <GuideModal content="" isOpen={isModalOpen} onClose={handleModal} />
       </ModalPortal>
     </HeaderContainer>
   );

@@ -6,6 +6,14 @@ import { ReactComponent as icon } from '@imgs/etc/help.svg';
 import { ReactComponent as homeMenuIcon } from '@imgs/navigation/home.svg';
 import { ReactComponent as dailyLogIcon } from '@imgs/navigation/daily.svg';
 import { ReactComponent as diaryLogIcon } from '@imgs/navigation/diary.svg';
+import { ReactComponent as close } from '@imgs/etc/close.svg';
+import { ReactComponent as guide1 } from '@imgs/guide/guide1.svg';
+import { ReactComponent as guide2 } from '@imgs/guide/guide2.svg';
+import { ReactComponent as guide3 } from '@imgs/guide/guide3.svg';
+import { ReactComponent as guide4 } from '@imgs/guide/guide4.svg';
+import { ReactComponent as guide5 } from '@imgs/guide/guide5.svg';
+import { ReactComponent as guide6 } from '@imgs/guide/guide6.svg';
+import { ReactComponent as guide7 } from '@imgs/guide/guide7.svg';
 
 import { BsPerson } from 'react-icons/bs';
 import { HiSearch } from 'react-icons/hi';
@@ -76,4 +84,40 @@ export const MyPageIcon = styled(BsPerson)`
 export const SearchIcon = styled(HiSearch)`
   width: 24px;
   height: 24px;
+`;
+
+export const CloseIcon = styled(close)`
+  width: 24px;
+  height: 18px;
+`;
+
+export const Guide1 = styled(guide1)`
+  width: 95%;
+  height: 100%;
+`;
+
+export const Guide2 = styled(guide2)`
+  width: 95%;
+  height: 100%;
+`;
+export const Guide3 = styled(guide3)`
+  width: 95%;
+  height: 100%;
+`;
+
+export const Guide4 = styled(guide4)`
+  width: 95%;
+  height: 100%;
+`;
+export const Guide5 = styled(guide5)`
+  width: 95%;
+  height: 100%;
+`;
+export const Guide6 = styled(guide6)`
+  width: 95%;
+  height: 100%;
+`;
+export const Guide7 = styled(guide7)`
+  width: 95%;
+  height: 100%;
 `;
