@@ -1,10 +1,11 @@
-import { FireAuth } from '@core/Firebase';
-import { onAuthStateChanged } from 'firebase/auth';
-import { getDatabase, onValue, ref } from 'firebase/database';
+import { User } from '@firebase/auth';
+import { get, getDatabase, ref } from 'firebase/database';
 
 type SetUserData = {
-  setEmail: React.Dispatch<React.SetStateAction<string>>;
-  setNickname: React.Dispatch<React.SetStateAction<string>>;
+  user: User;
+  setEmail?: React.Dispatch<React.SetStateAction<string>>;
+  setNickname?: React.Dispatch<React.SetStateAction<string>>;
+  setLoading?: (loading: boolean) => void;
 };
 
 type UserData = {
@@ -12,24 +13,25 @@ type UserData = {
   nickname: string;
 };
 
-export const getUserInfo = ({ setEmail, setNickname }: SetUserData) => {
-  return new Promise<void>((resolve, reject) => {
-    onAuthStateChanged(FireAuth, (user) => {
-      if (user) {
-        const db = getDatabase();
-        const userRef = ref(db, 'users/' + user.uid);
-
-        onValue(userRef, (snapshot) => {
-          const data: UserData = (snapshot.val() as UserData) || null;
-          if (data) {
-            setEmail(data.email);
-            setNickname(data.nickname);
-            resolve();
-          } else {
-            reject('사용자가 로그인하지 않았습니다.');
-          }
-        });
-      }
-    });
-  });
+export const getUserInfo = async ({
+  user,
+  setEmail,
+  setNickname,
+  setLoading,
+}: SetUserData) => {
+  setLoading(true);
+  try {
+    const db = getDatabase();
+    const userRef = ref(db, 'users/' + user.uid);
+    const snapshot = await get(userRef);
+    const data = (snapshot.val() as UserData) || null;
+    if (data) {
+      setEmail(data.email);
+      setNickname(data.nickname);
+    }
+  } catch (error) {
+    console.log(error);
+  } finally {
+    setLoading(false);
+  }
 };

@@ -1,7 +1,7 @@
 import React from 'react';
 import { ClipLoader } from 'react-spinners';
 import { LoadingIndicatorContainer } from '@components/atoms/Container';
-import PotalContainer from 'Portal';
+import PotalContainer from 'utils/Portal';
 
 const LoadingIndicator = () => {
   return (

@@ -1,66 +1,85 @@
-import { FireAuth } from '@core/Firebase';
-import { getDatabase, push, ref, set } from 'firebase/database';
-import { onAuthStateChanged } from 'firebase/auth';
+import React from 'react';
+import { User } from 'firebase/auth';
+import { getDatabase, onValue, push, ref, set } from 'firebase/database';
+import { NavigateFunction } from 'react-router-dom';
+import { successToast } from '@components/atoms/toast';
 
-type todoData = {
-  todo: string;
+export type Todo = {
+  user: User;
+  id?: string;
+  todo?: string;
+  todoId?: string;
+  navigate?: NavigateFunction;
 };
 
-export const addTodoApi = ({ todo }: todoData) => {
-  return new Promise<void>((resolve, reject) => {
-    onAuthStateChanged(FireAuth, (user) => {
-      if (user) {
-        const db = getDatabase();
-        const todosRef = ref(db, `users/${user.uid}/todos`);
-        const newTodoRef = push(todosRef);
+type TodoData = {
+  user: User;
+  setTodos?: React.Dispatch<React.SetStateAction<Todo[]>>;
+  setLoading?: (loading: boolean) => void;
+};
 
-        set(newTodoRef, { todo: todo })
-          .then(() => {
-            resolve();
-          })
-          .catch((error) => {
-            reject(error);
-          });
-      } else {
-        reject('로그인이 필요한 서비스입니다.');
+export const addTodoApi = async ({ user, todo, navigate }: Todo) => {
+  try {
+    const db = getDatabase();
+    const todoRef = ref(db, `users/${user.uid}/todos`);
+    const newTodoRef = push(todoRef);
+
+    await set(newTodoRef, { todo: todo });
+    navigate('/main');
+    successToast('할일이 추가 되었습니다.');
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const getTodoApi = ({ user, setTodos, setLoading }: TodoData) => {
+  setLoading(true);
+
+  const db = getDatabase();
+  const todoRef = ref(db, `users/${user.uid}/todos`);
+
+  onValue(
+    todoRef,
+    (snapshot) => {
+      const data = (snapshot.val() as Record<string, Todo>) || null;
+
+      if (data) {
+        const todosArray = Object.keys(data).map((key) => ({
+          id: key,
+          ...data[key],
+        }));
+        setTodos(todosArray);
       }
-    });
-  });
+
+      setLoading(false);
+    },
+    (error) => {
+      console.log(error);
+    },
+  );
 };
 
-// type TodosData = {
-//   setTodos: React.Dispatch<React.SetStateAction<string[]>>;
-// };
+export const deleteTodoApi = async ({ user, todoId }: Todo) => {
+  try {
+    const db = getDatabase();
+    const todoRef = ref(db, `users/${user.uid}/todos/${todoId}`);
+    await set(todoRef, null);
 
-// type TodoData = {
-//   todos: string[];
-// };
+    successToast('할일이 삭제 되었습니다.');
+  } catch (error) {
+    console.log(error);
+  }
+};
 
-// export const GetTodoApi = ({ setTodos }: TodosData) => {
-//   return new Promise<void>((resolve, reject) => {
-//     onAuthStateChanged(FireAuth, (user) => {
-//       if (user) {
-//         const db = getDatabase();
-//         const todosRef = ref(db, `users/${user.uid}/todos`);
+export const updateTodoApi = async ({ user, todo, todoId, navigate }: Todo) => {
+  try {
+    const db = getDatabase();
+    const todoRef = ref(db, `users/${user.uid}/todos/${todoId}`);
 
-//         onValue(
-//           todosRef,
-//           (snapshot) => {
-//             const todosData: TodoData = snapshot.val();
-//             if (todosData && Array.isArray(todosData.todos)) {
-//               setTodos(todosData.todos);
-//             } else {
-//               setTodos([]); // 데이터가 없는 경우 초기화
-//             }
-//             resolve();
-//           },
-//           (error) => {
-//             reject(error);
-//           },
-//         );
-//       } else {
-//         reject('사용자가 로그인하지 않았습니다.');
-//       }
-//     });
-//   });
-// };
+    await set(todoRef, { todo: todo });
+    navigate('/main');
+    successToast('할일이 수정 되었습니다.');
+  } catch (error) {
+    console.log(error);
+  }
+};
