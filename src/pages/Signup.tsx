@@ -23,6 +23,7 @@ import {
 } from '@components/atoms/Container';
 import { Toaster } from 'react-hot-toast';
 import { errorToast, successToast } from '@components/atoms/toast';
+import useAuthStatusCheck from '@hooks/useAuthStatusCheck';
 
 type LoadingProps = {
   setLoading: (loading: boolean) => void;
@@ -43,6 +44,8 @@ const Signup = ({ setLoading }: LoadingProps) => {
   const [isNickName, setIsNickName] = useState(false);
   const [isPassword, setIsPassword] = useState(false);
   const [isPasswordConfirm, setIsPasswordConfirm] = useState(false);
+
+  const [signupStatus, setSignupStatus] = useState<{ success?: boolean }>({});
 
   const navigate = useNavigate();
 
@@ -112,14 +115,21 @@ const Signup = ({ setLoading }: LoadingProps) => {
 
     try {
       await signupApi({ email, password, nickName });
-      navigate('/login');
-    } catch (e) {
-      console.log(e);
-      errorToast('회원가입 실패');
+      setSignupStatus({ success: true });
+    } catch (error) {
+      console.log(error);
+      setSignupStatus({ success: false });
     } finally {
       setLoading(false);
     }
   };
+
+  useAuthStatusCheck({
+    status: signupStatus,
+    successRoute: '/login',
+    successmessage: '회원가입성공',
+    errormessage: '회원가입 실패',
+  });
 
   const handleLoginPage = () => {
     navigate('/login');

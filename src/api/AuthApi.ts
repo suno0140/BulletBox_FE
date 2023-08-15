@@ -13,17 +13,11 @@ type UserInfo = {
 };
 
 export const loginApi = async ({ email, password }: UserInfo) => {
-  try {
-    const result = await signInWithEmailAndPassword(FireAuth, email, password);
-    return result;
-  } catch (error) {
-    console.log(error);
-    throw error;
-  }
+  return await signInWithEmailAndPassword(FireAuth, email, password);
 };
 
 export const logoutApi = async () => {
-  await signOut(FireAuth);
+  return await signOut(FireAuth);
 };
 
 export const signupApi = async ({ email, password, nickName }: UserInfo) => {
@@ -40,7 +34,7 @@ export const signupApi = async ({ email, password, nickName }: UserInfo) => {
       email: email,
       nickname: nickName,
     });
-  } catch (e) {
-    console.log(e);
+  } catch (error) {
+    console.log(error);
   }
 };

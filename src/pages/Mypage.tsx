@@ -12,7 +12,7 @@ import { LogoutBtn } from '@components/atoms/Button';
 import { LogoutIcon, MypageIcon } from '@components/atoms/Icon';
 import { FlexContainer } from '@components/atoms/Container';
 import { DefaultBoldSpan, GrayBoldSpan } from '@components/atoms/Span';
-import { errorToast } from '@components/atoms/toast';
+import useAuthStatusCheck from '@hooks/useAuthStatusCheck';
 
 type LoadingProps = {
   setLoading: (loading: boolean) => void;
@@ -21,6 +21,7 @@ type LoadingProps = {
 const Mypage = ({ setLoading }: LoadingProps) => {
   const [email, setEmail] = useState('email');
   const [nickname, setNickname] = useState('닉네임');
+  const [logoutStatus, setLogoutStatus] = useState<{ success?: boolean }>({});
 
   const navigate = useNavigate();
 
@@ -41,15 +42,22 @@ const Mypage = ({ setLoading }: LoadingProps) => {
     void fetchData();
   }, []);
 
-  const onClickButton = () => {
-    logoutApi()
-      .then(() => {
-        navigate('/login');
-      })
-      .catch(() => {
-        errorToast('로그아웃 실패.');
-      });
+  const onClickButton = async () => {
+    try {
+      await logoutApi();
+      setLogoutStatus({ success: true });
+    } catch (error) {
+      console.log(error);
+      setLogoutStatus({ success: false });
+    }
   };
+
+  useAuthStatusCheck({
+    status: logoutStatus,
+    successRoute: '/login',
+    successmessage: '로그아웃 되었습니다',
+    errormessage: '로그아웃 실패',
+  });
 
   return (
     <FlexContainer>
@@ -61,7 +69,7 @@ const Mypage = ({ setLoading }: LoadingProps) => {
       <LogoutBtnContainer>
         <LogoutBtn
           onClick={() => {
-            onClickButton();
+            void onClickButton();
           }}
         >
           <LogoutIcon />
