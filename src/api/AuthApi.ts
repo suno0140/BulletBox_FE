@@ -5,7 +5,6 @@ import {
 } from 'firebase/auth';
 import { FireAuth } from '@core/Firebase';
 import { getDatabase, ref, set } from 'firebase/database';
-import { NavigateFunction } from 'react-router-dom';
 
 type UserInfo = {
   email: string;
@@ -14,17 +13,11 @@ type UserInfo = {
 };
 
 export const loginApi = async ({ email, password }: UserInfo) => {
-  try {
-    const result = await signInWithEmailAndPassword(FireAuth, email, password);
-    return result;
-  } catch (error) {
-    console.log(error);
-  }
+  return await signInWithEmailAndPassword(FireAuth, email, password);
 };
 
-export const logoutApi = async (navigate: NavigateFunction) => {
-  await signOut(FireAuth);
-  navigate('/login');
+export const logoutApi = async () => {
+  return await signOut(FireAuth);
 };
 
 export const signupApi = async ({ email, password, nickName }: UserInfo) => {

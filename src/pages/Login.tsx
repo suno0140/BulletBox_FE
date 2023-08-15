@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { ColumnContainer, EmptyContainer } from '@components/atoms/Container';
@@ -8,8 +8,8 @@ import { JoinMembershipContainer } from '@components/atoms/Container';
 import { FormInput } from '@components/atoms/Input';
 import { BulletBoldSpan, MainSpan } from '@components/atoms/Span';
 import { MainForm } from '@components/atoms/Form';
-import { errorToast } from '@components/atoms/toast';
 import { loginApi } from '@api/AuthApi';
+import useAuthStatusCheck from '@hooks/useAuthStatusCheck';
 
 type LoadingProps = {
   setLoading: (loading: boolean) => void;
@@ -18,6 +18,7 @@ type LoadingProps = {
 const Login = ({ setLoading }: LoadingProps) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [loginStatus, setLoginStatus] = useState<{ success?: boolean }>({});
 
   const navigate = useNavigate();
 
@@ -31,22 +32,26 @@ const Login = ({ setLoading }: LoadingProps) => {
     setPassword(passwordCheck);
   };
 
-  const handleLogin = (e: React.FormEvent) => {
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
-
-    loginApi({ email, password })
-      .then(() => {
-        navigate('/main');
-      })
-      .catch((error) => {
-        console.log(error);
-        errorToast('로그인 실패. 이메일과 비밀번호를 확인해주세요.');
-      })
-      .finally(() => {
-        setLoading(false);
-      });
+    try {
+      await loginApi({ email, password });
+      setLoginStatus({ success: true });
+    } catch (error) {
+      console.log(error);
+      setLoginStatus({ success: false });
+    } finally {
+      setLoading(false);
+    }
   };
+
+  useAuthStatusCheck({
+    status: loginStatus,
+    successRoute: '/main',
+    successmessage: '로그인 성공',
+    errormessage: '아이디, 비밀번호를 확인해주세요',
+  });
 
   const LoginHandle = () => {
     navigate('/signup');
@@ -76,7 +81,7 @@ const Login = ({ setLoading }: LoadingProps) => {
         <MainBtn
           type="submit"
           onClick={(e) => {
-            handleLogin(e);
+            void handleLogin(e);
           }}
         >
           로그인
