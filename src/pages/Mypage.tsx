@@ -9,8 +9,9 @@ import { LogoutBtn } from '@components/atoms/Button';
 import { LogoutIcon, MypageIcon } from '@components/atoms/Icon';
 import { FlexContainer } from '@components/atoms/Container';
 import { DefaultBoldSpan, GrayBoldSpan } from '@components/atoms/Span';
-import { AuthContext } from '@core/AuthContext';
-import { getUserInfo } from '@api/MypageApi';
+
+import useAuthStatusCheck from '@hooks/useAuthStatusCheck';
+
 
 type LoadingProps = {
   setLoading: (loading: boolean) => void;
@@ -19,6 +20,7 @@ type LoadingProps = {
 const Mypage = ({ setLoading }: LoadingProps) => {
   const [email, setEmail] = useState('email');
   const [nickname, setNickname] = useState('닉네임');
+  const [logoutStatus, setLogoutStatus] = useState<{ success?: boolean }>({});
 
   const navigate = useNavigate();
   const { user, userDataLoading } = useContext(AuthContext);
@@ -31,9 +33,22 @@ const Mypage = ({ setLoading }: LoadingProps) => {
     }
   }, [user, userDataLoading]);
 
-  const onClickButton = () => {
-    void logoutApi(navigate);
-  };
+
+  const onClickButton = async () => {
+    try {
+      await logoutApi();
+      setLogoutStatus({ success: true });
+    } catch (error) {
+      console.log(error);
+      setLogoutStatus({ success: false });
+    }
+
+  useAuthStatusCheck({
+    status: logoutStatus,
+    successRoute: '/login',
+    successmessage: '로그아웃 되었습니다',
+    errormessage: '로그아웃 실패',
+  });
 
   return (
     <FlexContainer>
@@ -45,7 +60,7 @@ const Mypage = ({ setLoading }: LoadingProps) => {
       <LogoutBtnContainer>
         <LogoutBtn
           onClick={() => {
-            onClickButton();
+            void onClickButton();
           }}
         >
           <LogoutIcon />
