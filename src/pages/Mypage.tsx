@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { logoutApi } from '@api/AuthApi';
 import {
   LogoutBtnContainer,
@@ -11,7 +10,8 @@ import { FlexContainer } from '@components/atoms/Container';
 import { DefaultBoldSpan, GrayBoldSpan } from '@components/atoms/Span';
 
 import useAuthStatusCheck from '@hooks/useAuthStatusCheck';
-
+import { AuthContext } from '@core/AuthContext';
+import { getUserInfo } from '@api/MypageApi';
 
 type LoadingProps = {
   setLoading: (loading: boolean) => void;
@@ -22,7 +22,6 @@ const Mypage = ({ setLoading }: LoadingProps) => {
   const [nickname, setNickname] = useState('닉네임');
   const [logoutStatus, setLogoutStatus] = useState<{ success?: boolean }>({});
 
-  const navigate = useNavigate();
   const { user, userDataLoading } = useContext(AuthContext);
 
   useEffect(() => {
@@ -33,7 +32,6 @@ const Mypage = ({ setLoading }: LoadingProps) => {
     }
   }, [user, userDataLoading]);
 
-
   const onClickButton = async () => {
     try {
       await logoutApi();
@@ -43,12 +41,13 @@ const Mypage = ({ setLoading }: LoadingProps) => {
       setLogoutStatus({ success: false });
     }
 
-  useAuthStatusCheck({
-    status: logoutStatus,
-    successRoute: '/login',
-    successmessage: '로그아웃 되었습니다',
-    errormessage: '로그아웃 실패',
-  });
+    useAuthStatusCheck({
+      status: logoutStatus,
+      successRoute: '/login',
+      successmessage: '로그아웃 되었습니다',
+      errormessage: '로그아웃 실패',
+    });
+  };
 
   return (
     <FlexContainer>
@@ -70,5 +69,4 @@ const Mypage = ({ setLoading }: LoadingProps) => {
     </FlexContainer>
   );
 };
-
 export default Mypage;
