@@ -62,3 +62,13 @@ export const GuideSpan = styled.span`
   font-weight: bold;
   color: var(--color-black);
 `;
+
+export const TodoSpan = styled.span`
+  font-size: 14px;
+  font-weight: bold;
+  color: var(--color-black);
+`;
+export const TimeContainer = styled.span`
+  padding-top: 2px;
+  color: var(--color-gray);
+`;

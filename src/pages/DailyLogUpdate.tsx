@@ -6,12 +6,21 @@ import {
 import { MainForm } from '@components/atoms/Form';
 import { FormInput } from '@components/atoms/Input';
 import { CancleBtn, SubmitBtn } from '@components/atoms/Button';
-import { addTodoApi } from '@api/TodoApi';
-import { useNavigate } from 'react-router-dom';
+import { updateTodoApi } from '@api/TodoApi';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { AuthContext } from '@core/AuthContext';
 
-const DailyLogAdd = () => {
-  const [todo, setTodo] = useState('');
+const DailyLogUpdate = () => {
+  const location = useLocation();
+  const initialState = location.state as {
+    todoId: string;
+    todoContent: string;
+  };
+
+  const todoId = initialState?.todoId;
+  const todoContent = initialState?.todoContent;
+
+  const [todo, setTodo] = useState(todoContent || '');
 
   const navigate = useNavigate();
   const { user, userDataLoading } = useContext(AuthContext);
@@ -26,7 +35,7 @@ const DailyLogAdd = () => {
     if (userDataLoading) {
       return;
     } else {
-      void addTodoApi({ user, todo, navigate });
+      void updateTodoApi({ user, todo, todoId, navigate });
     }
   };
 
@@ -37,11 +46,7 @@ const DailyLogAdd = () => {
   return (
     <FlexContainer>
       <MainForm>
-        <FormInput
-          placeholder="할일을 추가해보세요"
-          value={todo}
-          onChange={handleTodo}
-        ></FormInput>
+        <FormInput value={todo} onChange={handleTodo}></FormInput>
         <AddInputButtonContainer>
           <SubmitBtn
             type="submit"
@@ -49,7 +54,7 @@ const DailyLogAdd = () => {
               handleSubmit(e);
             }}
           >
-            할일 추가
+            할일 수정
           </SubmitBtn>
           <CancleBtn type="button" onClick={handleCancle}>
             취소
@@ -60,4 +65,4 @@ const DailyLogAdd = () => {
   );
 };
 
-export default DailyLogAdd;
+export default DailyLogUpdate;

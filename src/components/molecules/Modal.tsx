@@ -1,5 +1,5 @@
 import React from 'react';
-import PotalContainer from 'Portal';
+import PotalContainer from 'utils/Portal';
 import SimpleSlider from './Slider';
 import { CloseIcon } from '@components/atoms/Icon';
 import { GuideCancleBtn } from '@components/atoms/Button';
