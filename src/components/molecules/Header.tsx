@@ -8,7 +8,7 @@ import {
   SpaceContainer,
 } from '@components/atoms/Container';
 import { GuideModal } from './Modal';
-import ModalPortal from 'Portal';
+import ModalPortal from 'utils/Portal';
 
 const Header = () => {
   const navigate = useNavigate();

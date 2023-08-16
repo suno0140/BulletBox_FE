@@ -1,13 +1,14 @@
+import React, { useContext, useEffect, useState } from 'react';
 import { MainCalendar } from '@components/molecules/Calendar';
-import { ColumnContainer, FlexContainer } from '@components/atoms/Container';
-import { FireAuth } from '@core/Firebase';
-import { onAuthStateChanged } from 'firebase/auth';
-import { getDatabase, onValue, ref } from 'firebase/database';
-import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { getTodoApi, Todo } from '@api/TodoApi';
+import { AuthContext } from '@core/AuthContext';
+import MainTodoCard from '@components/molecules/MainTodoCard';
 import {
-  TodoCardContainer,
-  TodoAddContainer,
+  DateContainer,
+  MainPageContaiver,
+  MainTodoContainer,
+  TodoAddContiner,
 } from '@components/atoms/Container';
 
 type LoadingProps = {
@@ -15,55 +16,44 @@ type LoadingProps = {
 };
 
 const Main = ({ setLoading }: LoadingProps) => {
-  const navigate = useNavigate();
   const [todos, setTodos] = useState<Todo[]>([]);
 
-  type Todo = {
-    id: string;
-    todo: string;
-  };
+  const navigate = useNavigate();
+  const { user, userDataLoading } = useContext(AuthContext);
 
   useEffect(() => {
-    setLoading(true);
-
-    onAuthStateChanged(FireAuth, (user) => {
-      if (user) {
-        const db = getDatabase();
-        const todoRef = ref(db, `users/${user.uid}/todos`);
-
-        onValue(todoRef, (snapshot) => {
-          const data = (snapshot.val() as Record<string, Todo>) || null;
-          if (data) {
-            const todosArray = Object.keys(data).map((key) => ({
-              id: key,
-              ...data[key],
-            }));
-            setTodos(todosArray);
-            console.log(todosArray);
-          }
-        });
-        setLoading(false);
-      }
-    });
-  }, []);
+    if (userDataLoading) {
+      return;
+    } else {
+      void getTodoApi({ user, setTodos, setLoading });
+    }
+  }, [user, userDataLoading]);
 
   return (
     <>
       <MainCalendar />
-      <FlexContainer>
-        <ColumnContainer>
+      <MainPageContaiver>
+        <DateContainer>2023/8/11(금)</DateContainer>
+        <MainTodoContainer>
           {todos.map((todo) => (
-            <TodoCardContainer key={todo.id}>{todo.todo}</TodoCardContainer>
+            <MainTodoCard
+              key={todo.id}
+              todoId={todo.id}
+              todoContent={todo.todo}
+              time={null}
+            />
           ))}
-          <TodoAddContainer
+        </MainTodoContainer>
+        <div>
+          <TodoAddContiner
             onClick={() => {
               navigate('/dailyAdd');
             }}
           >
             할일 추가 하기
-          </TodoAddContainer>
-        </ColumnContainer>
-      </FlexContainer>
+          </TodoAddContiner>
+        </div>
+      </MainPageContaiver>
     </>
   );
 };

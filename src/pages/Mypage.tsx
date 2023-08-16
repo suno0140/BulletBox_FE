@@ -1,9 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
-
-import { getUserInfo } from '@api/MypageApi';
 import { logoutApi } from '@api/AuthApi';
-
 import {
   LogoutBtnContainer,
   UserInfoContainer,
@@ -12,7 +9,9 @@ import { LogoutBtn } from '@components/atoms/Button';
 import { LogoutIcon, MypageIcon } from '@components/atoms/Icon';
 import { FlexContainer } from '@components/atoms/Container';
 import { DefaultBoldSpan, GrayBoldSpan } from '@components/atoms/Span';
+
 import useAuthStatusCheck from '@hooks/useAuthStatusCheck';
+
 
 type LoadingProps = {
   setLoading: (loading: boolean) => void;
@@ -24,23 +23,16 @@ const Mypage = ({ setLoading }: LoadingProps) => {
   const [logoutStatus, setLogoutStatus] = useState<{ success?: boolean }>({});
 
   const navigate = useNavigate();
+  const { user, userDataLoading } = useContext(AuthContext);
 
   useEffect(() => {
-    setLoading(true);
+    if (userDataLoading) {
+      return;
+    } else {
+      void getUserInfo({ user, setEmail, setNickname, setLoading });
+    }
+  }, [user, userDataLoading]);
 
-    const fetchData = async () => {
-      try {
-        await getUserInfo({ setEmail, setNickname });
-      } catch (error) {
-        console.log(error);
-        navigate('/login');
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    void fetchData();
-  }, []);
 
   const onClickButton = async () => {
     try {
@@ -50,7 +42,6 @@ const Mypage = ({ setLoading }: LoadingProps) => {
       console.log(error);
       setLogoutStatus({ success: false });
     }
-  };
 
   useAuthStatusCheck({
     status: logoutStatus,

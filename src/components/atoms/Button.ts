@@ -89,7 +89,7 @@ export const NavigateBtn = styled.button<{ $active: boolean }>`
   flex-direction: column;
   align-items: center;
   background-color: white;
-  padding: 3px 0;
+  padding-top: 5px;
   width: 25%;
   height: 48px;
   border: 0;

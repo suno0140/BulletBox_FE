@@ -102,18 +102,6 @@ export const TodoAddContainer = styled.div`
   cursor: pointer;
 `;
 
-export const TodoCardContainer = styled.div`
-  display: flex;
-  align-items: center;
-  width: 55%;
-  height: 5vh;
-  margin-top: 2%;
-  container-shadow: 0px 0px 4px rgba(0, 0, 0, 0.3);
-  border-radius: 8px;
-  color: var(--color-black);
-  border: solid 1px var(--color-main);
-`;
-
 export const LayoutContainer = styled.div`
   display: flex;
   align-items: center;
@@ -141,8 +129,11 @@ export const LayoutSubContainer = styled.div`
 `;
 
 export const PageContainer = styled.div`
-  width: 100%;
+  width: 100vw;
+  max-width: 450px;
   height: 100%;
+  margin-top: 72px;
+  margin-bottom: 58px;
   background-color: white;
   overflow: auto;
 `;
@@ -151,24 +142,31 @@ export const FooterContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 100%;
-  height: 52px;
+  width: 100vw;
+  max-width: 450px;
+  height: 58px;
   bottom: 0;
   margin: 0%, auto;
+  position: fixed;
+  bottom: 0;
 `;
 
-export const SpaceContainer = styled.div`
-  width: 36px;
-  margin-left: 20px;
-`;
 export const HeaderContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
   background-color: white;
   padding-top: 20px;
-  width: 100%;
-  height: 72px;
+  width: 100vw;
+  max-width: 450px;
+  height: 52px;
+  position: fixed;
+  top: 0;
+`;
+
+export const SpaceContainer = styled.div`
+  width: 36px;
+  margin-left: 20px;
 `;
 
 export const HeaderLogoContainer = styled.div`
@@ -215,9 +213,8 @@ export const ModalContentContainer = styled.div`
   background: white;
   padding: 20px;
   border-radius: 5px;
-  width: 45vw;
-  min-width: 220px;
-  height: 60%;
+  width: 280px;
+  height: 520px;
 `;
 
 export const SliderContainer = styled.div`
@@ -235,12 +232,82 @@ export const SliderContainer = styled.div`
   }
 `;
 
+export const MainPageContaiver = styled.div`
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  gap: 15px;
+  width: 100%;
+  max-width: 450px;
+  margin-top: 10px;
+  min-height: 300px;
+  border-radius: 16px;
+  background-color: var(--color-default);
+  /* box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.3); */
+  overflow: visible;
+`;
+
+export const DateContainer = styled.div`
+  font-size: 14px;
+  font-weight: 900;
+  padding: 6px 0;
+  text-align: center;
+  margin-top: 10px;
+`;
+
+export const MainTodoContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  width: 90%;
+  gap: 10px;
+`;
+
+export const TodoAddContiner = styled.div`
+  font-size: 16px;
+  font-weight: bold;
+  color: var(--color-main);
+  cursor: pointer;
+`;
+
+export const TodoCardContainer = styled.div<{ $todoContent: string }>`
+  display: flex;
+  width: 100%;
+  height: ${({ $todoContent }) => ($todoContent.length > 19 ? '60px' : '40px')};
+  box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.3);
+  border-radius: 8px;
+`;
+
+export const CategoryContainer = styled.div`
+  width: 2.5%;
+  background-color: inherit;
+`;
+export const BulletContainer = styled.div`
+  display: flex;
+  align-items: center;
+  padding-left: 6px;
+  height: 100%;
+  background-color: var(--color-default);
+`;
+export const TodoContentContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 100%;
+  padding-right: 3%;
+  height: 100%;
+  padding-left: 6px;
+  border-radius: 0 8px 8px 0;
+  background-color: var(--color-default);
+`;
+
 export const CalendarContainer = styled.div`
   position: relative;
   .react-calendar {
     width: 100%;
     height: 50%;
-    margin-top: 5%;
+    margin-top: 1%;
     background: transparent;
     font-family: Arial, Helvetica, sans-serif;
     line-height: 1.125em;

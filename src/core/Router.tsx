@@ -14,6 +14,7 @@ import DailyLogAdd from '@pages/DailyLogAdd';
 
 import { Toaster } from 'react-hot-toast';
 import LoadingIndicator from '@components/molecules/LodingIndicator';
+import DailyLogUpdate from '@pages/DailyLogUpdate';
 
 const Router = () => {
   const [loading, setLoading] = useState(false);
@@ -35,6 +36,7 @@ const Router = () => {
           <Route path="/diary" element={<Diary />} />
           <Route path="/dailys" element={<DailyLog />} />
           <Route path="/dailyAdd" element={<DailyLogAdd />} />
+          <Route path="/dailyUpdate" element={<DailyLogUpdate />} />
         </Route>
       </Routes>
       <Toaster />
