@@ -35,3 +35,23 @@ export const FormEmailInput = styled.input`
     padding-right: 1em;
   }
 `;
+
+export const CategoryInput = styled.input`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: auto;
+  margin-top: 10%;
+  width: 98%;
+  height: 10%;
+  border-radius: 10px;
+  border: 1px solid var(--color-defalut);
+  box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.3);
+  font-size: 1rem;
+  font-weight: bold;
+
+  &::placeholder {
+    font-size: 14px;
+    font-color: var(--color-gray);
+  }
+`;

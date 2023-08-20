@@ -23,7 +23,7 @@ import {
 } from '@components/atoms/Container';
 import { Toaster } from 'react-hot-toast';
 import { errorToast, successToast } from '@components/atoms/toast';
-import useAuthStatusCheck from '@hooks/useAuthStatusCheck';
+import useStatusCheck from '@hooks/useStatusCheck';
 
 type LoadingProps = {
   setLoading: (loading: boolean) => void;
@@ -124,7 +124,7 @@ const Signup = ({ setLoading }: LoadingProps) => {
     }
   };
 
-  useAuthStatusCheck({
+  useStatusCheck({
     status: signupStatus,
     successRoute: '/login',
     successmessage: '회원가입성공',

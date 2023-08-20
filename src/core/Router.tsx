@@ -16,6 +16,10 @@ import { Toaster } from 'react-hot-toast';
 import LoadingIndicator from '@components/molecules/LodingIndicator';
 import DailyLogUpdate from '@pages/DailyLogUpdate';
 
+export type LoadingProps = {
+  setLoading: (loading: boolean) => void;
+};
+
 const Router = () => {
   const [loading, setLoading] = useState(false);
 
@@ -35,8 +39,14 @@ const Router = () => {
           <Route path="/search" element={<Search />} />
           <Route path="/diary" element={<Diary />} />
           <Route path="/dailys" element={<DailyLog />} />
-          <Route path="/dailyAdd" element={<DailyLogAdd />} />
-          <Route path="/dailyUpdate" element={<DailyLogUpdate />} />
+          <Route
+            path="/dailyAdd"
+            element={<DailyLogAdd setLoading={setLoading} />}
+          />
+          <Route
+            path="/dailyUpdate"
+            element={<DailyLogUpdate setLoading={setLoading} />}
+          />
         </Route>
       </Routes>
       <Toaster />

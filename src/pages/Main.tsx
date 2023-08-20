@@ -10,22 +10,23 @@ import {
   MainTodoContainer,
   TodoAddContiner,
 } from '@components/atoms/Container';
-
-type LoadingProps = {
-  setLoading: (loading: boolean) => void;
-};
+import useCurrentDate from '@hooks/useCurrentData';
+import { LoadingProps } from '@core/Router';
 
 const Main = ({ setLoading }: LoadingProps) => {
   const [todos, setTodos] = useState<Todo[]>([]);
+  const currentDate = useCurrentDate();
 
   const navigate = useNavigate();
   const { user, userDataLoading } = useContext(AuthContext);
 
   useEffect(() => {
+    setLoading(true);
     if (userDataLoading) {
       return;
     } else {
-      void getTodoApi({ user, setTodos, setLoading });
+      void getTodoApi({ user, setTodos });
+      setLoading(false);
     }
   }, [user, userDataLoading]);
 
@@ -33,14 +34,15 @@ const Main = ({ setLoading }: LoadingProps) => {
     <>
       <MainCalendar />
       <MainPageContaiver>
-        <DateContainer>2023/8/11(금)</DateContainer>
+        <DateContainer>{currentDate}</DateContainer>
         <MainTodoContainer>
           {todos.map((todo) => (
             <MainTodoCard
-              key={todo.id}
-              todoId={todo.id}
+              key={todo.todoId}
+              todoId={todo.todoId}
               todoContent={todo.todo}
               time={null}
+              setLoading={setLoading}
             />
           ))}
         </MainTodoContainer>

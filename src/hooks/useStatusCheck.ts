@@ -1,6 +1,6 @@
-import { errorToast, successToast } from '@components/atoms/toast';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { errorToast, successToast } from '@components/atoms/toast';
 
 type UseAuthStatusProps = {
   status?: { success?: boolean };
@@ -9,7 +9,7 @@ type UseAuthStatusProps = {
   errormessage?: string;
 };
 
-const useAuthStatusCheck = ({
+const useStatusCheck = ({
   status,
   successRoute,
   successmessage,
@@ -19,12 +19,12 @@ const useAuthStatusCheck = ({
 
   useEffect(() => {
     if (status.success) {
-      navigate(successRoute);
-      successToast(successmessage);
-    } else if (status.success == false) {
-      errorToast(errormessage);
+      if (successRoute) navigate(successRoute);
+      if (successmessage) successToast(successmessage);
+    } else if (status?.success == false) {
+      if (errormessage) errorToast(errormessage);
     }
   }, [status]);
 };
 
-export default useAuthStatusCheck;
+export default useStatusCheck;

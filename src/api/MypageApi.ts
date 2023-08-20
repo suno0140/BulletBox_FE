@@ -1,11 +1,10 @@
 import { User } from '@firebase/auth';
-import { get, getDatabase, ref } from 'firebase/database';
+import { getDatabase, onValue, ref } from 'firebase/database';
 
 type SetUserData = {
   user: User;
   setEmail?: React.Dispatch<React.SetStateAction<string>>;
   setNickname?: React.Dispatch<React.SetStateAction<string>>;
-  setLoading?: (loading: boolean) => void;
 };
 
 type UserData = {
@@ -13,25 +12,21 @@ type UserData = {
   nickname: string;
 };
 
-export const getUserInfo = async ({
+export const getUserInfoApi = ({
   user,
   setEmail,
   setNickname,
-  setLoading,
 }: SetUserData) => {
-  setLoading(true);
-  try {
-    const db = getDatabase();
-    const userRef = ref(db, 'users/' + user.uid);
-    const snapshot = await get(userRef);
+  if (!user) return;
+
+  const db = getDatabase();
+  const userRef = ref(db, 'users/' + user.uid);
+
+  onValue(userRef, (snapshot) => {
     const data = (snapshot.val() as UserData) || null;
     if (data) {
       setEmail(data.email);
       setNickname(data.nickname);
     }
-  } catch (error) {
-    console.log(error);
-  } finally {
-    setLoading(false);
-  }
+  });
 };

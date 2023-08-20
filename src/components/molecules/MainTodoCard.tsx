@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { AuthContext } from '@core/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import { deleteTodoApi } from '@api/TodoApi';
@@ -10,24 +10,46 @@ import {
   TodoContentContainer,
 } from '@components/atoms/Container';
 import { TimeContainer, TodoSpan } from '@components/atoms/Span';
+import useStatusCheck from '@hooks/useStatusCheck';
 
 type TodoInfo = {
   todoId: string;
   todoContent: string;
   time: string;
+  setLoading: (loading: boolean) => void;
 };
 
-const MainTodoCard = ({ todoId, todoContent, time }: TodoInfo) => {
+const MainTodoCard = ({ todoId, todoContent, time, setLoading }: TodoInfo) => {
+  const [todoResponse, setTodoResponse] = useState<{
+    success?: boolean;
+  }>({});
+
   const navigate = useNavigate();
   const { user } = useContext(AuthContext);
 
   const handleTodoUpdate = () => {
     navigate('/dailyUpdate', { state: { todoId, todoContent } });
   };
-  const handleTodoDelete = (e: React.MouseEvent<HTMLButtonElement>) => {
+  const handleTodoDelete = async (e: React.MouseEvent<HTMLButtonElement>) => {
+    setLoading(true);
     const todoId = e.currentTarget.value;
-    void deleteTodoApi({ user, todoId });
+
+    try {
+      await deleteTodoApi({ user, todoId });
+      setTodoResponse({ success: true });
+    } catch (error) {
+      console.log(error);
+      setTodoResponse({ success: false });
+    } finally {
+      setLoading(false);
+    }
   };
+
+  useStatusCheck({
+    status: todoResponse,
+    successmessage: '할일 삭제 성공',
+    errormessage: '할일 삭제 실패',
+  });
 
   return (
     <TodoCardContainer $todoContent={todoContent}>
@@ -41,7 +63,7 @@ const MainTodoCard = ({ todoId, todoContent, time }: TodoInfo) => {
       <EmailCheckBtn
         value={todoId}
         onClick={(e) => {
-          handleTodoDelete(e);
+          void handleTodoDelete(e);
         }}
       >
         삭제

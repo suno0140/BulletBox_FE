@@ -4,6 +4,7 @@ export const FlexContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+  width: 100%;
 `;
 
 export const ColumnContainer = styled.div`
@@ -208,13 +209,13 @@ export const ModalContainer = styled.div`
   align-items: center;
 `;
 
-export const ModalContentContainer = styled.div`
+export const ModalContentContainer = styled.div<{ height?: number }>`
   position: relative;
   background: white;
   padding: 20px;
   border-radius: 5px;
   width: 280px;
-  height: 520px;
+  height: ${(props) => (props.height ? `${props.height}px` : '520px')};
 `;
 
 export const SliderContainer = styled.div`
@@ -300,6 +301,43 @@ export const TodoContentContainer = styled.div`
   padding-left: 6px;
   border-radius: 0 8px 8px 0;
   background-color: var(--color-default);
+`;
+
+export const MypageListContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+`;
+
+export const CategoryAddList = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: row;
+  width: 60%;
+  gap: 0.8rem;
+  flex-wrap: wrap;
+  margin-left: 12%;
+`;
+
+export const SelectColorContainer = styled.div`
+  width: 100%;
+  height: 40%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-around;
+  flex-wrap: wrap;
+`;
+
+export const ModalBtnContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 80%;
+  height: 15%;
+  margin: 20px auto;
 `;
 
 export const CalendarContainer = styled.div`

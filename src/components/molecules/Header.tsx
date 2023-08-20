@@ -7,8 +7,7 @@ import {
   HeaderLogoContainer,
   SpaceContainer,
 } from '@components/atoms/Container';
-import { GuideModal } from './Modal';
-import ModalPortal from 'utils/Portal';
+import { GuideModal } from './GuideModal';
 
 const Header = () => {
   const navigate = useNavigate();
@@ -35,9 +34,8 @@ const Header = () => {
       <GuideBtn aria-label="Question" onClick={handleModal}>
         <QuestionIcon />
       </GuideBtn>
-      <ModalPortal>
-        <GuideModal content="" isOpen={isModalOpen} onClose={handleModal} />
-      </ModalPortal>
+
+      <GuideModal content="" isOpen={isModalOpen} onClose={handleModal} />
     </HeaderContainer>
   );
 };
