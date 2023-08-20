@@ -9,26 +9,42 @@ import { CancleBtn, SubmitBtn } from '@components/atoms/Button';
 import { addTodoApi } from '@api/TodoApi';
 import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '@core/AuthContext';
+import { LoadingProps } from '@core/Router';
+import useStatusCheck from '@hooks/useStatusCheck';
 
-const DailyLogAdd = () => {
+const DailyLogAdd = ({ setLoading }: LoadingProps) => {
   const [todo, setTodo] = useState('');
+  const [todoResponse, setTodoResponse] = useState<{ success?: boolean }>({});
 
   const navigate = useNavigate();
-  const { user, userDataLoading } = useContext(AuthContext);
+  const { user } = useContext(AuthContext);
 
   const handleTodo = (e: React.ChangeEvent<HTMLInputElement>) => {
     const todoText = e.currentTarget.value;
     setTodo(todoText);
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (userDataLoading) {
-      return;
-    } else {
-      void addTodoApi({ user, todo, navigate });
+    setLoading(true);
+
+    try {
+      await addTodoApi({ user, todo });
+      setTodoResponse({ success: true });
+    } catch (error) {
+      console.log(error);
+      setTodoResponse({ success: false });
+    } finally {
+      setLoading(false);
     }
   };
+
+  useStatusCheck({
+    status: todoResponse,
+    successRoute: '/main',
+    successmessage: '할일 추가 성공',
+    errormessage: '할일 추가 실패',
+  });
 
   const handleCancle = () => {
     navigate('/main');
@@ -46,7 +62,7 @@ const DailyLogAdd = () => {
           <SubmitBtn
             type="submit"
             onClick={(e) => {
-              handleSubmit(e);
+              void handleSubmit(e);
             }}
           >
             할일 추가

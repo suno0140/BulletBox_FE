@@ -9,11 +9,8 @@ import { FormInput } from '@components/atoms/Input';
 import { BulletBoldSpan, MainSpan } from '@components/atoms/Span';
 import { MainForm } from '@components/atoms/Form';
 import { loginApi } from '@api/AuthApi';
-import useAuthStatusCheck from '@hooks/useAuthStatusCheck';
-
-type LoadingProps = {
-  setLoading: (loading: boolean) => void;
-};
+import useStatusCheck from '@hooks/useStatusCheck';
+import { LoadingProps } from '@core/Router';
 
 const Login = ({ setLoading }: LoadingProps) => {
   const [email, setEmail] = useState('');
@@ -47,7 +44,7 @@ const Login = ({ setLoading }: LoadingProps) => {
     }
   };
 
-  useAuthStatusCheck({
+  useStatusCheck({
     status: loginStatus,
     successRoute: '/main',
     successmessage: '로그인 성공',

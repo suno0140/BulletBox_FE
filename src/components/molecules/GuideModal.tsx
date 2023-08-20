@@ -1,8 +1,8 @@
 import React from 'react';
-import PotalContainer from 'utils/Portal';
+import PortalContainer from 'utils/Portal';
 import SimpleSlider from './Slider';
 import { CloseIcon } from '@components/atoms/Icon';
-import { GuideCancleBtn } from '@components/atoms/Button';
+import { ModalCancleBtn } from '@components/atoms/Button';
 import { GuideSpan } from '@components/atoms/Span';
 import {
   ModalContainer,
@@ -19,16 +19,16 @@ export const GuideModal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
   if (!isOpen) return null;
 
   return (
-    <PotalContainer>
+    <PortalContainer>
       <ModalContainer>
         <ModalContentContainer>
-          <GuideCancleBtn onClick={onClose}>
+          <ModalCancleBtn onClick={onClose}>
             <CloseIcon />
-          </GuideCancleBtn>
+          </ModalCancleBtn>
           <GuideSpan>도움말</GuideSpan>
           <SimpleSlider />
         </ModalContentContainer>
       </ModalContainer>
-    </PotalContainer>
+    </PortalContainer>
   );
 };

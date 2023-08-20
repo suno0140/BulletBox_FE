@@ -70,7 +70,7 @@ export const GuideBtn = styled.button`
     outline: none;
   }
 `;
-export const GuideCancleBtn = styled.button`
+export const ModalCancleBtn = styled.button`
   position: absolute;
   top: 20px;
   right: 10px;
@@ -103,4 +103,68 @@ export const NavigateBtn = styled.button<{ $active: boolean }>`
   }
 
   color: ${(props) => (props.$active ? 'var(--color-main)' : 'black')};
+`;
+
+export const MypageBtn = styled.button`
+  flex: 1;
+  font-size: 14px;
+  font-weight: bold;
+  margin-top: 5%;
+  padding: 8px 0;
+  background: none;
+  border: none;
+
+  &:active,
+  &:hover {
+    border: none;
+    border-bottom: 4px solid var(--color-main);
+    border-radius: 4px;
+  }
+`;
+
+export const CategoryBtn = styled.button<{ $backgroundColor?: string }>`
+  width: 124px;
+  height: 48px;
+  font-size: 16px;
+  font-weight: bold;
+  color: #3e3e3e;
+  border-radius: 10px;
+  border: none;
+  background-color: ${({ $backgroundColor }) =>
+    $backgroundColor || 'var(--color-default)'};
+
+  box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.3);
+`;
+
+export const ModalCheckBtn = styled.button`
+  width: 45%;
+  height: 75%;
+  font-size: 14px;
+  border-radius: 8px;
+  border: none;
+  font-weight: bold;
+  color: black;
+  background-color: var(--color-light-gray);
+
+  &:hover {
+    background-color: var(--color-main);
+    color: white;
+  }
+`;
+
+export const SelectBtn = styled.button<{
+  value: string;
+  $categoryColor: string;
+}>`
+  width: 13%;
+  height: 22%;
+  border-radius: 4px;
+  margin-right: 4%;
+  border: ${({ value, $categoryColor }) =>
+    value === $categoryColor
+      ? '5px solid white'
+      : '1px solid var(--color-light-gray)'};
+  background-color: ${({ value }) => value};
+  box-shadow: ${({ value, $categoryColor }) =>
+    value === $categoryColor ? '0px 0px 4px rgba(0, 0, 0, 0.3)' : 'none'};
 `;

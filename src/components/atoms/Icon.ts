@@ -19,6 +19,7 @@ import { BsPerson } from 'react-icons/bs';
 import { HiSearch } from 'react-icons/hi';
 import { IoIosArrowBack } from 'react-icons/io';
 import { IoIosArrowForward } from 'react-icons/io';
+import { BsFillPlusCircleFill } from 'react-icons/bs';
 
 export const MainIcon = styled(Logo)`
   fill: var(--color-main);
@@ -89,6 +90,22 @@ export const SearchIcon = styled(HiSearch)`
 export const CloseIcon = styled(close)`
   width: 24px;
   height: 18px;
+`;
+
+export const AddCategoryIcon = styled(BsFillPlusCircleFill)`
+  fill: var(--color-main);
+  width: 40px;
+  height: 40px;
+`;
+
+export const CategoryAddBtn = styled.button`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 0;
+  background-color: white;
+  border-radius: 50px;
+  margin-right: 5px;
 `;
 
 export const Guide1 = styled(guide1)`

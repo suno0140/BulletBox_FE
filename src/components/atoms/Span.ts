@@ -72,3 +72,20 @@ export const TimeContainer = styled.span`
   padding-top: 2px;
   color: var(--color-gray);
 `;
+
+export const TitleLengthSpan = styled.span`
+  display: flex;
+  align-items: center;
+  justify-content: end;
+  margin-top: 1.5%;
+  margin-bottom: 3%;
+  font-size: 12px;
+  color: var(--color-gray);
+`;
+
+export const MypageAddSpan = styled.span`
+  color: var(--color-main);
+  font-size: 16px;
+  font-weight: bold;
+  margin: 50px 0;
+`;

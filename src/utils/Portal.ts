@@ -4,10 +4,10 @@ type ModalCentent = {
   children: React.ReactNode;
 };
 
-const PotalContainer = ({ children }: ModalCentent) => {
+const PortalContainer = ({ children }: ModalCentent) => {
   const el = document.getElementById('modal');
 
   return reactDom.createPortal(children, el);
 };
 
-export default PotalContainer;
+export default PortalContainer;
