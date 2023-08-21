@@ -7,8 +7,11 @@ import {
   LayoutSubContainer,
   PageContainer,
 } from '@components/atoms/Container';
+import useAuthRedirect from '@hooks/useAuthRedirect';
 
-const Layout = () => {
+const MainLayout = () => {
+  useAuthRedirect();
+
   return (
     <LayoutContainer>
       <Header />
@@ -22,4 +25,4 @@ const Layout = () => {
   );
 };
 
-export default Layout;
+export default MainLayout;

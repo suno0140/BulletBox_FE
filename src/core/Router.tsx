@@ -4,8 +4,8 @@ import Start from '@pages/Start';
 import Login from '@pages/Login';
 import Signup from '@pages/Signup';
 import Mypage from '@pages/Mypage';
-import Layout from '@components/molecules/MainLayout';
-import LoginLayout from '@components/molecules/StartLayout';
+import MainLayout from '@components/molecules/MainLayout';
+import StartLayout from '@components/molecules/StartLayout';
 import Main from '@pages/Main';
 import Search from '@pages/Search';
 import Diary from '@pages/Diary';
@@ -27,13 +27,13 @@ const Router = () => {
     <BrowserRouter>
       {loading && <LoadingIndicator />}
       <Routes>
-        <Route element={<LoginLayout />}>
+        <Route element={<StartLayout />}>
           <Route path="/" element={<Start />} />
           <Route path="/login" element={<Login setLoading={setLoading} />} />
           <Route path="/signup" element={<Signup setLoading={setLoading} />} />
         </Route>
 
-        <Route element={<Layout />}>
+        <Route element={<MainLayout />}>
           <Route path="/mypage" element={<Mypage setLoading={setLoading} />} />
           <Route path="/main" element={<Main setLoading={setLoading} />} />
           <Route path="/search" element={<Search />} />
