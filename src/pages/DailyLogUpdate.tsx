@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import {
   AddInputButtonContainer,
   FlexContainer,
@@ -9,10 +9,9 @@ import { CancleBtn, SubmitBtn } from '@components/atoms/Button';
 import { updateTodoApi } from '@api/TodoApi';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { AuthContext } from '@core/AuthContext';
-import { LoadingProps } from '@core/Router';
-import useStatusCheck from '@hooks/useStatusCheck';
+import { useRequest } from '@hooks/useRequest';
 
-const DailyLogUpdate = ({ setLoading }: LoadingProps) => {
+const DailyLogUpdate = () => {
   const location = useLocation();
   const initialState = location.state as {
     todoId: string;
@@ -23,41 +22,37 @@ const DailyLogUpdate = ({ setLoading }: LoadingProps) => {
   const todoContent = initialState?.todoContent;
 
   const [todo, setTodo] = useState(todoContent || '');
-  const [todoResponse, setTodoResponse] = useState<{ success?: boolean }>({});
 
   const navigate = useNavigate();
   const { user } = useContext(AuthContext);
+
+  const { data, request } = useRequest({
+    apiFunc: updateTodoApi,
+    reduxKey: 'TODO_UPDATE',
+    successMessage: '할일 수정 성공',
+    errorMessage: '할일 수정 실패',
+  });
 
   const handleTodo = (e: React.ChangeEvent<HTMLInputElement>) => {
     const todoText = e.currentTarget.value;
     setTodo(todoText);
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    setLoading(true);
 
-    try {
-      await updateTodoApi({ user, todo, todoId });
-      setTodoResponse({ success: true });
-    } catch (error) {
-      console.log(error);
-      setTodoResponse({ success: false });
-    } finally {
-      setLoading(false);
-    }
+    request({ user, todo, todoId });
   };
-
-  useStatusCheck({
-    status: todoResponse,
-    successRoute: '/main',
-    successmessage: '할일 수정 성공',
-    errormessage: '할일 수정 실패',
-  });
 
   const handleCancle = () => {
     navigate('/main');
   };
+
+  useEffect(() => {
+    if (data) {
+      navigate('/main');
+    }
+  }, [data]);
 
   return (
     <FlexContainer>

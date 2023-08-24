@@ -1,5 +1,5 @@
 import { User } from '@firebase/auth';
-import { getDatabase, onValue, ref } from 'firebase/database';
+import { get, getDatabase, ref } from 'firebase/database';
 
 type SetUserData = {
   user: User;
@@ -12,7 +12,7 @@ type UserData = {
   nickname: string;
 };
 
-export const getUserInfoApi = ({
+export const getUserInfoApi = async ({
   user,
   setEmail,
   setNickname,
@@ -22,11 +22,15 @@ export const getUserInfoApi = ({
   const db = getDatabase();
   const userRef = ref(db, 'users/' + user.uid);
 
-  onValue(userRef, (snapshot) => {
+  try {
+    const snapshot = await get(userRef);
     const data = (snapshot.val() as UserData) || null;
     if (data) {
       setEmail(data.email);
       setNickname(data.nickname);
     }
-  });
+    return { success: true };
+  } catch (error) {
+    console.log(error);
+  }
 };

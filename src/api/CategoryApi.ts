@@ -37,14 +37,20 @@ export const getCategoryApi = ({ user, setCategoryList }: CategoryListData) => {
   const db = getDatabase();
   const categoryRef = ref(db, `users/${user.uid}/categories`);
 
-  onValue(categoryRef, (snapshot) => {
-    const data = (snapshot.val() as Record<string, CategoryData>) || null;
-    if (data) {
-      setCategoryList(Object.values(data));
-    } else {
-      setCategoryList([]);
-    }
-  });
+  onValue(
+    categoryRef,
+    (snapshot) => {
+      const data = (snapshot.val() as Record<string, CategoryData>) || null;
+      if (data) {
+        setCategoryList(Object.values(data));
+      } else {
+        setCategoryList([]);
+      }
+    },
+    (error) => {
+      console.log(error);
+    },
+  );
 };
 
 export const deleteCategoryApi = async ({ user, categoryId }: CategoryData) => {

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { ColumnContainer, EmptyContainer } from '@components/atoms/Container';
@@ -9,13 +9,17 @@ import { FormInput } from '@components/atoms/Input';
 import { BulletBoldSpan, MainSpan } from '@components/atoms/Span';
 import { MainForm } from '@components/atoms/Form';
 import { loginApi } from '@api/AuthApi';
-import useStatusCheck from '@hooks/useStatusCheck';
-import { LoadingProps } from '@core/Router';
+import { useRequest } from '@hooks/useRequest';
 
-const Login = ({ setLoading }: LoadingProps) => {
+const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [loginStatus, setLoginStatus] = useState<{ success?: boolean }>({});
+  const { data, request } = useRequest({
+    apiFunc: loginApi,
+    reduxKey: 'AUTH_LOGIN',
+    successMessage: '로그인 성공',
+    errorMessage: '아이디, 비밀번호를 확인해주세요',
+  });
 
   const navigate = useNavigate();
 
@@ -29,31 +33,20 @@ const Login = ({ setLoading }: LoadingProps) => {
     setPassword(passwordCheck);
   };
 
-  const handleLogin = async (e: React.FormEvent) => {
+  const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
-    setLoading(true);
-
-    try {
-      await loginApi({ email, password });
-      setLoginStatus({ success: true });
-    } catch (error) {
-      console.log(error);
-      setLoginStatus({ success: false });
-    } finally {
-      setLoading(false);
-    }
+    request({ email, password });
   };
-
-  useStatusCheck({
-    status: loginStatus,
-    successRoute: '/main',
-    successmessage: '로그인 성공',
-    errormessage: '아이디, 비밀번호를 확인해주세요',
-  });
 
   const LoginHandle = () => {
     navigate('/signup');
   };
+
+  useEffect(() => {
+    if (data) {
+      navigate('/main');
+    }
+  }, [data]);
 
   return (
     <ColumnContainer>

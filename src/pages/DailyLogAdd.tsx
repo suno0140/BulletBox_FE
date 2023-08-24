@@ -1,54 +1,72 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import {
   AddInputButtonContainer,
   FlexContainer,
+  TodoCateBtnContainer,
+  TodoCateContainer,
 } from '@components/atoms/Container';
 import { MainForm } from '@components/atoms/Form';
 import { FormInput } from '@components/atoms/Input';
-import { CancleBtn, SubmitBtn } from '@components/atoms/Button';
+import {
+  CancleBtn,
+  SubmitBtn,
+  TodoCategoryBtn,
+} from '@components/atoms/Button';
 import { addTodoApi } from '@api/TodoApi';
 import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '@core/AuthContext';
-import { LoadingProps } from '@core/Router';
-import useStatusCheck from '@hooks/useStatusCheck';
+import { useRequest } from '@hooks/useRequest';
+import { getCategoryApi } from '@api/CategoryApi';
+import { GrayBoldSpan } from '@components/atoms/Span';
 
-const DailyLogAdd = ({ setLoading }: LoadingProps) => {
+const DailyLogAdd = () => {
   const [todo, setTodo] = useState('');
-  const [todoResponse, setTodoResponse] = useState<{ success?: boolean }>({});
+  const [categoryList, setCategoryList] = useState([]);
+  const [selectedCategoryId, setSelectedCategoryId] = useState<string | null>(
+    null,
+  );
+  const [color, setColor] = useState<string | null>(null);
 
   const navigate = useNavigate();
-  const { user } = useContext(AuthContext);
+  const { user, userDataLoading } = useContext(AuthContext);
+
+  const { data, request: todoAddRequest } = useRequest({
+    apiFunc: addTodoApi,
+    reduxKey: 'TODO_ADD',
+    successMessage: '할일 추가 성공',
+    errorMessage: '할일 추가 실패',
+  });
+
+  const { request: categoryRequest } = useRequest({
+    apiFunc: getCategoryApi,
+    reduxKey: 'GET_CATEGORY',
+  });
 
   const handleTodo = (e: React.ChangeEvent<HTMLInputElement>) => {
     const todoText = e.currentTarget.value;
     setTodo(todoText);
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    setLoading(true);
-
-    try {
-      await addTodoApi({ user, todo });
-      setTodoResponse({ success: true });
-    } catch (error) {
-      console.log(error);
-      setTodoResponse({ success: false });
-    } finally {
-      setLoading(false);
-    }
+    todoAddRequest({ user, todo, color });
+    navigate('/main');
   };
-
-  useStatusCheck({
-    status: todoResponse,
-    successRoute: '/main',
-    successmessage: '할일 추가 성공',
-    errormessage: '할일 추가 실패',
-  });
 
   const handleCancle = () => {
     navigate('/main');
   };
+
+  const handleCategoryClick = (id: string, color: string) => {
+    setColor(color);
+    setSelectedCategoryId(id);
+  };
+
+  useEffect(() => {
+    if (!userDataLoading && user) {
+      categoryRequest({ user, setCategoryList });
+    }
+  }, [user, userDataLoading]);
 
   return (
     <FlexContainer>
@@ -58,6 +76,30 @@ const DailyLogAdd = ({ setLoading }: LoadingProps) => {
           value={todo}
           onChange={handleTodo}
         ></FormInput>
+
+        <TodoCateContainer>
+          <GrayBoldSpan>카테고리</GrayBoldSpan>
+          <TodoCateBtnContainer>
+            {categoryList?.map((value) => {
+              return (
+                <TodoCategoryBtn
+                  type="button"
+                  key={value.categoryId}
+                  id={value.categoryId}
+                  name={value.categoryName}
+                  color={value.categoryColor}
+                  $backgroundColor={value.categoryColor}
+                  $isSelected={selectedCategoryId === value.categoryId}
+                  onClick={() =>
+                    handleCategoryClick(value.categoryId, value.categoryColor)
+                  }
+                >
+                  {value.categoryName}
+                </TodoCategoryBtn>
+              );
+            })}
+          </TodoCateBtnContainer>
+        </TodoCateContainer>
         <AddInputButtonContainer>
           <SubmitBtn
             type="submit"

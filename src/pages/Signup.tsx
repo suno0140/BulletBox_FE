@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { fetchSignInMethodsForEmail } from '@firebase/auth';
 import { FireAuth } from '@core/Firebase';
@@ -23,13 +23,9 @@ import {
 } from '@components/atoms/Container';
 import { Toaster } from 'react-hot-toast';
 import { errorToast, successToast } from '@components/atoms/toast';
-import useStatusCheck from '@hooks/useStatusCheck';
+import { useRequest } from '@hooks/useRequest';
 
-type LoadingProps = {
-  setLoading: (loading: boolean) => void;
-};
-
-const Signup = ({ setLoading }: LoadingProps) => {
+const Signup = () => {
   const [email, setEmail] = useState('');
   const [nickName, setNickName] = useState('');
   const [password, setPassword] = useState('');
@@ -45,9 +41,13 @@ const Signup = ({ setLoading }: LoadingProps) => {
   const [isPassword, setIsPassword] = useState(false);
   const [isPasswordConfirm, setIsPasswordConfirm] = useState(false);
 
-  const [signupStatus, setSignupStatus] = useState<{ success?: boolean }>({});
-
   const navigate = useNavigate();
+  const { data, request } = useRequest({
+    apiFunc: signupApi,
+    reduxKey: 'AUTH_SIGNUP',
+    successMessage: '회원가입 성공',
+    errorMessage: '회원가입 실패',
+  });
 
   const handleEmail = (e: React.ChangeEvent<HTMLInputElement>) => {
     const emailCheck = e.currentTarget.value;
@@ -58,7 +58,7 @@ const Signup = ({ setLoading }: LoadingProps) => {
 
   const handleEmailCheck = async (e: React.MouseEvent<HTMLElement>) => {
     e.preventDefault();
-    setLoading(true);
+
     try {
       const methods = await fetchSignInMethodsForEmail(FireAuth, email);
       if (methods.length === 0) {
@@ -70,8 +70,6 @@ const Signup = ({ setLoading }: LoadingProps) => {
       }
     } catch (e) {
       errorToast('사용 불가능한 이메일 입니다.');
-    } finally {
-      setLoading(false);
     }
   };
 
@@ -109,31 +107,21 @@ const Signup = ({ setLoading }: LoadingProps) => {
     });
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    setLoading(true);
-
-    try {
-      await signupApi({ email, password, nickName });
-      setSignupStatus({ success: true });
-    } catch (error) {
-      console.log(error);
-      setSignupStatus({ success: false });
-    } finally {
-      setLoading(false);
-    }
+    request({ email, password, nickName });
   };
-
-  useStatusCheck({
-    status: signupStatus,
-    successRoute: '/login',
-    successmessage: '회원가입성공',
-    errormessage: '회원가입 실패',
-  });
 
   const handleLoginPage = () => {
     navigate('/login');
   };
+
+  useEffect(() => {
+    if (data) {
+      navigate('/login');
+    }
+  }, [data]);
+
   return (
     <ColumnContainer>
       <BulletIcon />

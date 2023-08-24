@@ -11,6 +11,7 @@ module.exports = {
       '@layout': path.resolve(__dirname, 'src/layout'),
       '@core': path.resolve(__dirname, 'src/core'),
       '@api': path.resolve(__dirname, 'src/api'),
+      '@redux': path.resolve(__dirname, 'src/redux'),
     },
   },
 };
