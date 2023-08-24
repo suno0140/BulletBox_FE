@@ -11,27 +11,29 @@ import {
 } from '@components/atoms/Container';
 import { TimeContainer, TodoSpan } from '@components/atoms/Span';
 import useStatusCheck from '@hooks/useStatusCheck';
+import { useDispatch } from 'react-redux';
+import { startLoading, stopLoading } from 'redux/modules/loading';
 
 type TodoInfo = {
   todoId: string;
   todoContent: string;
   time: string;
-  setLoading: (loading: boolean) => void;
 };
 
-const MainTodoCard = ({ todoId, todoContent, time, setLoading }: TodoInfo) => {
+const MainTodoCard = ({ todoId, todoContent, time }: TodoInfo) => {
   const [todoResponse, setTodoResponse] = useState<{
     success?: boolean;
   }>({});
 
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const { user } = useContext(AuthContext);
 
   const handleTodoUpdate = () => {
     navigate('/dailyUpdate', { state: { todoId, todoContent } });
   };
   const handleTodoDelete = async (e: React.MouseEvent<HTMLButtonElement>) => {
-    setLoading(true);
+    dispatch(startLoading());
     const todoId = e.currentTarget.value;
 
     try {
@@ -41,7 +43,7 @@ const MainTodoCard = ({ todoId, todoContent, time, setLoading }: TodoInfo) => {
       console.log(error);
       setTodoResponse({ success: false });
     } finally {
-      setLoading(false);
+      dispatch(stopLoading());
     }
   };
 

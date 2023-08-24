@@ -10,14 +10,18 @@ import { BulletBoldSpan, MainSpan } from '@components/atoms/Span';
 import { MainForm } from '@components/atoms/Form';
 import { loginApi } from '@api/AuthApi';
 import useStatusCheck from '@hooks/useStatusCheck';
-import { LoadingProps } from '@core/Router';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '@core/Router';
+import { startLoading, stopLoading } from 'redux/modules/loading';
 
-const Login = ({ setLoading }: LoadingProps) => {
+const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loginStatus, setLoginStatus] = useState<{ success?: boolean }>({});
 
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  // const loading = useSelector((state: RootState) => state.loading.loading);
 
   const handleEmail = (e: React.ChangeEvent<HTMLInputElement>) => {
     const emailCheck = e.currentTarget.value;
@@ -31,7 +35,7 @@ const Login = ({ setLoading }: LoadingProps) => {
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    setLoading(true);
+    dispatch(startLoading());
 
     try {
       await loginApi({ email, password });
@@ -40,7 +44,7 @@ const Login = ({ setLoading }: LoadingProps) => {
       console.log(error);
       setLoginStatus({ success: false });
     } finally {
-      setLoading(false);
+      dispatch(stopLoading());
     }
   };
 

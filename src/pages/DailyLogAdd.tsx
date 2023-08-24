@@ -9,14 +9,16 @@ import { CancleBtn, SubmitBtn } from '@components/atoms/Button';
 import { addTodoApi } from '@api/TodoApi';
 import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '@core/AuthContext';
-import { LoadingProps } from '@core/Router';
 import useStatusCheck from '@hooks/useStatusCheck';
+import { useDispatch } from 'react-redux';
+import { startLoading, stopLoading } from 'redux/modules/loading';
 
-const DailyLogAdd = ({ setLoading }: LoadingProps) => {
+const DailyLogAdd = () => {
   const [todo, setTodo] = useState('');
   const [todoResponse, setTodoResponse] = useState<{ success?: boolean }>({});
 
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const { user } = useContext(AuthContext);
 
   const handleTodo = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -26,7 +28,7 @@ const DailyLogAdd = ({ setLoading }: LoadingProps) => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setLoading(true);
+    dispatch(startLoading());
 
     try {
       await addTodoApi({ user, todo });
@@ -35,7 +37,7 @@ const DailyLogAdd = ({ setLoading }: LoadingProps) => {
       console.log(error);
       setTodoResponse({ success: false });
     } finally {
-      setLoading(false);
+      dispatch(stopLoading());
     }
   };
 

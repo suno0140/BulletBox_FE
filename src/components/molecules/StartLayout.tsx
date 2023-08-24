@@ -3,7 +3,6 @@ import {
   LayoutContainer,
   LayoutSubContainer,
 } from '@components/atoms/Container';
-
 import { Outlet } from 'react-router-dom';
 import useAuthRedirect from '@hooks/useAuthRedirect';
 

@@ -11,7 +11,6 @@ import useAuthRedirect from '@hooks/useAuthRedirect';
 
 const MainLayout = () => {
   useAuthRedirect();
-
   return (
     <LayoutContainer>
       <Header />

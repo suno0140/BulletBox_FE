@@ -27,6 +27,8 @@ export const addTodoApi = async ({ user, todo }: Todo) => {
 };
 
 export const getTodoApi = ({ user, setTodos }: TodoData) => {
+  if (!user) return;
+
   const db = getDatabase();
   const todoRef = ref(db, `users/${user.uid}/todos`);
 

@@ -24,12 +24,10 @@ import {
 import { Toaster } from 'react-hot-toast';
 import { errorToast, successToast } from '@components/atoms/toast';
 import useStatusCheck from '@hooks/useStatusCheck';
+import { useDispatch } from 'react-redux';
+import { startLoading, stopLoading } from 'redux/modules/loading';
 
-type LoadingProps = {
-  setLoading: (loading: boolean) => void;
-};
-
-const Signup = ({ setLoading }: LoadingProps) => {
+const Signup = () => {
   const [email, setEmail] = useState('');
   const [nickName, setNickName] = useState('');
   const [password, setPassword] = useState('');
@@ -48,6 +46,7 @@ const Signup = ({ setLoading }: LoadingProps) => {
   const [signupStatus, setSignupStatus] = useState<{ success?: boolean }>({});
 
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const handleEmail = (e: React.ChangeEvent<HTMLInputElement>) => {
     const emailCheck = e.currentTarget.value;
@@ -58,7 +57,7 @@ const Signup = ({ setLoading }: LoadingProps) => {
 
   const handleEmailCheck = async (e: React.MouseEvent<HTMLElement>) => {
     e.preventDefault();
-    setLoading(true);
+    dispatch(startLoading());
     try {
       const methods = await fetchSignInMethodsForEmail(FireAuth, email);
       if (methods.length === 0) {
@@ -71,7 +70,7 @@ const Signup = ({ setLoading }: LoadingProps) => {
     } catch (e) {
       errorToast('사용 불가능한 이메일 입니다.');
     } finally {
-      setLoading(false);
+      dispatch(stopLoading());
     }
   };
 
@@ -111,7 +110,7 @@ const Signup = ({ setLoading }: LoadingProps) => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setLoading(true);
+    dispatch(startLoading());
 
     try {
       await signupApi({ email, password, nickName });
@@ -120,7 +119,7 @@ const Signup = ({ setLoading }: LoadingProps) => {
       console.log(error);
       setSignupStatus({ success: false });
     } finally {
-      setLoading(false);
+      dispatch(stopLoading());
     }
   };
 

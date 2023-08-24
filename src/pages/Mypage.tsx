@@ -15,20 +15,22 @@ import { AuthContext } from '@core/AuthContext';
 import { getUserInfoApi } from '@api/MypageApi';
 import CategoryList from '@components/molecules/CategoryList';
 import { getCategoryApi } from '@api/CategoryApi';
-import { LoadingProps } from '@core/Router';
+import { useDispatch } from 'react-redux';
+import { startLoading, stopLoading } from 'redux/modules/loading';
 
-const Mypage = ({ setLoading }: LoadingProps) => {
+const Mypage = () => {
   const [email, setEmail] = useState('email');
   const [nickname, setNickname] = useState('닉네임');
   const [categoryList, setCategoryList] = useState([]);
   const [logoutStatus, setLogoutStatus] = useState<{ success?: boolean }>({});
 
   const { user, userDataLoading } = useContext(AuthContext);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const fetchData = () => {
       try {
-        setLoading(true);
+        dispatch(startLoading());
 
         if (!userDataLoading && user) {
           getUserInfoApi({ user, setEmail, setNickname });
@@ -37,7 +39,7 @@ const Mypage = ({ setLoading }: LoadingProps) => {
       } catch (error) {
         console.error(error);
       } finally {
-        setLoading(false);
+        dispatch(stopLoading());
       }
     };
 

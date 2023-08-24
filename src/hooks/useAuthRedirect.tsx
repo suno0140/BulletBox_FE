@@ -10,7 +10,6 @@ const useAuthRedirect = () => {
 
   useEffect(() => {
     if (!userDataLoading && !user) {
-      alert('토큰이 만료되었습니다. 다시 로그인해주세요.');
       navigate('/login');
     } else if (
       location.pathname === '/' ||
