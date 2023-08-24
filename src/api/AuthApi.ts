@@ -34,6 +34,8 @@ export const signupApi = async ({ email, password, nickName }: UserInfo) => {
       email: email,
       nickname: nickName,
     });
+
+    return { success: true };
   } catch (error) {
     console.log(error);
   }

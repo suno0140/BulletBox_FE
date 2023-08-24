@@ -1,7 +1,10 @@
 import React, { useState } from 'react';
 import { CategoryModal } from './CategoryModal';
 import { CategoryData } from '@api/CategoryApi';
-import { CategoryAddList, FlexContainer } from '@components/atoms/Container';
+import {
+  CategoryListContainer,
+  FlexContainer,
+} from '@components/atoms/Container';
 import { CategoryBtn } from '@components/atoms/Button';
 import { AddCategoryIcon, CategoryAddBtn } from '@components/atoms/Icon';
 import { MypageAddSpan } from '@components/atoms/Span';
@@ -27,7 +30,7 @@ const CategoryList = ({ categories }: CategoryListProps) => {
   };
 
   return (
-    <CategoryAddList>
+    <CategoryListContainer>
       {categories && categories.length === 0 ? (
         <MypageAddSpan>내 카테고리를 추가해주세요</MypageAddSpan>
       ) : (
@@ -61,7 +64,7 @@ const CategoryList = ({ categories }: CategoryListProps) => {
         color={categoryColor}
         categoryId={categoryId}
       />
-    </CategoryAddList>
+    </CategoryListContainer>
   );
 };
 

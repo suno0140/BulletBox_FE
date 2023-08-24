@@ -13,9 +13,7 @@ import DailyLog from '@pages/DailyLog';
 import DailyLogAdd from '@pages/DailyLogAdd';
 
 import { Toaster } from 'react-hot-toast';
-import LoadingIndicator from '@components/molecules/LodingIndicator';
 import DailyLogUpdate from '@pages/DailyLogUpdate';
-import { useSelector } from 'react-redux';
 
 export type RootState = {
   loading: {
@@ -24,11 +22,8 @@ export type RootState = {
 };
 
 const Router = () => {
-  const loading = useSelector((state: RootState) => state.loading.loading);
-
   return (
     <BrowserRouter>
-      {loading && <LoadingIndicator />}
       <Routes>
         <Route element={<StartLayout />}>
           <Route path="/" element={<Start />} />

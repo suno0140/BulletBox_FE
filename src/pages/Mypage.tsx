@@ -10,58 +10,46 @@ import { LogoutIcon, MypageIcon } from '@components/atoms/Icon';
 import { FlexContainer } from '@components/atoms/Container';
 import { DefaultBoldSpan, GrayBoldSpan } from '@components/atoms/Span';
 
-import useStatusCheck from '@hooks/useStatusCheck';
 import { AuthContext } from '@core/AuthContext';
 import { getUserInfoApi } from '@api/MypageApi';
 import CategoryList from '@components/molecules/CategoryList';
 import { getCategoryApi } from '@api/CategoryApi';
-import { useDispatch } from 'react-redux';
-import { startLoading, stopLoading } from 'redux/modules/loading';
+import { useRequest } from '@hooks/useRequest';
 
 const Mypage = () => {
   const [email, setEmail] = useState('email');
   const [nickname, setNickname] = useState('닉네임');
   const [categoryList, setCategoryList] = useState([]);
-  const [logoutStatus, setLogoutStatus] = useState<{ success?: boolean }>({});
 
   const { user, userDataLoading } = useContext(AuthContext);
-  const dispatch = useDispatch();
+
+  const { request: logoutRequest } = useRequest({
+    apiFunc: logoutApi,
+    reduxKey: 'AUTH_LOGOUT',
+    successMessage: '로그아웃 성공',
+    errorMessage: '로그아웃 실패',
+  });
+
+  const { request: userInfoRequest } = useRequest({
+    apiFunc: getUserInfoApi,
+    reduxKey: 'GET_USER_INFO',
+  });
+
+  const { request: categoryRequest } = useRequest({
+    apiFunc: getCategoryApi,
+    reduxKey: 'GET_CATEGORY',
+  });
 
   useEffect(() => {
-    const fetchData = () => {
-      try {
-        dispatch(startLoading());
-
-        if (!userDataLoading && user) {
-          getUserInfoApi({ user, setEmail, setNickname });
-          getCategoryApi({ user, setCategoryList });
-        }
-      } catch (error) {
-        console.error(error);
-      } finally {
-        dispatch(stopLoading());
-      }
-    };
-
-    fetchData();
+    if (!userDataLoading && user) {
+      userInfoRequest({ user, setEmail, setNickname });
+      categoryRequest({ user, setCategoryList });
+    }
   }, [user, userDataLoading]);
 
-  const onClickButton = async () => {
-    try {
-      await logoutApi();
-      setLogoutStatus({ success: true });
-    } catch (error) {
-      console.log(error);
-      setLogoutStatus({ success: false });
-    }
+  const onClickButton = () => {
+    logoutRequest();
   };
-
-  useStatusCheck({
-    status: logoutStatus,
-    successRoute: '/login',
-    successmessage: '로그아웃 되었습니다',
-    errormessage: '로그아웃 실패',
-  });
 
   return (
     <>

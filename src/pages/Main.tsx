@@ -11,26 +11,27 @@ import {
   TodoAddContiner,
 } from '@components/atoms/Container';
 import useCurrentDate from '@hooks/useCurrentData';
-import { useDispatch } from 'react-redux';
-import { startLoading, stopLoading } from 'redux/modules/loading';
+import { useRequest } from '@hooks/useRequest';
 
 const Main = () => {
   const [todos, setTodos] = useState<Todo[]>([]);
   const currentDate = useCurrentDate();
-  const dispatch = useDispatch();
+
+  const { data, request } = useRequest({
+    apiFunc: getTodoApi,
+    reduxKey: 'GET_TODO',
+  });
 
   const navigate = useNavigate();
   const { user, userDataLoading } = useContext(AuthContext);
 
   useEffect(() => {
-    dispatch(startLoading());
     if (userDataLoading) {
       return;
     } else {
-      void getTodoApi({ user, setTodos });
-      dispatch(stopLoading());
+      request({ user, setTodos });
     }
-  }, [user, userDataLoading]);
+  }, [data, user, userDataLoading]);
 
   return (
     <>
@@ -44,6 +45,7 @@ const Main = () => {
               todoId={todo.todoId}
               todoContent={todo.todo}
               time={null}
+              color={todo.color}
             />
           ))}
         </MainTodoContainer>

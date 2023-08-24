@@ -272,7 +272,9 @@ export const TodoAddContiner = styled.div`
   cursor: pointer;
 `;
 
-export const TodoCardContainer = styled.div<{ $todoContent: string }>`
+export const TodoCardContainer = styled.div<{
+  $todoContent: string;
+}>`
   display: flex;
   width: 100%;
   height: ${({ $todoContent }) => ($todoContent.length > 19 ? '60px' : '40px')};
@@ -280,10 +282,12 @@ export const TodoCardContainer = styled.div<{ $todoContent: string }>`
   border-radius: 8px;
 `;
 
-export const CategoryContainer = styled.div`
-  width: 2.5%;
-  background-color: inherit;
+export const CategoryContainer = styled.div<{ $backgroundColor: string }>`
+  width: 3.5%;
+  border-radius: 4px;
+  background-color: ${(props) => props.$backgroundColor || 'inherit'};
 `;
+
 export const BulletContainer = styled.div`
   display: flex;
   align-items: center;
@@ -310,7 +314,7 @@ export const MypageListContainer = styled.div`
   flex-direction: column;
 `;
 
-export const CategoryAddList = styled.div`
+export const CategoryListContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
@@ -338,6 +342,27 @@ export const ModalBtnContainer = styled.div`
   width: 80%;
   height: 15%;
   margin: 20px auto;
+`;
+
+export const TodoCateContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 10px auto;
+  gap: 15px;
+  padding: 15px 20px 20px 20px;
+  width: 80%;
+  background-color: var(--color-default);
+  border-radius: 8px;
+`;
+
+export const TodoCateBtnContainer = styled.div`
+  display: flex;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+  gap: 10px;
+  width: 100%;
+  margin-left: 12%;
 `;
 
 export const CalendarContainer = styled.div`

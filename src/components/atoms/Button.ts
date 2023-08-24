@@ -1,4 +1,4 @@
-import { styled } from 'styled-components';
+import { css, styled } from 'styled-components';
 
 export const MainBtn = styled.button`
   font-size: 20px;
@@ -136,6 +136,28 @@ export const CategoryBtn = styled.button<{ $backgroundColor?: string }>`
   box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.3);
 `;
 
+export const TodoCategoryBtn = styled.button<{
+  $backgroundColor?: string;
+  $isSelected?: boolean;
+}>`
+  width: 40%;
+  height: 4vh;
+  font-size: 14px;
+  font-weight: bold;
+  color: #3e3e3e;
+  border-radius: 10px;
+  border: none;
+  background-color: ${({ $backgroundColor }) =>
+    $backgroundColor || 'var(--color-default)'};
+
+  // 선택됐을 때의 box-shadow
+  ${(props) =>
+    props.$isSelected &&
+    css`
+      box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+    `}
+`;
+
 export const ModalCheckBtn = styled.button`
   width: 45%;
   height: 75%;
@@ -153,8 +175,8 @@ export const ModalCheckBtn = styled.button`
 `;
 
 export const SelectBtn = styled.button<{
-  value: string;
-  $categoryColor: string;
+  value?: string;
+  $categoryColor?: string;
 }>`
   width: 13%;
   height: 22%;
