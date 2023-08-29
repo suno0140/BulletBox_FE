@@ -5,6 +5,7 @@ import {
 } from 'firebase/auth';
 import { FireAuth } from '@core/Firebase';
 import { getDatabase, ref, set } from 'firebase/database';
+import axios from 'axios';
 
 type UserInfo = {
   email: string;
@@ -13,7 +14,29 @@ type UserInfo = {
 };
 
 export const loginApi = async ({ email, password }: UserInfo) => {
-  return await signInWithEmailAndPassword(FireAuth, email, password);
+  const URL = `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${process.env.REACT_APP_FIREBASE_APIKEY}`;
+
+  try {
+    const response = await axios.post(
+      URL,
+      {
+        email,
+        password,
+      },
+      {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      },
+    );
+
+    const result = response.data;
+    localStorage.setItem('auth', JSON.stringify(result));
+    return result;
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
 };
 
 export const logoutApi = async () => {

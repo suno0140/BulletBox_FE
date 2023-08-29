@@ -26,7 +26,7 @@ export default function getActionCreators(reduxKey: string): any {
   return {
     setParameters: (parameters: any) => ({
       type: SET_PARAMETERS,
-      ...parameters,
+      parameters,
     }),
 
     setData: (data: any) => ({

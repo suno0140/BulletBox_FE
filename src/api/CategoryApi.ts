@@ -1,3 +1,4 @@
+import axios from 'axios';
 import { User } from 'firebase/auth';
 import { getDatabase, onValue, push, ref, set } from 'firebase/database';
 
@@ -33,24 +34,24 @@ export const addCategoryApi = async ({
   }
 };
 
-export const getCategoryApi = ({ user, setCategoryList }: CategoryListData) => {
-  const db = getDatabase();
-  const categoryRef = ref(db, `users/${user.uid}/categories`);
+export const getCategoryApi = async ({
+  user,
+  setCategoryList,
+}: CategoryListData) => {
+  const URL = `https://${process.env.REACT_APP_FIREBASE_PROJECT_ID}.firebaseio.com/users/${user.uid}/categories.json`;
 
-  onValue(
-    categoryRef,
-    (snapshot) => {
-      const data = (snapshot.val() as Record<string, CategoryData>) || null;
-      if (data) {
-        setCategoryList(Object.values(data));
-      } else {
-        setCategoryList([]);
-      }
-    },
-    (error) => {
-      console.log(error);
-    },
-  );
+  try {
+    const response = await axios.get(URL);
+    const data = response.data as Record<string, CategoryData> | null;
+
+    if (data) {
+      setCategoryList(Object.values(data));
+    } else {
+      setCategoryList([]);
+    }
+  } catch (error) {
+    console.log(error);
+  }
 };
 
 export const deleteCategoryApi = async ({ user, categoryId }: CategoryData) => {
