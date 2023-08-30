@@ -1,8 +1,8 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { MainCalendar } from '@components/molecules/Calendar';
 import { useNavigate } from 'react-router-dom';
-import { getTodoApi, Todo } from '@api/TodoApi';
-import { AuthContext } from '@core/AuthContext';
+import { getTodoApi } from '@api/TodoApi';
+
 import MainTodoCard from '@components/molecules/MainTodoCard';
 import {
   DateContainer,
@@ -11,27 +11,31 @@ import {
   TodoAddContiner,
 } from '@components/atoms/Container';
 import useCurrentDate from '@hooks/useCurrentData';
-import { useRequest } from '@hooks/useRequest';
+import { useDispatch, useSelector } from 'react-redux';
+import { getTodo } from '@redux/modules/todos';
+import { AuthContext } from '@core/AuthContext';
+import { RootState } from '@redux/config/configStore';
 
 const Main = () => {
-  const [todos, setTodos] = useState<Todo[]>([]);
+  const todos = useSelector((state: RootState) => state.todos.todos);
   const currentDate = useCurrentDate();
-
-  const { data, request } = useRequest({
-    apiFunc: getTodoApi,
-    reduxKey: 'GET_TODO',
-  });
+  const { user } = useContext(AuthContext);
 
   const navigate = useNavigate();
-  const { user, userDataLoading } = useContext(AuthContext);
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    if (userDataLoading) {
-      return;
-    } else {
-      request({ user, setTodos });
-    }
-  }, [data, user, userDataLoading]);
+    const fetchTodo = async () => {
+      console.log('fetch todo');
+      const data = await getTodoApi();
+      console.log(data);
+      if (data) {
+        dispatch(getTodo(data));
+      }
+    };
+
+    void fetchTodo();
+  }, [user, dispatch]);
 
   return (
     <>

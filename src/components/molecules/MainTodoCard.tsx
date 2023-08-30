@@ -10,7 +10,6 @@ import {
   TodoContentContainer,
 } from '@components/atoms/Container';
 import { TimeContainer, TodoSpan } from '@components/atoms/Span';
-import { useRequest } from '@hooks/useRequest';
 
 type TodoInfo = {
   todoId: string;
@@ -22,12 +21,12 @@ type TodoInfo = {
 const MainTodoCard = ({ todoId, todoContent, time, color }: TodoInfo) => {
   const navigate = useNavigate();
   const { user } = useContext(AuthContext);
-  const { data, request } = useRequest({
-    apiFunc: deleteTodoApi,
-    reduxKey: 'TODO_DELETE',
-    successMessage: '할일 삭제 성공',
-    errorMessage: '할일 삭제 실패',
-  });
+  // const { data, request } = useRequest({
+  //   apiFunc: deleteTodoApi,
+  //   reduxKey: 'TODO_DELETE',
+  //   successMessage: '할일 삭제 성공',
+  //   errorMessage: '할일 삭제 실패',
+  // });
 
   const handleTodoUpdate = () => {
     navigate('/dailyUpdate', { state: { todoId, todoContent } });
@@ -35,7 +34,7 @@ const MainTodoCard = ({ todoId, todoContent, time, color }: TodoInfo) => {
   const handleTodoDelete = (e: React.MouseEvent<HTMLButtonElement>) => {
     const todoId = e.currentTarget.value;
 
-    request({ user, todoId });
+    void deleteTodoApi({ user, todoId });
   };
 
   return (

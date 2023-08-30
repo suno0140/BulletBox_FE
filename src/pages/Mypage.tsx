@@ -14,41 +14,40 @@ import { AuthContext } from '@core/AuthContext';
 import { getUserInfoApi } from '@api/MypageApi';
 import CategoryList from '@components/molecules/CategoryList';
 import { getCategoryApi } from '@api/CategoryApi';
-import { useRequest } from '@hooks/useRequest';
 
 const Mypage = () => {
   const [email, setEmail] = useState('email');
   const [nickname, setNickname] = useState('닉네임');
   const [categoryList, setCategoryList] = useState([]);
 
-  const { user, userDataLoading } = useContext(AuthContext);
+  const { user } = useContext(AuthContext);
 
-  const { request: logoutRequest } = useRequest({
-    apiFunc: logoutApi,
-    reduxKey: 'AUTH_LOGOUT',
-    successMessage: '로그아웃 성공',
-    errorMessage: '로그아웃 실패',
-  });
+  // const { request: logoutRequest } = useRequest({
+  //   apiFunc: logoutApi,
+  //   reduxKey: 'AUTH_LOGOUT',
+  //   successMessage: '로그아웃 성공',
+  //   errorMessage: '로그아웃 실패',
+  // });
 
-  const { request: userInfoRequest } = useRequest({
-    apiFunc: getUserInfoApi,
-    reduxKey: 'GET_USER_INFO',
-  });
+  // const { request: userInfoRequest } = useRequest({
+  //   apiFunc: getUserInfoApi,
+  //   reduxKey: 'GET_USER_INFO',
+  // });
 
-  const { request: categoryRequest } = useRequest({
-    apiFunc: getCategoryApi,
-    reduxKey: 'GET_CATEGORY',
-  });
+  // const { request: categoryRequest } = useRequest({
+  //   apiFunc: getCategoryApi,
+  //   reduxKey: 'GET_CATEGORY',
+  // });
 
-  useEffect(() => {
-    if (!userDataLoading && user) {
-      userInfoRequest({ user, setEmail, setNickname });
-      categoryRequest({ user, setCategoryList });
-    }
-  }, [user, userDataLoading]);
+  // useEffect(() => {
+  //   if (!userDataLoading && user) {
+  //     userInfoRequest({ user, setEmail, setNickname });
+  //     categoryRequest({ user, setCategoryList });
+  //   }
+  // }, [user, userDataLoading]);
 
   const onClickButton = () => {
-    logoutRequest();
+    void logoutApi();
   };
 
   return (

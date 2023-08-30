@@ -23,7 +23,8 @@ import {
 } from '@components/atoms/Container';
 import { Toaster } from 'react-hot-toast';
 import { errorToast, successToast } from '@components/atoms/toast';
-import { useRequest } from '@hooks/useRequest';
+import { useDispatch } from 'react-redux';
+import { startLoading, stopLoading } from '@redux/modules/loading';
 
 const Signup = () => {
   const [email, setEmail] = useState('');
@@ -42,12 +43,7 @@ const Signup = () => {
   const [isPasswordConfirm, setIsPasswordConfirm] = useState(false);
 
   const navigate = useNavigate();
-  const { data, request } = useRequest({
-    apiFunc: signupApi,
-    reduxKey: 'AUTH_SIGNUP',
-    successMessage: '회원가입 성공',
-    errorMessage: '회원가입 실패',
-  });
+  const dispatch = useDispatch();
 
   const handleEmail = (e: React.ChangeEvent<HTMLInputElement>) => {
     const emailCheck = e.currentTarget.value;
@@ -107,20 +103,30 @@ const Signup = () => {
     });
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    request({ email, password, nickName });
+    dispatch(startLoading());
+
+    try {
+      await signupApi({ email, password, nickName });
+      successToast('회원가입 성공');
+      navigate('/login');
+    } catch (error) {
+      console.log(error);
+    } finally {
+      dispatch(stopLoading());
+    }
   };
 
   const handleLoginPage = () => {
     navigate('/login');
   };
 
-  useEffect(() => {
-    if (data) {
-      navigate('/login');
-    }
-  }, [data]);
+  // useEffect(() => {
+  //   if (data) {
+  //     navigate('/login');
+  //   }
+  // }, [data]);
 
   return (
     <ColumnContainer>

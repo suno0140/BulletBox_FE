@@ -1,6 +1,6 @@
-import React from 'react';
+import axios from 'axios';
 import { User } from 'firebase/auth';
-import { getDatabase, push, ref, set, onValue } from 'firebase/database';
+import { getDatabase, push, ref, set } from 'firebase/database';
 
 export type Todo = {
   user: User;
@@ -8,11 +8,6 @@ export type Todo = {
   todo?: string;
   todoId?: string;
   color?: string;
-};
-
-type TodoData = {
-  user: User;
-  setTodos?: React.Dispatch<React.SetStateAction<Todo[]>>;
 };
 
 export const addTodoApi = async ({ user, todo, color }: Todo) => {
@@ -33,30 +28,26 @@ export const addTodoApi = async ({ user, todo, color }: Todo) => {
   }
 };
 
-export const getTodoApi = ({ user, setTodos }: TodoData) => {
-  if (!user) return;
+export const getTodoApi = async () => {
+  const token = JSON.parse(localStorage.getItem('token') || '') as string;
+  const uid = JSON.parse(localStorage.getItem('uid') || '') as string;
 
-  const db = getDatabase();
-  const todoRef = ref(db, `users/${user.uid}/todos`);
+  if (!token || !uid) {
+    return null;
+  }
 
-  onValue(
-    todoRef,
-    (snapshot) => {
-      const data = (snapshot.val() as Record<string, Todo>) || null;
-      if (data) {
-        const todosArray = Object.keys(data).map((key) => ({
-          id: key,
-          ...data[key],
-        }));
-        setTodos(todosArray);
-      } else {
-        setTodos([]);
-      }
-    },
-    (error) => {
-      console.log(error);
-    },
-  );
+  const dbURL = `https://${process.env.REACT_APP_FIREBASE_DATABASE_URL}/users/${uid}/todos.json?auth=${token}`;
+
+  try {
+    const response = await axios.get(dbURL);
+    if (response.status === 200 && response.data) {
+      return response.data;
+    }
+    return null;
+  } catch (error) {
+    console.log(error);
+    return null;
+  }
 };
 
 export const deleteTodoApi = async ({ user, todoId }: Todo) => {

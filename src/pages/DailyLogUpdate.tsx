@@ -9,7 +9,6 @@ import { CancleBtn, SubmitBtn } from '@components/atoms/Button';
 import { updateTodoApi } from '@api/TodoApi';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { AuthContext } from '@core/AuthContext';
-import { useRequest } from '@hooks/useRequest';
 
 const DailyLogUpdate = () => {
   const location = useLocation();
@@ -26,13 +25,6 @@ const DailyLogUpdate = () => {
   const navigate = useNavigate();
   const { user } = useContext(AuthContext);
 
-  const { data, request } = useRequest({
-    apiFunc: updateTodoApi,
-    reduxKey: 'TODO_UPDATE',
-    successMessage: '할일 수정 성공',
-    errorMessage: '할일 수정 실패',
-  });
-
   const handleTodo = (e: React.ChangeEvent<HTMLInputElement>) => {
     const todoText = e.currentTarget.value;
     setTodo(todoText);
@@ -41,18 +33,18 @@ const DailyLogUpdate = () => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
-    request({ user, todo, todoId });
+    void updateTodoApi({ user, todo, todoId });
   };
 
   const handleCancle = () => {
     navigate('/main');
   };
 
-  useEffect(() => {
-    if (data) {
-      navigate('/main');
-    }
-  }, [data]);
+  // useEffect(() => {
+  //   if (data) {
+  //     navigate('/main');
+  //   }
+  // }, [data]);
 
   return (
     <FlexContainer>

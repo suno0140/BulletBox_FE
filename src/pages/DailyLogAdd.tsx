@@ -15,7 +15,6 @@ import {
 import { addTodoApi } from '@api/TodoApi';
 import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '@core/AuthContext';
-import { useRequest } from '@hooks/useRequest';
 import { getCategoryApi } from '@api/CategoryApi';
 import { GrayBoldSpan } from '@components/atoms/Span';
 
@@ -28,19 +27,19 @@ const DailyLogAdd = () => {
   const [color, setColor] = useState<string | null>(null);
 
   const navigate = useNavigate();
-  const { user, userDataLoading } = useContext(AuthContext);
+  const { user } = useContext(AuthContext);
 
-  const { data, request: todoAddRequest } = useRequest({
-    apiFunc: addTodoApi,
-    reduxKey: 'TODO_ADD',
-    successMessage: '할일 추가 성공',
-    errorMessage: '할일 추가 실패',
-  });
+  // const { data, request: todoAddRequest } = useRequest({
+  //   apiFunc: addTodoApi,
+  //   reduxKey: 'TODO_ADD',
+  //   successMessage: '할일 추가 성공',
+  //   errorMessage: '할일 추가 실패',
+  // });
 
-  const { request: categoryRequest } = useRequest({
-    apiFunc: getCategoryApi,
-    reduxKey: 'GET_CATEGORY',
-  });
+  // const { request: categoryRequest } = useRequest({
+  //   apiFunc: getCategoryApi,
+  //   reduxKey: 'GET_CATEGORY',
+  // });
 
   const handleTodo = (e: React.ChangeEvent<HTMLInputElement>) => {
     const todoText = e.currentTarget.value;
@@ -49,7 +48,7 @@ const DailyLogAdd = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    todoAddRequest({ user, todo, color });
+    void addTodoApi({ user, todo, color });
     navigate('/main');
   };
 
@@ -62,11 +61,11 @@ const DailyLogAdd = () => {
     setSelectedCategoryId(id);
   };
 
-  useEffect(() => {
-    if (!userDataLoading && user) {
-      categoryRequest({ user, setCategoryList });
-    }
-  }, [user, userDataLoading]);
+  // useEffect(() => {
+  //   if (!userDataLoading && user) {
+  //     categoryRequest({ user, setCategoryList });
+  //   }
+  // }, [user, userDataLoading]);
 
   return (
     <FlexContainer>

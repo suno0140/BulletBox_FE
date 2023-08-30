@@ -1,25 +1,21 @@
 import React from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import Start from '@pages/Start';
-import Login from '@pages/Login';
-import Signup from '@pages/Signup';
-import Mypage from '@pages/Mypage';
+
 import MainLayout from '@components/molecules/MainLayout';
 import StartLayout from '@components/molecules/StartLayout';
-import Main from '@pages/Main';
-import Search from '@pages/Search';
-import Diary from '@pages/Diary';
-import DailyLog from '@pages/DailyLog';
-import DailyLogAdd from '@pages/DailyLogAdd';
+
+import { Start } from './Loadable';
+import { Login } from './Loadable';
+import { Signup } from './Loadable';
+import { Mypage } from './Loadable';
+import { Main } from './Loadable';
+import { Search } from './Loadable';
+import { Diary } from './Loadable';
+import { DailyLog } from './Loadable';
+import { DailyLogAdd } from './Loadable';
+import { DailyLogUpdate } from './Loadable';
 
 import { Toaster } from 'react-hot-toast';
-import DailyLogUpdate from '@pages/DailyLogUpdate';
-
-export type RootState = {
-  loading: {
-    loading: boolean;
-  };
-};
 
 const Router = () => {
   return (

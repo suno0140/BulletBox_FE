@@ -13,7 +13,7 @@ import DailyLogAddPage from '@pages/DailyLogAdd';
 import DailyLogUpdatePage from '@pages/DailyLogUpdate';
 import LoadingIndicator from '@components/molecules/LodingIndicator';
 
-const selector = (state: any) => state.globalReducer.requestLoading;
+const selector = (state: any) => state.loading.loading;
 
 const LoadingSpinner = () => {
   const requestLoading: boolean = useSelector(selector);

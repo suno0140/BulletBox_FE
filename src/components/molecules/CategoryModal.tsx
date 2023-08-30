@@ -21,7 +21,6 @@ import { AuthContext } from '@core/AuthContext';
 import { errorToast } from '@components/atoms/toast';
 import { CategoryInput } from '@components/atoms/Input';
 import { TitleLengthSpan } from '@components/atoms/Span';
-import { useRequest } from '@hooks/useRequest';
 
 type ModalProps = {
   isOpen: boolean;
@@ -43,22 +42,22 @@ export const CategoryModal: React.FC<ModalProps> = ({
   const [categoryName, setCategoryName] = useState(name || '');
   const [categoryColor, setCategoryColor] = useState(color || '');
 
-  const { user, userDataLoading } = useContext(AuthContext);
+  const { user } = useContext(AuthContext);
 
-  const { request: addCategoryRequest } = useRequest({
-    apiFunc: addCategoryApi,
-    reduxKey: 'ADD_CATEGORY',
-  });
+  // const { request: addCategoryRequest } = useRequest({
+  //   apiFunc: addCategoryApi,
+  //   reduxKey: 'ADD_CATEGORY',
+  // });
 
-  const { request: updateCategoryRequest } = useRequest({
-    apiFunc: updateCategoryApi,
-    reduxKey: 'UPDATE_CATEGORY',
-  });
+  // const { request: updateCategoryRequest } = useRequest({
+  //   apiFunc: updateCategoryApi,
+  //   reduxKey: 'UPDATE_CATEGORY',
+  // });
 
-  const { request: deleteCategoryRequest } = useRequest({
-    apiFunc: deleteCategoryApi,
-    reduxKey: 'DELETE_CATEGORY',
-  });
+  // const { request: deleteCategoryRequest } = useRequest({
+  //   apiFunc: deleteCategoryApi,
+  //   reduxKey: 'DELETE_CATEGORY',
+  // });
 
   const handleCategoryName = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.currentTarget.value;
@@ -75,27 +74,27 @@ export const CategoryModal: React.FC<ModalProps> = ({
   };
 
   const handleAddCategory = () => {
-    if (userDataLoading) {
+    if (user) {
       return;
     } else if (categoryName.length === 0) {
       errorToast('카테고리 이름을 입력해주세요');
     } else if (categoryColor === '') {
       errorToast('카테고리 색깔을 선택해주세요');
     } else {
-      void addCategoryRequest({ user, categoryName, categoryColor });
+      void addCategoryApi({ user, categoryName, categoryColor });
       onClose();
     }
   };
 
   const handleUpdateCategory = () => {
-    if (userDataLoading) {
+    if (user) {
       return;
     } else if (categoryName.length === 0) {
       errorToast('카테고리 이름을 입력해주세요');
     } else if (categoryColor === '') {
       errorToast('카테고리 색깔을 선택해주세요');
     } else {
-      void updateCategoryRequest({
+      void updateCategoryApi({
         user,
         categoryName,
         categoryColor,
@@ -106,7 +105,7 @@ export const CategoryModal: React.FC<ModalProps> = ({
   };
 
   const handleDeleteCategory = () => {
-    void deleteCategoryRequest({ user, categoryId });
+    void deleteCategoryApi({ user, categoryId });
     onClose();
   };
 
