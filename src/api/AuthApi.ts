@@ -1,10 +1,7 @@
-import {
-  createUserWithEmailAndPassword,
-  signInWithEmailAndPassword,
-  signOut,
-} from 'firebase/auth';
+import { signOut } from 'firebase/auth';
 import { FireAuth } from '@core/Firebase';
-import { getDatabase, ref, set } from 'firebase/database';
+import { API_KEY, api } from '@core/api';
+import { setItem } from '@core/localStorage';
 
 type UserInfo = {
   email: string;
@@ -12,31 +9,44 @@ type UserInfo = {
   nickName?: string;
 };
 
+type AuthResponseData = {
+  idToken: string;
+  localId: string;
+};
+
 export const loginApi = async ({ email, password }: UserInfo) => {
-  return await signInWithEmailAndPassword(FireAuth, email, password);
+  const URL = `accounts:signInWithPassword?key=${API_KEY}`;
+
+  const response = await api.post(URL, {
+    email,
+    password,
+  });
+
+  const result = response.data;
+
+  setItem('token', result);
+
+  return result;
 };
 
 export const logoutApi = async () => {
-  return await signOut(FireAuth);
+  await signOut(FireAuth);
 };
 
 export const signupApi = async ({ email, password, nickName }: UserInfo) => {
-  try {
-    const result = await createUserWithEmailAndPassword(
-      FireAuth,
-      email,
-      password,
-    );
-    const userId = result.user.uid;
-    const db = getDatabase();
-    const userRef = ref(db, 'users/' + userId);
-    await set(userRef, {
-      email: email,
-      nickname: nickName,
-    });
+  const authURL = `accounts:signUp?key=${API_KEY}`;
+  const updateURL = `accounts:update?key=${API_KEY}`;
 
-    return { success: true };
-  } catch (error) {
-    console.log(error);
-  }
+  const authResponse = await api.post<AuthResponseData>(authURL, {
+    email,
+    password,
+    returnSecureToken: true,
+  });
+
+  const idToken = authResponse.data.idToken;
+
+  await api.post(updateURL, {
+    idToken,
+    displayName: nickName,
+  });
 };

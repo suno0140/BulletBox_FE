@@ -240,10 +240,10 @@ export const MainPageContaiver = styled.div`
   gap: 15px;
   width: 100%;
   max-width: 450px;
-  margin-top: 10px;
+  margin-top: 5%;
   min-height: 300px;
   border-radius: 16px;
-  background-color: var(--color-default);
+
   /* box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.3); */
   overflow: visible;
 `;
@@ -284,6 +284,7 @@ export const TodoCardContainer = styled.div<{
 
 export const CategoryContainer = styled.div<{ $backgroundColor: string }>`
   width: 3.5%;
+
   border-radius: 4px;
   background-color: ${(props) => props.$backgroundColor || 'inherit'};
 `;
@@ -312,6 +313,7 @@ export const MypageListContainer = styled.div`
   align-items: center;
   justify-content: center;
   flex-direction: column;
+  margin-top: 5%;
 `;
 
 export const CategoryListContainer = styled.div`
@@ -322,7 +324,6 @@ export const CategoryListContainer = styled.div`
   width: 60%;
   gap: 0.8rem;
   flex-wrap: wrap;
-  margin-left: 12%;
 `;
 
 export const SelectColorContainer = styled.div`
@@ -363,6 +364,45 @@ export const TodoCateBtnContainer = styled.div`
   gap: 10px;
   width: 100%;
   margin-left: 12%;
+`;
+export const DiaryContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 95%;
+  height: 30vh;
+  margin-top: 70px;
+  margin-left: 1px;
+  padding: 15px;
+  border-radius: 16px;
+  background-color: var(--color-default);
+`;
+
+export const EmotionContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 28px;
+  margin-top: 5px;
+`;
+
+export const EmotionBoxContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  margin-left: 15px;
+`;
+
+export const EditCheckContainer = styled.div`
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-end;
+  flex-direction: column;
+  height: 32px;
+  font-size: 10px;
+  font-weight: bold;
+  color: var(--color-gray);
 `;
 
 export const CalendarContainer = styled.div`

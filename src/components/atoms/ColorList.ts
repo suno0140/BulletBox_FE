@@ -1,0 +1,17 @@
+export const colorList = [
+  { key: 0, value: '#FFFFFF' },
+  { key: 1, value: '#E3E2E3' },
+  { key: 2, value: '#C6C6C6' },
+  { key: 3, value: '#F4BBE3' },
+  { key: 4, value: '#DCB8F9' },
+  { key: 5, value: '#F4BCB8' },
+  { key: 6, value: '#FFC79B' },
+  { key: 7, value: '#FEFE93' },
+  { key: 8, value: '#ABFC92' },
+  { key: 9, value: '#B0A9FF' },
+  { key: 10, value: '#FF8C85' },
+  { key: 11, value: '#FFB57E' },
+  { key: 12, value: '#F4BB65' },
+  { key: 13, value: '#91FB6C' },
+  { key: 14, value: '#96C6FA' },
+];

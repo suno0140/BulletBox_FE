@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { CategoryModal } from './CategoryModal';
-import { CategoryData } from '@api/CategoryApi';
 import {
   CategoryListContainer,
   FlexContainer,
@@ -8,16 +7,18 @@ import {
 import { CategoryBtn } from '@components/atoms/Button';
 import { AddCategoryIcon, CategoryAddBtn } from '@components/atoms/Icon';
 import { MypageAddSpan } from '@components/atoms/Span';
+import { useSelector } from 'react-redux';
+import { RootState } from '@redux/config/configStore';
 
-type CategoryListProps = {
-  categories: CategoryData[];
-};
-
-const CategoryList = ({ categories }: CategoryListProps) => {
+const CategoryList = ({ setReload }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [categoryName, setCategoryName] = useState('');
   const [categoryColor, setCategoryColor] = useState('');
   const [categoryId, setCategoryId] = useState('');
+
+  const categories = useSelector(
+    (state: RootState) => state.categories.categories,
+  );
 
   const handleModal = (e?: React.MouseEvent<HTMLButtonElement>) => {
     if (e) {
@@ -37,8 +38,8 @@ const CategoryList = ({ categories }: CategoryListProps) => {
         categories?.map((value) => {
           return (
             <CategoryBtn
-              key={value.categoryId}
-              id={value.categoryId}
+              key={value.id}
+              id={value.id}
               name={value.categoryName}
               color={value.categoryColor}
               $backgroundColor={value.categoryColor}
@@ -62,7 +63,8 @@ const CategoryList = ({ categories }: CategoryListProps) => {
         onClose={handleModal}
         name={categoryName}
         color={categoryColor}
-        categoryId={categoryId}
+        id={categoryId}
+        setReload={setReload}
       />
     </CategoryListContainer>
   );

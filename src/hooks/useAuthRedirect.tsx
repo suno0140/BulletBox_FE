@@ -4,12 +4,12 @@ import { useContext } from 'react';
 import { AuthContext } from '@core/AuthContext';
 
 const useAuthRedirect = () => {
-  const { user, userDataLoading } = useContext(AuthContext);
+  const { user } = useContext(AuthContext);
   const navigate = useNavigate();
   const location = useLocation();
 
   useEffect(() => {
-    if (!userDataLoading && !user) {
+    if (!user) {
       navigate('/login');
     } else if (
       location.pathname === '/' ||
@@ -18,7 +18,7 @@ const useAuthRedirect = () => {
     ) {
       navigate('/main');
     }
-  }, [user, userDataLoading]);
+  }, [user]);
 };
 
 export default useAuthRedirect;

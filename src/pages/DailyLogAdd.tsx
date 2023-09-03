@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import {
   AddInputButtonContainer,
   FlexContainer,
@@ -13,48 +13,52 @@ import {
   TodoCategoryBtn,
 } from '@components/atoms/Button';
 import { addTodoApi } from '@api/TodoApi';
-import { useNavigate } from 'react-router-dom';
-import { AuthContext } from '@core/AuthContext';
-import { useRequest } from '@hooks/useRequest';
-import { getCategoryApi } from '@api/CategoryApi';
+import { useLocation, useNavigate } from 'react-router-dom';
+
 import { GrayBoldSpan } from '@components/atoms/Span';
+import { errorToast, successToast } from '@components/atoms/toast';
+import { useSelector } from 'react-redux';
+import { RootState } from '@redux/config/configStore';
+import { useGetCategories, useGetTodos } from '@hooks/useGetApi';
 
 const DailyLogAdd = () => {
+  const categories = useSelector(
+    (state: RootState) => state.categories.categories,
+  );
+
   const [todo, setTodo] = useState('');
-  const [categoryList, setCategoryList] = useState([]);
   const [selectedCategoryId, setSelectedCategoryId] = useState<string | null>(
     null,
   );
   const [color, setColor] = useState<string | null>(null);
 
   const navigate = useNavigate();
-  const { user, userDataLoading } = useContext(AuthContext);
-
-  const { data, request: todoAddRequest } = useRequest({
-    apiFunc: addTodoApi,
-    reduxKey: 'TODO_ADD',
-    successMessage: '할일 추가 성공',
-    errorMessage: '할일 추가 실패',
-  });
-
-  const { request: categoryRequest } = useRequest({
-    apiFunc: getCategoryApi,
-    reduxKey: 'GET_CATEGORY',
-  });
+  const location = useLocation();
 
   const handleTodo = (e: React.ChangeEvent<HTMLInputElement>) => {
     const todoText = e.currentTarget.value;
     setTodo(todoText);
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    todoAddRequest({ user, todo, color });
-    navigate('/main');
+    if (todo.length === 0) {
+      console.log(todo.length);
+      errorToast('할일을 입력해주세요');
+    } else {
+      try {
+        await addTodoApi({ todo, color });
+        navigate(location.state.from);
+        successToast('할일 추가 성공');
+      } catch (error) {
+        errorToast('할일 추가 실패');
+        console.log(error);
+      }
+    }
   };
 
   const handleCancle = () => {
-    navigate('/main');
+    navigate(location.state.from);
   };
 
   const handleCategoryClick = (id: string, color: string) => {
@@ -62,11 +66,8 @@ const DailyLogAdd = () => {
     setSelectedCategoryId(id);
   };
 
-  useEffect(() => {
-    if (!userDataLoading && user) {
-      categoryRequest({ user, setCategoryList });
-    }
-  }, [user, userDataLoading]);
+  useGetTodos();
+  useGetCategories();
 
   return (
     <FlexContainer>
@@ -80,18 +81,18 @@ const DailyLogAdd = () => {
         <TodoCateContainer>
           <GrayBoldSpan>카테고리</GrayBoldSpan>
           <TodoCateBtnContainer>
-            {categoryList?.map((value) => {
+            {categories?.map((value) => {
               return (
                 <TodoCategoryBtn
                   type="button"
-                  key={value.categoryId}
-                  id={value.categoryId}
+                  key={value.id}
+                  id={value.id}
                   name={value.categoryName}
                   color={value.categoryColor}
                   $backgroundColor={value.categoryColor}
-                  $isSelected={selectedCategoryId === value.categoryId}
+                  $isSelected={selectedCategoryId === value.id}
                   onClick={() =>
-                    handleCategoryClick(value.categoryId, value.categoryColor)
+                    handleCategoryClick(value.id, value.categoryColor)
                   }
                 >
                   {value.categoryName}

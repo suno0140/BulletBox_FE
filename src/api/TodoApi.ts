@@ -1,83 +1,45 @@
-import React from 'react';
+import { DB_URL } from '@core/api';
+import { tokenId, uid } from '@core/localStorage';
+import axios from 'axios';
 import { User } from 'firebase/auth';
-import { getDatabase, push, ref, set, onValue } from 'firebase/database';
 
 export type Todo = {
-  user: User;
+  user?: User;
   id?: string;
   todo?: string;
   todoId?: string;
   color?: string;
 };
 
-type TodoData = {
-  user: User;
-  setTodos?: React.Dispatch<React.SetStateAction<Todo[]>>;
+export const addTodoApi = async ({ todo, color }) => {
+  const dbURL = `https://${DB_URL}/users/${uid}/todos.json`;
+
+  await axios.post(dbURL, {
+    todo,
+    color,
+  });
 };
 
-export const addTodoApi = async ({ user, todo, color }: Todo) => {
-  try {
-    const db = getDatabase();
-    const todoRef = ref(db, `users/${user.uid}/todos`);
-    const newTodoRef = push(todoRef);
+export const getTodoApi = async () => {
+  const dbURL = `https://${DB_URL}/users/${uid}/todos.json?auth=${tokenId}`;
 
-    await set(newTodoRef, {
-      todo: todo,
-      todoId: newTodoRef.key,
-      color: color,
-    });
-
-    return { success: true };
-  } catch (error) {
-    console.log(error);
+  const response = await axios.get(dbURL);
+  if (response.status === 200 && response.data) {
+    return response.data;
   }
 };
 
-export const getTodoApi = ({ user, setTodos }: TodoData) => {
-  if (!user) return;
+export const deleteTodoApi = async ({ todoId }: Todo) => {
+  const dbURL = `https://${DB_URL}/users/${uid}/todos/${todoId}.json?auth=${tokenId}`;
 
-  const db = getDatabase();
-  const todoRef = ref(db, `users/${user.uid}/todos`);
-
-  onValue(
-    todoRef,
-    (snapshot) => {
-      const data = (snapshot.val() as Record<string, Todo>) || null;
-      if (data) {
-        const todosArray = Object.keys(data).map((key) => ({
-          id: key,
-          ...data[key],
-        }));
-        setTodos(todosArray);
-      } else {
-        setTodos([]);
-      }
-    },
-    (error) => {
-      console.log(error);
-    },
-  );
+  await axios.delete(dbURL);
 };
 
-export const deleteTodoApi = async ({ user, todoId }: Todo) => {
-  try {
-    const db = getDatabase();
-    const todoRef = ref(db, `users/${user.uid}/todos/${todoId}`);
-    await set(todoRef, null);
-    return { success: true };
-  } catch (error) {
-    console.log(error);
-  }
-};
+export const updateTodoApi = async ({ todo, todoId, color }: Todo) => {
+  const dbURL = `https://${DB_URL}/users/${uid}/todos/${todoId}.json?auth=${tokenId}`;
 
-export const updateTodoApi = async ({ user, todo, todoId }: Todo) => {
-  try {
-    const db = getDatabase();
-    const todoRef = ref(db, `users/${user.uid}/todos/${todoId}`);
-
-    await set(todoRef, { todo: todo });
-    return { success: true };
-  } catch (error) {
-    console.log(error);
-  }
+  await axios.put(dbURL, {
+    todo,
+    color,
+  });
 };

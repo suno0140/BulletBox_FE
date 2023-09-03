@@ -55,3 +55,13 @@ export const CategoryInput = styled.input`
     font-color: var(--color-gray);
   }
 `;
+
+export const SearchInput = styled.input`
+  background-color: var(--color-default);
+  border: transparent;
+  border-radius: 30px;
+  padding: 10px;
+  width: 68%;
+  font-size: 12px;
+  font-weight: bold;
+`;

@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useState } from 'react';
 import PotalContainer from 'utils/Portal';
 import { CloseIcon } from '@components/atoms/Icon';
 import {
@@ -17,18 +17,19 @@ import {
   deleteCategoryApi,
   updateCategoryApi,
 } from '@api/CategoryApi';
-import { AuthContext } from '@core/AuthContext';
+
 import { errorToast } from '@components/atoms/toast';
 import { CategoryInput } from '@components/atoms/Input';
 import { TitleLengthSpan } from '@components/atoms/Span';
-import { useRequest } from '@hooks/useRequest';
+import { colorList } from '@components/atoms/ColorList';
 
 type ModalProps = {
   isOpen: boolean;
   onClose: () => void;
   name?: string;
   color?: string;
-  categoryId?: string;
+  id?: string;
+  setReload?: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 export const CategoryModal: React.FC<ModalProps> = ({
@@ -36,29 +37,13 @@ export const CategoryModal: React.FC<ModalProps> = ({
   onClose,
   name,
   color,
-  categoryId,
+  id,
+  setReload,
 }) => {
   if (!isOpen) return null;
 
   const [categoryName, setCategoryName] = useState(name || '');
   const [categoryColor, setCategoryColor] = useState(color || '');
-
-  const { user, userDataLoading } = useContext(AuthContext);
-
-  const { request: addCategoryRequest } = useRequest({
-    apiFunc: addCategoryApi,
-    reduxKey: 'ADD_CATEGORY',
-  });
-
-  const { request: updateCategoryRequest } = useRequest({
-    apiFunc: updateCategoryApi,
-    reduxKey: 'UPDATE_CATEGORY',
-  });
-
-  const { request: deleteCategoryRequest } = useRequest({
-    apiFunc: deleteCategoryApi,
-    reduxKey: 'DELETE_CATEGORY',
-  });
 
   const handleCategoryName = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.currentTarget.value;
@@ -74,59 +59,51 @@ export const CategoryModal: React.FC<ModalProps> = ({
     setCategoryColor(value);
   };
 
-  const handleAddCategory = () => {
-    if (userDataLoading) {
-      return;
-    } else if (categoryName.length === 0) {
+  const handleAddCategory = async () => {
+    if (categoryName.length === 0) {
       errorToast('카테고리 이름을 입력해주세요');
     } else if (categoryColor === '') {
       errorToast('카테고리 색깔을 선택해주세요');
     } else {
-      void addCategoryRequest({ user, categoryName, categoryColor });
-      onClose();
+      try {
+        await addCategoryApi({ categoryName, categoryColor });
+        setReload((prev) => !prev);
+        onClose();
+      } catch (error) {
+        console.log(error);
+      }
     }
   };
 
-  const handleUpdateCategory = () => {
-    if (userDataLoading) {
-      return;
-    } else if (categoryName.length === 0) {
+  const handleUpdateCategory = async () => {
+    if (categoryName.length === 0) {
       errorToast('카테고리 이름을 입력해주세요');
     } else if (categoryColor === '') {
       errorToast('카테고리 색깔을 선택해주세요');
     } else {
-      void updateCategoryRequest({
-        user,
-        categoryName,
-        categoryColor,
-        categoryId,
-      });
-      onClose();
+      try {
+        await updateCategoryApi({
+          categoryName,
+          categoryColor,
+          id,
+        });
+        setReload((prev) => !prev);
+        onClose();
+      } catch (error) {
+        console.log(error);
+      }
     }
   };
 
-  const handleDeleteCategory = () => {
-    void deleteCategoryRequest({ user, categoryId });
-    onClose();
+  const handleDeleteCategory = async () => {
+    try {
+      await deleteCategoryApi({ id });
+      setReload((prev) => !prev);
+      onClose();
+    } catch (error) {
+      console.log(error);
+    }
   };
-
-  const tagColorList = [
-    { key: 0, value: '#FFFFFF' },
-    { key: 1, value: '#E3E2E3' },
-    { key: 2, value: '#C6C6C6' },
-    { key: 3, value: '#F4BBE3' },
-    { key: 4, value: '#DCB8F9' },
-    { key: 5, value: '#F4BCB8' },
-    { key: 6, value: '#FFC79B' },
-    { key: 7, value: '#FEFE93' },
-    { key: 8, value: '#ABFC92' },
-    { key: 9, value: '#B0A9FF' },
-    { key: 10, value: '#FF8C85' },
-    { key: 11, value: '#FFB57E' },
-    { key: 12, value: '#F4BB65' },
-    { key: 13, value: '#91FB6C' },
-    { key: 14, value: '#96C6FA' },
-  ];
 
   return (
     <PotalContainer>
@@ -144,7 +121,7 @@ export const CategoryModal: React.FC<ModalProps> = ({
           />
           <TitleLengthSpan>({categoryName.length}/10)</TitleLengthSpan>
           <SelectColorContainer>
-            {tagColorList.map((value) => {
+            {colorList.map((value) => {
               return (
                 <SelectBtn
                   key={value.key}
@@ -161,16 +138,26 @@ export const CategoryModal: React.FC<ModalProps> = ({
           <ModalBtnContainer>
             {name ? (
               <>
-                <ModalCheckBtn onClick={handleUpdateCategory}>
+                <ModalCheckBtn
+                  onClick={() => {
+                    void handleUpdateCategory();
+                  }}
+                >
                   수정
                 </ModalCheckBtn>
-                <ModalCheckBtn onClick={handleDeleteCategory}>
+                <ModalCheckBtn onClick={() => void handleDeleteCategory()}>
                   삭제
                 </ModalCheckBtn>
               </>
             ) : (
               <>
-                <ModalCheckBtn onClick={handleAddCategory}>확인</ModalCheckBtn>
+                <ModalCheckBtn
+                  onClick={() => {
+                    void handleAddCategory();
+                  }}
+                >
+                  확인
+                </ModalCheckBtn>
                 <ModalCheckBtn onClick={onClose}>취소</ModalCheckBtn>
               </>
             )}

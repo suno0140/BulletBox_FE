@@ -1,3 +1,4 @@
+import { EmotionBtnProps } from '@components/molecules/EmotionButton';
 import { css, styled } from 'styled-components';
 
 export const MainBtn = styled.button`
@@ -189,4 +190,30 @@ export const SelectBtn = styled.button<{
   background-color: ${({ value }) => value};
   box-shadow: ${({ value, $categoryColor }) =>
     value === $categoryColor ? '0px 0px 4px rgba(0, 0, 0, 0.3)' : 'none'};
+`;
+
+export const SearchCancleBtn = styled.button`
+  background-color: var(--color-default);
+  border: 1px;
+`;
+
+export const EditBtn = styled.button`
+  width: 60%;
+  height: 20px;
+  border: none;
+  background-color: transparent;
+`;
+
+export const EmotionBtn = styled.button<EmotionBtnProps>`
+  width: 28px;
+  height: 28px;
+  padding: 0;
+  margin: 0 3px;
+  border: none;
+  background-color: transparent;
+  fill: ${({ $id, $emotion }) =>
+    $id === $emotion ? 'var(--color-main)' : 'var(--color-gray)'};
+  & > svg {
+    pointer-events: none;
+  }
 `;
