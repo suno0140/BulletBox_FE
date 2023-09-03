@@ -11,7 +11,6 @@ type StopLoadingAction = {
 
 type LoadingActionTypes = StartLoadingAction | StopLoadingAction;
 
-// Action creators
 export const startLoading = (): LoadingActionTypes => {
   return {
     type: START_LOADING,
@@ -24,12 +23,10 @@ export const stopLoading = (): LoadingActionTypes => {
   };
 };
 
-// Initial State
 const initialState = {
   loading: false,
 };
 
-// Reducer
 const loading = (state = initialState, action: LoadingActionTypes) => {
   switch (action.type) {
     case START_LOADING:

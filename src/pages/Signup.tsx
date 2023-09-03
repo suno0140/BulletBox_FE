@@ -108,11 +108,13 @@ const Signup = () => {
     dispatch(startLoading());
 
     try {
-      await signupApi({ email, password, nickName });
+      const result = await signupApi({ email, password, nickName });
       successToast('회원가입 성공');
       navigate('/login');
+      console.log(result);
     } catch (error) {
       console.log(error);
+      errorToast('회원가입 실패');
     } finally {
       dispatch(stopLoading());
     }
@@ -121,12 +123,6 @@ const Signup = () => {
   const handleLoginPage = () => {
     navigate('/login');
   };
-
-  // useEffect(() => {
-  //   if (data) {
-  //     navigate('/login');
-  //   }
-  // }, [data]);
 
   return (
     <ColumnContainer>

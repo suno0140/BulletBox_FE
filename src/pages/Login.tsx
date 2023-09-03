@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { ColumnContainer, EmptyContainer } from '@components/atoms/Container';
@@ -9,7 +9,7 @@ import { FormInput } from '@components/atoms/Input';
 import { BulletBoldSpan, MainSpan } from '@components/atoms/Span';
 import { MainForm } from '@components/atoms/Form';
 import { loginApi } from '@api/AuthApi';
-import { successToast } from '@components/atoms/toast';
+import { errorToast, successToast } from '@components/atoms/toast';
 import { useDispatch } from 'react-redux';
 import { startLoading, stopLoading } from '@redux/modules/loading';
 
@@ -40,6 +40,7 @@ const Login = () => {
       navigate('/main');
     } catch (error) {
       console.log(error);
+      errorToast('로그인 실패');
     } finally {
       dispatch(stopLoading());
     }

@@ -1,6 +1,7 @@
 import { signOut } from 'firebase/auth';
 import { FireAuth } from '@core/Firebase';
-import axios from 'axios';
+import { API_KEY, api } from '@core/api';
+import { setItem } from '@core/localStorage';
 
 type UserInfo = {
   email: string;
@@ -9,82 +10,43 @@ type UserInfo = {
 };
 
 type AuthResponseData = {
+  idToken: string;
   localId: string;
 };
 
 export const loginApi = async ({ email, password }: UserInfo) => {
-  const URL = `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${process.env.REACT_APP_FIREBASE_APIKEY}`;
+  const URL = `accounts:signInWithPassword?key=${API_KEY}`;
 
-  try {
-    const response = await axios.post(
-      URL,
-      {
-        email,
-        password,
-      },
-      {
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      },
-    );
+  const response = await api.post(URL, {
+    email,
+    password,
+  });
 
-    const result = response.data;
-    localStorage.setItem('token', JSON.stringify(result.idToken));
-    localStorage.setItem('uid', JSON.stringify(result.localId));
+  const result = response.data;
 
-    return result;
-  } catch (error) {
-    console.log(error);
-    throw error;
-  }
+  setItem('token', result);
+
+  return result;
 };
 
 export const logoutApi = async () => {
-  return await signOut(FireAuth);
+  await signOut(FireAuth);
 };
 
 export const signupApi = async ({ email, password, nickName }: UserInfo) => {
-  const authURL = `https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${process.env.REACT_APP_FIREBASE_APIKEY}`;
+  const authURL = `accounts:signUp?key=${API_KEY}`;
+  const updateURL = `accounts:update?key=${API_KEY}`;
 
-  try {
-    const authResponse = await axios.post<AuthResponseData>(
-      authURL,
-      {
-        email,
-        password,
-        returnSecureToken: true,
-      },
-      {
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      },
-    );
+  const authResponse = await api.post<AuthResponseData>(authURL, {
+    email,
+    password,
+    returnSecureToken: true,
+  });
 
-    const userId = authResponse.data.localId;
-    console.log('User ID:', userId);
+  const idToken = authResponse.data.idToken;
 
-    const dbURL = `https://${process.env.REACT_APP_FIREBASE_DATABASE_URL}/users/${userId}.json`;
-    console.log('Database URL:', dbURL);
-
-    const result = await axios.put(
-      dbURL,
-      {
-        email: email,
-        nickname: nickName,
-      },
-      {
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      },
-    );
-
-    console.log('Database result:', result);
-    return result;
-  } catch (error) {
-    console.log('An error occurred:', error);
-    throw error;
-  }
+  await api.post(updateURL, {
+    idToken,
+    displayName: nickName,
+  });
 };

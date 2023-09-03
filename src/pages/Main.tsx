@@ -1,41 +1,31 @@
-import React, { useContext, useEffect } from 'react';
+import React from 'react';
 import { MainCalendar } from '@components/molecules/Calendar';
-import { useNavigate } from 'react-router-dom';
-import { getTodoApi } from '@api/TodoApi';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 import MainTodoCard from '@components/molecules/MainTodoCard';
 import {
   DateContainer,
+  FlexContainer,
   MainPageContaiver,
   MainTodoContainer,
-  TodoAddContiner,
 } from '@components/atoms/Container';
 import useCurrentDate from '@hooks/useCurrentData';
-import { useDispatch, useSelector } from 'react-redux';
-import { getTodo } from '@redux/modules/todos';
-import { AuthContext } from '@core/AuthContext';
+import { useSelector } from 'react-redux';
 import { RootState } from '@redux/config/configStore';
+import { AddCategoryIcon, CategoryAddBtn } from '@components/atoms/Icon';
+import { useGetTodos } from '@hooks/useGetApi';
+import { usePageLocation } from '@hooks/usePageLocation';
 
 const Main = () => {
   const todos = useSelector((state: RootState) => state.todos.todos);
+  const [reload, setReload] = React.useState(false);
+
   const currentDate = useCurrentDate();
-  const { user } = useContext(AuthContext);
+  const location = useLocation();
 
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
+  useGetTodos([location, reload]);
 
-  useEffect(() => {
-    const fetchTodo = async () => {
-      console.log('fetch todo');
-      const data = await getTodoApi();
-      console.log(data);
-      if (data) {
-        dispatch(getTodo(data));
-      }
-    };
-
-    void fetchTodo();
-  }, [user, dispatch]);
+  const { goToDailyLogAdd } = usePageLocation();
 
   return (
     <>
@@ -45,23 +35,25 @@ const Main = () => {
         <MainTodoContainer>
           {todos.map((todo) => (
             <MainTodoCard
-              key={todo.todoId}
-              todoId={todo.todoId}
+              key={todo.id}
+              todoId={todo.id}
               todoContent={todo.todo}
               time={null}
               color={todo.color}
+              setReload={setReload}
             />
           ))}
         </MainTodoContainer>
-        <div>
-          <TodoAddContiner
+
+        <FlexContainer>
+          <CategoryAddBtn
             onClick={() => {
-              navigate('/dailyAdd');
+              goToDailyLogAdd();
             }}
           >
-            할일 추가 하기
-          </TodoAddContiner>
-        </div>
+            <AddCategoryIcon />
+          </CategoryAddBtn>
+        </FlexContainer>
       </MainPageContaiver>
     </>
   );

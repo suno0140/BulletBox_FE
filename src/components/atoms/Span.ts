@@ -9,6 +9,7 @@ export const GrayBoldSpan = styled.span`
 export const DefaultBoldSpan = styled.span`
   font-size: 14px;
   font-weight: bold;
+  text-align: center;
 `;
 
 export const StartBulletBoxSpan = styled.span`
@@ -88,4 +89,12 @@ export const MypageAddSpan = styled.span`
   font-size: 16px;
   font-weight: bold;
   margin: 50px 0;
+`;
+
+export const DiaryLengthSpan = styled.span`
+  display: flex;
+  align-items: center;
+  justify-content: end;
+  color: var(--color-gray);
+  font-weight: bold;
 `;

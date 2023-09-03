@@ -1,6 +1,4 @@
-import React, { useContext } from 'react';
-import { AuthContext } from '@core/AuthContext';
-import { useNavigate } from 'react-router-dom';
+import React from 'react';
 import { deleteTodoApi } from '@api/TodoApi';
 import { EmailCheckBtn } from '@components/atoms/Button';
 import {
@@ -10,31 +8,38 @@ import {
   TodoContentContainer,
 } from '@components/atoms/Container';
 import { TimeContainer, TodoSpan } from '@components/atoms/Span';
+import { errorToast, successToast } from '@components/atoms/toast';
+import { usePageLocation } from '@hooks/usePageLocation';
 
 type TodoInfo = {
   todoId: string;
   todoContent?: string;
   time?: string;
   color?: string;
+  setReload?: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-const MainTodoCard = ({ todoId, todoContent, time, color }: TodoInfo) => {
-  const navigate = useNavigate();
-  const { user } = useContext(AuthContext);
-  // const { data, request } = useRequest({
-  //   apiFunc: deleteTodoApi,
-  //   reduxKey: 'TODO_DELETE',
-  //   successMessage: '할일 삭제 성공',
-  //   errorMessage: '할일 삭제 실패',
-  // });
+const MainTodoCard = ({
+  todoId,
+  todoContent,
+  time,
+  color,
+  setReload,
+}: TodoInfo) => {
+  const { goToDailyLogUpdate } = usePageLocation();
 
-  const handleTodoUpdate = () => {
-    navigate('/dailyUpdate', { state: { todoId, todoContent } });
-  };
-  const handleTodoDelete = (e: React.MouseEvent<HTMLButtonElement>) => {
+  const handleTodoDelete = async (e: React.MouseEvent<HTMLButtonElement>) => {
     const todoId = e.currentTarget.value;
 
-    void deleteTodoApi({ user, todoId });
+    try {
+      await deleteTodoApi({ todoId });
+      setReload((prev) => !prev);
+
+      successToast('삭제 성공');
+    } catch (error) {
+      errorToast('삭제 실패');
+      console.log(error);
+    }
   };
 
   return (
@@ -45,7 +50,13 @@ const MainTodoCard = ({ todoId, todoContent, time, color }: TodoInfo) => {
         <TodoSpan>{todoContent}</TodoSpan>
         {time === null ? null : <TimeContainer>{time}</TimeContainer>}
       </TodoContentContainer>
-      <EmailCheckBtn onClick={handleTodoUpdate}>수정</EmailCheckBtn>
+      <EmailCheckBtn
+        onClick={() => {
+          goToDailyLogUpdate({ todoId, todoContent });
+        }}
+      >
+        수정
+      </EmailCheckBtn>
       <EmailCheckBtn
         value={todoId}
         onClick={(e) => {

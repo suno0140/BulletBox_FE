@@ -19,8 +19,8 @@ const NavigationMenu = () => {
     { key: 'diary/일기장', icon: <DiaryIcon /> },
     { key: 'dailys/할일', icon: <DailylogIcon /> },
     { key: 'main/홈', icon: <HomeIcon /> },
-    { key: 'search/할일 검색', icon: <MyPageIcon /> },
-    { key: 'mypage/마이페이지', icon: <SearchIcon /> },
+    { key: 'search/할일 검색', icon: <SearchIcon /> },
+    { key: 'mypage/마이페이지', icon: <MyPageIcon /> },
   ];
 
   const handleNavigation = (e: React.MouseEvent<HTMLElement>) => {

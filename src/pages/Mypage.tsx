@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React from 'react';
 import { logoutApi } from '@api/AuthApi';
 import {
   LogoutBtnContainer,
@@ -10,58 +10,45 @@ import { LogoutIcon, MypageIcon } from '@components/atoms/Icon';
 import { FlexContainer } from '@components/atoms/Container';
 import { DefaultBoldSpan, GrayBoldSpan } from '@components/atoms/Span';
 
-import { AuthContext } from '@core/AuthContext';
-import { getUserInfoApi } from '@api/MypageApi';
 import CategoryList from '@components/molecules/CategoryList';
-import { getCategoryApi } from '@api/CategoryApi';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { errorToast, successToast } from '@components/atoms/toast';
+import { localEmail, localNickName } from '@core/localStorage';
+import { useGetCategories } from '@hooks/useGetApi';
 
 const Mypage = () => {
-  const [email, setEmail] = useState('email');
-  const [nickname, setNickname] = useState('닉네임');
-  const [categoryList, setCategoryList] = useState([]);
+  const [reload, setReload] = React.useState(false);
+  const navigate = useNavigate();
+  const location = useLocation();
 
-  const { user } = useContext(AuthContext);
+  const handleLogout = async () => {
+    localStorage.removeItem('token');
+    localStorage.removeItem('uid');
 
-  // const { request: logoutRequest } = useRequest({
-  //   apiFunc: logoutApi,
-  //   reduxKey: 'AUTH_LOGOUT',
-  //   successMessage: '로그아웃 성공',
-  //   errorMessage: '로그아웃 실패',
-  // });
-
-  // const { request: userInfoRequest } = useRequest({
-  //   apiFunc: getUserInfoApi,
-  //   reduxKey: 'GET_USER_INFO',
-  // });
-
-  // const { request: categoryRequest } = useRequest({
-  //   apiFunc: getCategoryApi,
-  //   reduxKey: 'GET_CATEGORY',
-  // });
-
-  // useEffect(() => {
-  //   if (!userDataLoading && user) {
-  //     userInfoRequest({ user, setEmail, setNickname });
-  //     categoryRequest({ user, setCategoryList });
-  //   }
-  // }, [user, userDataLoading]);
-
-  const onClickButton = () => {
-    void logoutApi();
+    try {
+      await logoutApi();
+      navigate('/login');
+      successToast('로그아웃 성공');
+    } catch (error) {
+      console.log(error);
+      errorToast('로그아웃 실패');
+    }
   };
+
+  useGetCategories([location, reload]);
 
   return (
     <>
       <FlexContainer>
         <MypageIcon />
         <UserInfoContainer>
-          <DefaultBoldSpan>{nickname}</DefaultBoldSpan>
-          <GrayBoldSpan>{email}</GrayBoldSpan>
+          {localNickName && <DefaultBoldSpan>{localNickName}</DefaultBoldSpan>}
+          {localEmail && <GrayBoldSpan>{localEmail}</GrayBoldSpan>}
         </UserInfoContainer>
         <LogoutBtnContainer>
           <LogoutBtn
             onClick={() => {
-              void onClickButton();
+              void handleLogout();
             }}
           >
             <LogoutIcon />
@@ -74,7 +61,7 @@ const Mypage = () => {
         <MypageBtn>루틴</MypageBtn>
       </FlexContainer>
       <MypageListContainer>
-        <CategoryList categories={categoryList} />
+        <CategoryList setReload={setReload} />
       </MypageListContainer>
     </>
   );

@@ -14,6 +14,13 @@ import { ReactComponent as guide4 } from '@imgs/guide/guide4.svg';
 import { ReactComponent as guide5 } from '@imgs/guide/guide5.svg';
 import { ReactComponent as guide6 } from '@imgs/guide/guide6.svg';
 import { ReactComponent as guide7 } from '@imgs/guide/guide7.svg';
+import { ReactComponent as cancle } from '@imgs/etc/close.svg';
+import { ReactComponent as edit } from '@imgs/diary/edit.svg';
+import { ReactComponent as Angry } from '@imgs/emotion/angry.svg';
+import { ReactComponent as Excited } from '@imgs/emotion/excited.svg';
+import { ReactComponent as Happy } from '@imgs/emotion/happy.svg';
+import { ReactComponent as Sad } from '@imgs/emotion/sad.svg';
+import { ReactComponent as Soso } from '@imgs/emotion/soso.svg';
 
 import { BsPerson } from 'react-icons/bs';
 import { HiSearch } from 'react-icons/hi';
@@ -108,6 +115,16 @@ export const CategoryAddBtn = styled.button`
   margin-right: 5px;
 `;
 
+export const CancleIcon = styled(cancle)`
+  width: 20px;
+  height: 20px;
+`;
+
+export const EditIcon = styled(edit)`
+  width: 20px;
+  height: 20px;
+`;
+
 export const Guide1 = styled(guide1)`
   width: 95%;
   height: 100%;
@@ -137,4 +154,20 @@ export const Guide6 = styled(guide6)`
 export const Guide7 = styled(guide7)`
   width: 95%;
   height: 100%;
+`;
+
+export const ExcitedBtn = styled(Excited)`
+  height: 28px;
+`;
+export const HappyBtn = styled(Happy)`
+  height: 28px;
+`;
+export const SosoBtn = styled(Soso)`
+  height: 28px;
+`;
+export const SadBtn = styled(Sad)`
+  height: 28px;
+`;
+export const AngryBtn = styled(Angry)`
+  height: 28px;
 `;
