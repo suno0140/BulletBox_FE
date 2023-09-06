@@ -12,6 +12,7 @@ import { loginApi } from '@api/AuthApi';
 import { errorToast, successToast } from '@components/atoms/toast';
 import { useDispatch } from 'react-redux';
 import { startLoading, stopLoading } from '@redux/modules/loading';
+import { setItem } from '@core/localStorage';
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -35,7 +36,8 @@ const Login = () => {
     dispatch(startLoading());
 
     try {
-      await loginApi({ email, password });
+      const result = await loginApi({ email, password });
+      setItem('token', result);
       successToast('로그인 성공');
       navigate('/main');
     } catch (error) {

@@ -108,10 +108,9 @@ const Signup = () => {
     dispatch(startLoading());
 
     try {
-      const result = await signupApi({ email, password, nickName });
+      await signupApi({ email, password, nickName });
       successToast('회원가입 성공');
       navigate('/login');
-      console.log(result);
     } catch (error) {
       console.log(error);
       errorToast('회원가입 실패');

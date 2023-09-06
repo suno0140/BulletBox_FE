@@ -1,7 +1,6 @@
 import { signOut } from 'firebase/auth';
 import { FireAuth } from '@core/Firebase';
-import { API_KEY, api } from '@core/api';
-import { setItem } from '@core/localStorage';
+import { API_KEY, URL, api } from '@core/api';
 
 type UserInfo = {
   email: string;
@@ -15,18 +14,12 @@ type AuthResponseData = {
 };
 
 export const loginApi = async ({ email, password }: UserInfo) => {
-  const URL = `accounts:signInWithPassword?key=${API_KEY}`;
-
   const response = await api.post(URL, {
     email,
     password,
   });
 
-  const result = response.data;
-
-  setItem('token', result);
-
-  return result;
+  return response.data;
 };
 
 export const logoutApi = async () => {
