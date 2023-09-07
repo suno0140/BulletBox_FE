@@ -1,204 +1,204 @@
-import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { fetchSignInMethodsForEmail } from '@firebase/auth';
-import { FireAuth } from '@core/Firebase';
+// import React, { useEffect, useState } from 'react';
+// import { useNavigate } from 'react-router-dom';
+// import { fetchSignInMethodsForEmail } from '@firebase/auth';
+// import { FireAuth } from '@core/Firebase';
 
-import {
-  emailvalidation,
-  nickNameValidation,
-  passwordConfirmValidation,
-  passwordValidation,
-} from 'utils/validation';
+// import {
+//   emailvalidation,
+//   nickNameValidation,
+//   passwordConfirmValidation,
+//   passwordValidation,
+// } from 'utils/validation';
 
-import { signupApi } from '@api/AuthApi';
-import { MainForm } from '@components/atoms/Form';
-import { AlarmSpan, BulletBoldSpan, MainSpan } from '@components/atoms/Span';
-import { FormEmailInput, FormInput } from '@components/atoms/Input';
-import { EmailCheckBtn, GoBackBtn, MainBtn } from '@components/atoms/Button';
-import { BulletIcon } from '@components/atoms/Icon';
-import {
-  ColumnContainer,
-  EmailFormContainer,
-  EmptyContainer,
-} from '@components/atoms/Container';
-import { Toaster } from 'react-hot-toast';
-import { errorToast, successToast } from '@components/atoms/toast';
-import { useDispatch } from 'react-redux';
-import { startLoading, stopLoading } from '@redux/modules/loading';
+// import { signupApi } from '@api/AuthApi';
+// import { MainForm } from '@components/atoms/Form';
+// import { AlarmSpan, BulletBoldSpan, MainSpan } from '@components/atoms/Span';
+// import { FormEmailInput, FormInput } from '@components/atoms/Input';
+// import { EmailCheckBtn, GoBackBtn, MainBtn } from '@components/atoms/Button';
+// import { BulletIcon } from '@components/atoms/Icon';
+// import {
+//   ColumnContainer,
+//   EmailFormContainer,
+//   EmptyContainer,
+// } from '@components/atoms/Container';
+// import { Toaster } from 'react-hot-toast';
+// import { errorToast, successToast } from '@components/atoms/toast';
+// import { useDispatch } from 'react-redux';
+// import { startLoading, stopLoading } from '@redux/modules/loading';
 
-const Signup = () => {
-  const [email, setEmail] = useState('');
-  const [nickName, setNickName] = useState('');
-  const [password, setPassword] = useState('');
-  const [passwordConfirm, setPasswordConfirm] = useState('');
+// const Signup = () => {
+//   const [email, setEmail] = useState('');
+//   const [nickName, setNickName] = useState('');
+//   const [password, setPassword] = useState('');
+//   const [passwordConfirm, setPasswordConfirm] = useState('');
 
-  const [emailMessage, setEmailMessage] = useState('');
-  const [nickNameMessage, setNickNameMessage] = useState('');
-  const [passwordMessage, setPasswordMessage] = useState('');
-  const [passwordConfirmMessage, setPasswordConfirmMessage] = useState('');
+//   const [emailMessage, setEmailMessage] = useState('');
+//   const [nickNameMessage, setNickNameMessage] = useState('');
+//   const [passwordMessage, setPasswordMessage] = useState('');
+//   const [passwordConfirmMessage, setPasswordConfirmMessage] = useState('');
 
-  const [isEmail, setIsEmail] = useState(false);
-  const [isNickName, setIsNickName] = useState(false);
-  const [isPassword, setIsPassword] = useState(false);
-  const [isPasswordConfirm, setIsPasswordConfirm] = useState(false);
+//   const [isEmail, setIsEmail] = useState(false);
+//   const [isNickName, setIsNickName] = useState(false);
+//   const [isPassword, setIsPassword] = useState(false);
+//   const [isPasswordConfirm, setIsPasswordConfirm] = useState(false);
 
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
+//   const navigate = useNavigate();
+//   const dispatch = useDispatch();
 
-  const handleEmail = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const emailCheck = e.currentTarget.value;
-    setEmail(emailCheck);
+//   const handleEmail = (e: React.ChangeEvent<HTMLInputElement>) => {
+//     const emailCheck = e.currentTarget.value;
+//     setEmail(emailCheck);
 
-    emailvalidation({ emailCheck, setEmailMessage, setIsEmail });
-  };
+//     emailvalidation({ emailCheck, setEmailMessage, setIsEmail });
+//   };
 
-  const handleEmailCheck = async (e: React.MouseEvent<HTMLElement>) => {
-    e.preventDefault();
+//   const handleEmailCheck = async (e: React.MouseEvent<HTMLElement>) => {
+//     e.preventDefault();
 
-    try {
-      const methods = await fetchSignInMethodsForEmail(FireAuth, email);
-      if (methods.length === 0) {
-        successToast('사용가능한 이메일입니다.');
-        setEmailMessage('* 사용가능한 이메일입니다.');
-        setIsEmail(true);
-      } else {
-        errorToast('이미 사용중인 이메일입니다.');
-      }
-    } catch (e) {
-      errorToast('사용 불가능한 이메일 입니다.');
-    }
-  };
+//     try {
+//       const methods = await fetchSignInMethodsForEmail(FireAuth, email);
+//       if (methods.length === 0) {
+//         successToast('사용가능한 이메일입니다.');
+//         setEmailMessage('* 사용가능한 이메일입니다.');
+//         setIsEmail(true);
+//       } else {
+//         errorToast('이미 사용중인 이메일입니다.');
+//       }
+//     } catch (e) {
+//       errorToast('사용 불가능한 이메일 입니다.');
+//     }
+//   };
 
-  const handleNickName = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const nickNameCheck = e.currentTarget.value;
-    setNickName(nickNameCheck);
+//   const handleNickName = (e: React.ChangeEvent<HTMLInputElement>) => {
+//     const nickNameCheck = e.currentTarget.value;
+//     setNickName(nickNameCheck);
 
-    nickNameValidation({
-      nickNameCheck,
-      setNickNameMessage,
-      setIsNickName,
-    });
-  };
+//     nickNameValidation({
+//       nickNameCheck,
+//       setNickNameMessage,
+//       setIsNickName,
+//     });
+//   };
 
-  const handlePassword = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const passwordCheck = e.currentTarget.value;
-    setPassword(passwordCheck);
+//   const handlePassword = (e: React.ChangeEvent<HTMLInputElement>) => {
+//     const passwordCheck = e.currentTarget.value;
+//     setPassword(passwordCheck);
 
-    passwordValidation({
-      passwordCheck,
-      setPasswordMessage,
-      setIsPassword,
-    });
-  };
+//     passwordValidation({
+//       passwordCheck,
+//       setPasswordMessage,
+//       setIsPassword,
+//     });
+//   };
 
-  const handlePasswordConfirm = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const passwordConfirm = e.currentTarget.value;
-    setPasswordConfirm(passwordConfirm);
+//   const handlePasswordConfirm = (e: React.ChangeEvent<HTMLInputElement>) => {
+//     const passwordConfirm = e.currentTarget.value;
+//     setPasswordConfirm(passwordConfirm);
 
-    passwordConfirmValidation({
-      password,
-      passwordConfirm,
-      setPasswordConfirmMessage,
-      setIsPasswordConfirm,
-    });
-  };
+//     passwordConfirmValidation({
+//       password,
+//       passwordConfirm,
+//       setPasswordConfirmMessage,
+//       setIsPasswordConfirm,
+//     });
+//   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    dispatch(startLoading());
+//   const handleSubmit = async (e: React.FormEvent) => {
+//     e.preventDefault();
+//     dispatch(startLoading());
 
-    try {
-      await signupApi({ email, password, nickName });
-      successToast('회원가입 성공');
-      navigate('/login');
-    } catch (error) {
-      console.log(error);
-      errorToast('회원가입 실패');
-    } finally {
-      dispatch(stopLoading());
-    }
-  };
+//     try {
+//       await signupApi({ email, password, nickName });
+//       successToast('회원가입 성공');
+//       navigate('/login');
+//     } catch (error) {
+//       console.log(error);
+//       errorToast('회원가입 실패');
+//     } finally {
+//       dispatch(stopLoading());
+//     }
+//   };
 
-  const handleLoginPage = () => {
-    navigate('/login');
-  };
+//   const handleLoginPage = () => {
+//     navigate('/login');
+//   };
 
-  return (
-    <ColumnContainer>
-      <BulletIcon />
-      <BulletBoldSpan>Bullet Box</BulletBoldSpan>
+//   return (
+//     <ColumnContainer>
+//       <BulletIcon />
+//       <BulletBoldSpan>Bullet Box</BulletBoldSpan>
 
-      <MainForm>
-        <MainSpan>Sign up</MainSpan>
-        <EmailFormContainer>
-          <FormEmailInput
-            type="email"
-            placeholder="이메일 주소를 입력하세요."
-            value={email}
-            onChange={handleEmail}
-          ></FormEmailInput>
-          <EmailCheckBtn
-            onClick={(e) => {
-              void handleEmailCheck(e);
-            }}
-          >
-            중복체크
-          </EmailCheckBtn>
-        </EmailFormContainer>
-        {email.length !== 0 && <AlarmSpan>{emailMessage}</AlarmSpan>}
+//       <MainForm>
+//         <MainSpan>Sign up</MainSpan>
+//         <EmailFormContainer>
+//           <FormEmailInput
+//             type="email"
+//             placeholder="이메일 주소를 입력하세요."
+//             value={email}
+//             onChange={handleEmail}
+//           ></FormEmailInput>
+//           <EmailCheckBtn
+//             onClick={(e) => {
+//               void handleEmailCheck(e);
+//             }}
+//           >
+//             중복체크
+//           </EmailCheckBtn>
+//         </EmailFormContainer>
+//         {email.length !== 0 && <AlarmSpan>{emailMessage}</AlarmSpan>}
 
-        <FormInput
-          placeholder="닉네임을 입력하세요."
-          type="text"
-          value={nickName}
-          onChange={handleNickName}
-        ></FormInput>
+//         <FormInput
+//           placeholder="닉네임을 입력하세요."
+//           type="text"
+//           value={nickName}
+//           onChange={handleNickName}
+//         ></FormInput>
 
-        {nickName.length !== 0 && <AlarmSpan>{nickNameMessage}</AlarmSpan>}
+//         {nickName.length !== 0 && <AlarmSpan>{nickNameMessage}</AlarmSpan>}
 
-        <FormInput
-          placeholder="패스워드를 입력하세요."
-          type="password"
-          value={password}
-          onChange={handlePassword}
-        ></FormInput>
+//         <FormInput
+//           placeholder="패스워드를 입력하세요."
+//           type="password"
+//           value={password}
+//           onChange={handlePassword}
+//         ></FormInput>
 
-        {password.length !== 0 && <AlarmSpan>{passwordMessage}</AlarmSpan>}
+//         {password.length !== 0 && <AlarmSpan>{passwordMessage}</AlarmSpan>}
 
-        <FormInput
-          placeholder="패스워드를 다시 한 번 입력하세요."
-          type="password"
-          value={passwordConfirm}
-          onChange={handlePasswordConfirm}
-        ></FormInput>
+//         <FormInput
+//           placeholder="패스워드를 다시 한 번 입력하세요."
+//           type="password"
+//           value={passwordConfirm}
+//           onChange={handlePasswordConfirm}
+//         ></FormInput>
 
-        {passwordConfirm.length !== 0 && (
-          <AlarmSpan>{passwordConfirmMessage}</AlarmSpan>
-        )}
+//         {passwordConfirm.length !== 0 && (
+//           <AlarmSpan>{passwordConfirmMessage}</AlarmSpan>
+//         )}
 
-        <MainBtn
-          type="submit"
-          onClick={(e) => {
-            void handleSubmit(e);
-          }}
-          disabled={!(isEmail && isNickName && isPassword && isPasswordConfirm)}
-        >
-          회원가입
-        </MainBtn>
+//         <MainBtn
+//           type="submit"
+//           onClick={(e) => {
+//             void handleSubmit(e);
+//           }}
+//           disabled={!(isEmail && isNickName && isPassword && isPasswordConfirm)}
+//         >
+//           회원가입
+//         </MainBtn>
 
-        <GoBackBtn
-          type="button"
-          onClick={() => {
-            handleLoginPage();
-          }}
-        >
-          로그인 페이지로 돌아가기
-        </GoBackBtn>
-      </MainForm>
-      <EmptyContainer />
-      <Toaster />
-    </ColumnContainer>
-  );
-};
+//         <GoBackBtn
+//           type="button"
+//           onClick={() => {
+//             handleLoginPage();
+//           }}
+//         >
+//           로그인 페이지로 돌아가기
+//         </GoBackBtn>
+//       </MainForm>
+//       <EmptyContainer />
+//       <Toaster />
+//     </ColumnContainer>
+//   );
+// };
 
-export default Signup;
+// export default Signup;

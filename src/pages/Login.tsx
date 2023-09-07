@@ -9,17 +9,22 @@ import { FormInput } from '@components/atoms/Input';
 import { BulletBoldSpan, MainSpan } from '@components/atoms/Span';
 import { MainForm } from '@components/atoms/Form';
 import { loginApi } from '@api/AuthApi';
-import { errorToast, successToast } from '@components/atoms/toast';
-import { useDispatch } from 'react-redux';
-import { startLoading, stopLoading } from '@redux/modules/loading';
+
 import { setItem } from '@core/localStorage';
+import { useRequest } from '@hooks/useRequest';
 
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
   const navigate = useNavigate();
-  const dispatch = useDispatch();
+
+  const { request, requestSuccess } = useRequest({
+    apiFunc: loginApi,
+    reduxKey: 'auth', // 이 부분은 사용하시는 redux key에 따라 달라질 수 있습니다.
+    successMessage: '로그인 성공',
+    errorMessage: '로그인 실패',
+  });
 
   const handleEmail = (e: React.ChangeEvent<HTMLInputElement>) => {
     const emailCheck = e.currentTarget.value;
@@ -33,18 +38,15 @@ const Login = () => {
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    dispatch(startLoading());
 
     try {
-      const result = await loginApi({ email, password });
+      const result = await request({ email, password });
       setItem('token', result);
-      successToast('로그인 성공');
-      navigate('/main');
+      if (requestSuccess) {
+        navigate('/main');
+      }
     } catch (error) {
       console.log(error);
-      errorToast('로그인 실패');
-    } finally {
-      dispatch(stopLoading());
     }
   };
 
