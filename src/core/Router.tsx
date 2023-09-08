@@ -6,7 +6,7 @@ import StartLayout from '@components/molecules/StartLayout';
 
 import { Start } from './Loadable';
 import { Login } from './Loadable';
-// import { Signup } from './Loadable';
+import { Signup } from './Loadable';
 // import { Mypage } from './Loadable';
 // import { Main } from './Loadable';
 // import { Search } from './Loadable';
@@ -24,7 +24,7 @@ const Router = () => {
         <Route element={<StartLayout />}>
           <Route path="/" element={<Start />} />
           <Route path="/login" element={<Login />} />
-          {/* <Route path="/signup" element={<Signup />} /> */}
+          <Route path="/signup" element={<Signup />} />
         </Route>
 
         <Route element={<MainLayout />}>

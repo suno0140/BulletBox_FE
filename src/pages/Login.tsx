@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { ColumnContainer, EmptyContainer } from '@components/atoms/Container';
@@ -19,9 +19,9 @@ const Login = () => {
 
   const navigate = useNavigate();
 
-  const { request, requestSuccess } = useRequest({
+  const { request, requestSuccess, data } = useRequest({
     apiFunc: loginApi,
-    reduxKey: 'auth', // 이 부분은 사용하시는 redux key에 따라 달라질 수 있습니다.
+    reduxKey: 'auth',
     successMessage: '로그인 성공',
     errorMessage: '로그인 실패',
   });
@@ -39,20 +39,19 @@ const Login = () => {
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    try {
-      const result = await request({ email, password });
-      setItem('token', result);
-      if (requestSuccess) {
-        navigate('/main');
-      }
-    } catch (error) {
-      console.log(error);
-    }
+    await request({ email, password });
   };
 
   const LoginHandle = () => {
     navigate('/signup');
   };
+
+  useEffect(() => {
+    if (requestSuccess && data) {
+      setItem('token', data);
+      navigate('/main');
+    }
+  }, [requestSuccess, data, navigate]);
 
   return (
     <ColumnContainer>

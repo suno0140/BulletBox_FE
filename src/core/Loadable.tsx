@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 
 import StartPage from '@pages/Start';
 import LoginPage from '@pages/Login';
-// import SignupPage from '@pages/Signup';
+import SignupPage from '@pages/Signup';
 // import MypagePage from '@pages/Mypage';
 // import MainPage from '@pages/Main';
 // import SearchPage from '@pages/Search';
@@ -32,7 +32,7 @@ const withSpinner = (Component: any) => (props: any) => {
 
 export const Start = withSpinner(StartPage);
 export const Login = withSpinner(LoginPage);
-// export const Signup = withSpinner(SignupPage);
+export const Signup = withSpinner(SignupPage);
 // export const Mypage = withSpinner(MypagePage);
 // export const Main = withSpinner(MainPage);
 // export const Search = withSpinner(SearchPage);
