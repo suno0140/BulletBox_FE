@@ -3,7 +3,8 @@
 ### 스스로 불렛에 의미를 부여해서 적는 캘린더 서비스
 
 
-![불렛 투두 간판 이미지](https://user-images.githubusercontent.com/90745936/217715941-6613b5c7-9d3e-4e37-b26a-88f8614c7cef.png)
+### 불렛 투두 간판 이미지 
+<img src="https://user-images.githubusercontent.com/90745936/217715941-6613b5c7-9d3e-4e37-b26a-88f8614c7cef.png" width="500" height="300">
 
 
 ## 1. [Bullet Box] 프로젝트 소개
