@@ -24,7 +24,7 @@ import {
 import { Toaster } from 'react-hot-toast';
 import { errorToast, successToast } from '@components/atoms/toast';
 import { useDispatch } from 'react-redux';
-import { startLoading, stopLoading } from '@redux/modules/loading';
+import { useRequest } from '@hooks/useRequest';
 
 const Signup = () => {
   const [email, setEmail] = useState('');
@@ -43,7 +43,13 @@ const Signup = () => {
   const [isPasswordConfirm, setIsPasswordConfirm] = useState(false);
 
   const navigate = useNavigate();
-  const dispatch = useDispatch();
+
+  const { request } = useRequest({
+    apiFunc: signupApi,
+    reduxKey: 'auth',
+    successMessage: '회원가입 성공',
+    errorMessage: '회원가입 실패',
+  });
 
   const handleEmail = (e: React.ChangeEvent<HTMLInputElement>) => {
     const emailCheck = e.currentTarget.value;
@@ -105,18 +111,12 @@ const Signup = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    dispatch(startLoading());
 
     try {
-      const result = await signupApi({ email, password, nickName });
-      successToast('회원가입 성공');
+      await request({ email, password, nickName });
       navigate('/login');
-      console.log(result);
     } catch (error) {
       console.log(error);
-      errorToast('회원가입 실패');
-    } finally {
-      dispatch(stopLoading());
     }
   };
 

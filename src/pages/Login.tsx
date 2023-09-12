@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { ColumnContainer, EmptyContainer } from '@components/atoms/Container';
@@ -9,16 +9,22 @@ import { FormInput } from '@components/atoms/Input';
 import { BulletBoldSpan, MainSpan } from '@components/atoms/Span';
 import { MainForm } from '@components/atoms/Form';
 import { loginApi } from '@api/AuthApi';
-import { errorToast, successToast } from '@components/atoms/toast';
-import { useDispatch } from 'react-redux';
-import { startLoading, stopLoading } from '@redux/modules/loading';
+
+import { setItem } from '@core/localStorage';
+import { useRequest } from '@hooks/useRequest';
 
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
   const navigate = useNavigate();
-  const dispatch = useDispatch();
+
+  const { request, requestSuccess, data } = useRequest({
+    apiFunc: loginApi,
+    reduxKey: 'auth',
+    successMessage: '로그인 성공',
+    errorMessage: '로그인 실패',
+  });
 
   const handleEmail = (e: React.ChangeEvent<HTMLInputElement>) => {
     const emailCheck = e.currentTarget.value;
@@ -32,23 +38,20 @@ const Login = () => {
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    dispatch(startLoading());
 
-    try {
-      await loginApi({ email, password });
-      successToast('로그인 성공');
-      navigate('/main');
-    } catch (error) {
-      console.log(error);
-      errorToast('로그인 실패');
-    } finally {
-      dispatch(stopLoading());
-    }
+    await request({ email, password });
   };
 
   const LoginHandle = () => {
     navigate('/signup');
   };
+
+  useEffect(() => {
+    if (requestSuccess && data) {
+      setItem('token', data);
+      navigate('/main');
+    }
+  }, [requestSuccess, data, navigate]);
 
   return (
     <ColumnContainer>
