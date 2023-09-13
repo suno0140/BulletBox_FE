@@ -8,15 +8,16 @@ import {
   TodoContentContainer,
 } from '@components/atoms/Container';
 import { TimeContainer, TodoSpan } from '@components/atoms/Span';
-import { errorToast, successToast } from '@components/atoms/toast';
+
 import { usePageLocation } from '@hooks/usePageLocation';
+import { useRequest } from '@hooks/useRequest';
 
 type TodoInfo = {
   todoId: string;
   todoContent?: string;
   time?: string;
   color?: string;
-  setReload?: React.Dispatch<React.SetStateAction<boolean>>;
+  setReloadTodos?: any;
 };
 
 const MainTodoCard = ({
@@ -24,22 +25,21 @@ const MainTodoCard = ({
   todoContent,
   time,
   color,
-  setReload,
+  setReloadTodos,
 }: TodoInfo) => {
   const { goToDailyLogUpdate } = usePageLocation();
+  const { request: deleteTodo } = useRequest({
+    apiFunc: deleteTodoApi,
+    reduxKey: 'todos',
+    successMessage: '삭제 성공',
+    errorMessage: '삭제 실패',
+  });
 
   const handleTodoDelete = async (e: React.MouseEvent<HTMLButtonElement>) => {
     const todoId = e.currentTarget.value;
 
-    try {
-      await deleteTodoApi({ todoId });
-      setReload((prev) => !prev);
-
-      successToast('삭제 성공');
-    } catch (error) {
-      errorToast('삭제 실패');
-      console.log(error);
-    }
+    await deleteTodo({ todoId });
+    setReloadTodos((prev) => !prev);
   };
 
   return (

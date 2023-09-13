@@ -1,97 +1,106 @@
-// import { MainCalendar } from '@components/molecules/Calendar';
-// import useCurrentDate from '@hooks/useCurrentData';
-// import React from 'react';
+import React from 'react';
+import { MainCalendar } from '@components/molecules/Calendar';
+import useCurrentDate from '@hooks/useCurrentData';
 
-// import EmotionButton from '@components/molecules/EmotionButton';
+import EmotionButton from '@components/molecules/EmotionButton';
 
-// import { useDispatch } from 'react-redux';
-// import { addDiaryApi } from '@api/DairyApi';
-// import { addDiary } from '@redux/modules/diaries';
-// import { errorToast, successToast } from '@components/atoms/toast';
-// import { useGetDiaryData } from '@hooks/useGetApi';
-// import {
-//   DiaryContainer,
-//   EditCheckContainer,
-//   EmotionBoxContainer,
-//   EmotionContainer,
-// } from '@components/atoms/Container';
-// import { DefaultBoldSpan, DiaryLengthSpan } from '@components/atoms/Span';
-// import { EditIcon } from '@components/atoms/Icon';
-// import { EditBtn } from '@components/atoms/Button';
-// import { DiaryText } from '@components/atoms/textarea';
+import { useDispatch } from 'react-redux';
+import { addDiaryApi, getDiaryApi } from '@api/DairyApi';
+import { errorToast, successToast } from '@components/atoms/toast';
 
-// const Diary = () => {
-//   const currentDate = useCurrentDate();
-//   const emotions = ['excited', 'happy', 'soso', 'sad', 'angry'];
-//   const dispatch = useDispatch();
+import {
+  DiaryContainer,
+  EditCheckContainer,
+  EmotionBoxContainer,
+  EmotionContainer,
+} from '@components/atoms/Container';
+import { DefaultBoldSpan, DiaryLengthSpan } from '@components/atoms/Span';
+import { EditIcon } from '@components/atoms/Icon';
+import { EditBtn } from '@components/atoms/Button';
+import { DiaryText } from '@components/atoms/textarea';
+import { useRequest } from '@hooks/useRequest';
 
-//   const { emotion, setEmotion, contents, setContents } =
-//     useGetDiaryData(currentDate);
+const Diary = () => {
+  const currentDate = useCurrentDate();
+  const emotions = ['excited', 'happy', 'soso', 'sad', 'angry'];
+  const dispatch = useDispatch();
 
-//   const handleSave = async () => {
-//     const newDiary = {
-//       date: currentDate,
-//       emotion,
-//       contents,
-//     };
+  const { request: addDiary } = useRequest({
+    apiFunc: addDiaryApi,
+    reduxKey: 'diaries',
+  });
 
-//     try {
-//       await addDiaryApi(newDiary);
-//       dispatch(addDiary(newDiary));
-//       successToast('저장 성공');
-//     } catch (error) {
-//       console.log(error);
-//       errorToast('저장 실패');
-//     }
-//   };
+  const { data: diaryData, request: getDiary } = useRequest({
+    apiFunc: getDiaryApi,
+    reduxKey: 'diaries',
+  });
 
-//   const handleTextChange = (e) => {
-//     const value = e.currentTarget.value;
-//     if (value.length <= 400) {
-//       setContents(value);
-//     }
-//   };
+  const { emotion, setEmotion, contents, setContents } = getDiary(currentDate);
 
-//   return (
-//     <>
-//       <MainCalendar />
-//       <DiaryContainer>
-//         <DefaultBoldSpan>{currentDate}</DefaultBoldSpan>
-//         <EmotionContainer>
-//           <EmotionBoxContainer>
-//             {emotions.map((e) => (
-//               <EmotionButton
-//                 key={e}
-//                 emotion={e}
-//                 selectedEmotion={emotion}
-//                 setSelectedEmotion={setEmotion}
-//               />
-//             ))}
-//           </EmotionBoxContainer>
+  const handleSave = async () => {
+    const newDiary = {
+      date: currentDate,
+      emotion,
+      contents,
+    };
 
-//           <EditCheckContainer>
-//             <EditBtn
-//               aria-label="EditBtn"
-//               onClick={() => {
-//                 void handleSave();
-//               }}
-//             >
-//               <EditIcon />
-//             </EditBtn>
-//             저장
-//           </EditCheckContainer>
-//         </EmotionContainer>
+    try {
+      await addDiaryApi(newDiary);
+      dispatch(addDiary(newDiary));
+      successToast('저장 성공');
+    } catch (error) {
+      console.log(error);
+      errorToast('저장 실패');
+    }
+  };
 
-//         <DiaryText
-//           value={contents}
-//           onChange={handleTextChange}
-//           placeholder="일기를 작성해보세요"
-//         />
+  const handleTextChange = (e) => {
+    const value = e.currentTarget.value;
+    if (value.length <= 400) {
+      setContents(value);
+    }
+  };
 
-//         <DiaryLengthSpan>({contents.length}/400)</DiaryLengthSpan>
-//       </DiaryContainer>
-//     </>
-//   );
-// };
+  return (
+    <>
+      <MainCalendar />
+      <DiaryContainer>
+        <DefaultBoldSpan>{currentDate}</DefaultBoldSpan>
+        <EmotionContainer>
+          <EmotionBoxContainer>
+            {emotions.map((e) => (
+              <EmotionButton
+                key={e}
+                emotion={e}
+                selectedEmotion={emotion}
+                setSelectedEmotion={setEmotion}
+              />
+            ))}
+          </EmotionBoxContainer>
 
-// export default Diary;
+          <EditCheckContainer>
+            <EditBtn
+              aria-label="EditBtn"
+              onClick={() => {
+                void handleSave();
+              }}
+            >
+              <EditIcon />
+            </EditBtn>
+            저장
+          </EditCheckContainer>
+        </EmotionContainer>
+
+        <DiaryText
+          value={contents}
+          onChange={handleTextChange}
+          placeholder="일기를 작성해보세요"
+        />
+
+        <DiaryLengthSpan>({contents.length}/400)</DiaryLengthSpan>
+      </DiaryContainer>
+    </>
+  );
+};
+
+export default Diary;

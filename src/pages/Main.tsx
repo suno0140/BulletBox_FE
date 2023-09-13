@@ -1,62 +1,68 @@
-// import React from 'react';
-// import { MainCalendar } from '@components/molecules/Calendar';
-// import { useLocation, useNavigate } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { MainCalendar } from '@components/molecules/Calendar';
 
-// import MainTodoCard from '@components/molecules/MainTodoCard';
-// import {
-//   DateContainer,
-//   FlexContainer,
-//   MainPageContaiver,
-//   MainTodoContainer,
-// } from '@components/atoms/Container';
-// import useCurrentDate from '@hooks/useCurrentData';
-// import { useSelector } from 'react-redux';
-// import { RootState } from '@redux/config/configStore';
-// import { AddCategoryIcon, CategoryAddBtn } from '@components/atoms/Icon';
-// import { useGetTodos } from '@hooks/useGetApi';
-// import { usePageLocation } from '@hooks/usePageLocation';
+import MainTodoCard from '@components/molecules/MainTodoCard';
+import {
+  DateContainer,
+  FlexContainer,
+  MainPageContaiver,
+  MainTodoContainer,
+} from '@components/atoms/Container';
+import useCurrentDate from '@hooks/useCurrentData';
 
-// const Main = () => {
-//   const todos = useSelector((state: RootState) => state.todos.todos);
-//   const [reload, setReload] = React.useState(false);
+import { AddCategoryIcon, CategoryAddBtn } from '@components/atoms/Icon';
+import { usePageLocation } from '@hooks/usePageLocation';
+import { useRequest } from '@hooks/useRequest';
+import { getTodoApi } from '@api/TodoApi';
 
-//   const currentDate = useCurrentDate();
-//   const location = useLocation();
+const Main = () => {
+  const [reloadTodos, setReloadTodos] = useState(false);
+  const { data: todosData, request: getTodos } = useRequest({
+    apiFunc: getTodoApi,
+    reduxKey: 'todos',
+  });
 
-//   useGetTodos([location, reload]);
+  const currentDate = useCurrentDate();
 
-//   const { goToDailyLogAdd } = usePageLocation();
+  useEffect(() => {
+    getTodos();
+  }, [reloadTodos]);
 
-//   return (
-//     <>
-//       <MainCalendar />
-//       <MainPageContaiver>
-//         <DateContainer>{currentDate}</DateContainer>
-//         <MainTodoContainer>
-//           {todos.map((todo) => (
-//             <MainTodoCard
-//               key={todo.id}
-//               todoId={todo.id}
-//               todoContent={todo.todo}
-//               time={null}
-//               color={todo.color}
-//               setReload={setReload}
-//             />
-//           ))}
-//         </MainTodoContainer>
+  const { goToDailyLogAdd } = usePageLocation();
 
-//         <FlexContainer>
-//           <CategoryAddBtn
-//             onClick={() => {
-//               goToDailyLogAdd();
-//             }}
-//           >
-//             <AddCategoryIcon />
-//           </CategoryAddBtn>
-//         </FlexContainer>
-//       </MainPageContaiver>
-//     </>
-//   );
-// };
+  return (
+    <>
+      <MainCalendar />
+      <MainPageContaiver>
+        <DateContainer>{currentDate}</DateContainer>
+        <MainTodoContainer>
+          {todosData &&
+            Object.entries(todosData).map(
+              ([todoId, todoItem]: [string, any]) => (
+                <MainTodoCard
+                  key={todoId}
+                  todoId={todoId}
+                  todoContent={todoItem.todo}
+                  time={null}
+                  color={todoItem.color}
+                  setReloadTodos={setReloadTodos}
+                />
+              ),
+            )}
+        </MainTodoContainer>
 
-// export default Main;
+        <FlexContainer>
+          <CategoryAddBtn
+            onClick={() => {
+              goToDailyLogAdd();
+            }}
+          >
+            <AddCategoryIcon />
+          </CategoryAddBtn>
+        </FlexContainer>
+      </MainPageContaiver>
+    </>
+  );
+};
+
+export default Main;

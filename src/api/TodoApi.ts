@@ -24,6 +24,7 @@ export const getTodoApi = async () => {
   const dbURL = `https://${DB_URL}/users/${uid}/todos.json?auth=${tokenId}`;
 
   const response = await axios.get(dbURL);
+
   if (response.status === 200 && response.data) {
     return response.data;
   }
