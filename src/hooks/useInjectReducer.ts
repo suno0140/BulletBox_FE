@@ -9,12 +9,11 @@ type TUseInjectReducer = {
 
 const useInjectReducer = ({ key, reducer }: TUseInjectReducer) => {
   const context: any = useContext(ReactReduxContext);
-  console.log('Context store:', context.store);
+
   const injectReducer = useCallback(() => {
     context.store.injectReducer(key, reducer);
   }, [key, reducer]);
 
-  console.log(context.store);
   useEffect(() => {
     injectReducer();
   }, [context.store]);

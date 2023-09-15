@@ -1,57 +1,63 @@
-// import {
-//   DateContainer,
-//   FlexContainer,
-//   MainPageContaiver,
-//   MainTodoContainer,
-// } from '@components/atoms/Container';
-// import { AddCategoryIcon, CategoryAddBtn } from '@components/atoms/Icon';
-// import MainTodoCard from '@components/molecules/MainTodoCard';
-// import useCurrentDate from '@hooks/useCurrentData';
-// import { useGetTodos } from '@hooks/useGetApi';
-// import { usePageLocation } from '@hooks/usePageLocation';
-// import { RootState } from '@redux/config/configStore';
-// import React from 'react';
-// import { useSelector } from 'react-redux';
+import React, { useEffect } from 'react';
+import {
+  DateContainer,
+  FlexContainer,
+  MainPageContaiver,
+  MainTodoContainer,
+} from '@components/atoms/Container';
+import { AddCategoryIcon, CategoryAddBtn } from '@components/atoms/Icon';
+import MainTodoCard from '@components/molecules/MainTodoCard';
+import useCurrentDate from '@hooks/useCurrentData';
+import { usePageLocation } from '@hooks/usePageLocation';
+import { useRequest } from '@hooks/useRequest';
+import { getTodoApi } from '@api/TodoApi';
 
-// const DailyLog = () => {
-//   const todos = useSelector((state: RootState) => state.todos.todos);
-//   const [reload, setReload] = React.useState(false);
+const DailyLog = () => {
+  const [reload, setReload] = React.useState(false);
+  const { data: todosData, request: getTodos } = useRequest({
+    apiFunc: getTodoApi,
+    reduxKey: 'todos',
+  });
 
-//   const currentDate = useCurrentDate();
+  const currentDate = useCurrentDate();
 
-//   useGetTodos([location, reload]);
+  const { goToDailyLogAdd } = usePageLocation();
 
-//   const { goToDailyLogAdd } = usePageLocation();
+  useEffect(() => {
+    getTodos();
+  }, []);
 
-//   return (
-//     <>
-//       <MainPageContaiver>
-//         <DateContainer>{currentDate}</DateContainer>
-//         <MainTodoContainer>
-//           {todos.map((todo) => (
-//             <MainTodoCard
-//               key={todo.id}
-//               todoId={todo.id}
-//               todoContent={todo.todo}
-//               time={null}
-//               color={todo.color}
-//               setReload={setReload}
-//             />
-//           ))}
-//         </MainTodoContainer>
+  return (
+    <>
+      <MainPageContaiver>
+        <DateContainer>{currentDate}</DateContainer>
+        <MainTodoContainer>
+          {todosData &&
+            Object.entries(todosData).map(
+              ([todoId, todoItem]: [string, any]) => (
+                <MainTodoCard
+                  key={todoId}
+                  todoId={todoId}
+                  todoContent={todoItem.todo}
+                  time={null}
+                  color={todoItem.color}
+                />
+              ),
+            )}
+        </MainTodoContainer>
 
-//         <FlexContainer>
-//           <CategoryAddBtn
-//             onClick={() => {
-//               goToDailyLogAdd();
-//             }}
-//           >
-//             <AddCategoryIcon />
-//           </CategoryAddBtn>
-//         </FlexContainer>
-//       </MainPageContaiver>
-//     </>
-//   );
-// };
+        <FlexContainer>
+          <CategoryAddBtn
+            onClick={() => {
+              goToDailyLogAdd();
+            }}
+          >
+            <AddCategoryIcon />
+          </CategoryAddBtn>
+        </FlexContainer>
+      </MainPageContaiver>
+    </>
+  );
+};
 
-// export default DailyLog;
+export default DailyLog;

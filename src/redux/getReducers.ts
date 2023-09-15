@@ -67,6 +67,6 @@ export default function getReducer(reduxKey: string): Reducer {
 
 export const useInjectReducerWithApi = (reduxKey: string): any => {
   const reducer = getReducer(reduxKey);
-  console.log(reducer, reduxKey);
+
   useInjectReducer({ key: reduxKey, reducer });
 };

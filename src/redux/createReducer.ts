@@ -3,11 +3,9 @@ import { AnyAction } from 'redux';
 
 export const REQUEST_START = 'global/REQUEST_START';
 export const REQUEST_READY = 'global/REQUEST_READY';
-export const SET_CATEGORY_LIST = 'global/SET_CATEGORY_LIST';
 
 export const initialState = {
   requestLoading: false,
-  categoryList: [],
 };
 
 const globalReducer = (state = initialState, action: AnyAction): any =>
