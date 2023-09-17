@@ -12,6 +12,7 @@ import { loginApi } from '@api/AuthApi';
 
 import { setItem } from '@core/localStorage';
 import { useRequest } from '@hooks/useRequest';
+import GuestLoginButton from '@components/molecules/GuestLoginButton';
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -82,6 +83,7 @@ const Login = () => {
         >
           로그인
         </MainBtn>
+        <GuestLoginButton request={request} />
 
         <JoinMembershipContainer>
           <span>아직 회원이 아니신가요?</span>

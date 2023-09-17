@@ -19,6 +19,8 @@ import { errorToast } from '@components/atoms/toast';
 import { GrayBoldSpan } from '@components/atoms/Span';
 import { useRequest } from '@hooks/useRequest';
 import { getCategoryApi } from '@api/CategoryApi';
+import { usePageLocation } from '@hooks/usePageLocation';
+import { AddCategoryIcon, CategoryAddBtn } from '@components/atoms/Icon';
 
 const DailyLogUpdate = () => {
   const navigate = useNavigate();
@@ -74,6 +76,8 @@ const DailyLogUpdate = () => {
     navigate(location.state.from);
   };
 
+  const { goToMypage } = usePageLocation();
+
   useEffect(() => {
     getCategories();
   }, []);
@@ -84,9 +88,9 @@ const DailyLogUpdate = () => {
         <FormInput value={todo} onChange={handleTodo}></FormInput>
         <TodoCateContainer>
           <GrayBoldSpan>카테고리</GrayBoldSpan>
-          <TodoCateBtnContainer>
-            {categories &&
-              Object.entries(categories).map(
+          {categories ? (
+            <TodoCateBtnContainer>
+              {Object.entries(categories).map(
                 ([categoryId, categoryItem]: [string, any]) => {
                   return (
                     <TodoCategoryBtn
@@ -109,7 +113,16 @@ const DailyLogUpdate = () => {
                   );
                 },
               )}
-          </TodoCateBtnContainer>
+            </TodoCateBtnContainer>
+          ) : (
+            <CategoryAddBtn
+              onClick={() => {
+                goToMypage();
+              }}
+            >
+              <AddCategoryIcon />
+            </CategoryAddBtn>
+          )}
         </TodoCateContainer>
         <AddInputButtonContainer>
           <SubmitBtn

@@ -1,12 +1,10 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { MainCalendar } from '@components/molecules/Calendar';
 import useCurrentDate from '@hooks/useCurrentData';
 
 import EmotionButton from '@components/molecules/EmotionButton';
 
-import { useDispatch } from 'react-redux';
 import { addDiaryApi, getDiaryApi } from '@api/DairyApi';
-import { errorToast, successToast } from '@components/atoms/toast';
 
 import {
   DiaryContainer,
@@ -23,19 +21,21 @@ import { useRequest } from '@hooks/useRequest';
 const Diary = () => {
   const currentDate = useCurrentDate();
   const emotions = ['excited', 'happy', 'soso', 'sad', 'angry'];
-  const dispatch = useDispatch();
 
   const { request: addDiary } = useRequest({
     apiFunc: addDiaryApi,
     reduxKey: 'diaries',
+    successMessage: '저장 성공',
+    errorMessage: '저장 실패',
   });
 
-  const { data: diaryData, request: getDiary } = useRequest({
+  const { data: data, request: getDiary } = useRequest({
     apiFunc: getDiaryApi,
     reduxKey: 'diaries',
   });
 
-  const { emotion, setEmotion, contents, setContents } = getDiary(currentDate);
+  const [contents, setContents] = useState('');
+  const [emotion, setEmotion] = useState('');
 
   const handleSave = async () => {
     const newDiary = {
@@ -45,12 +45,9 @@ const Diary = () => {
     };
 
     try {
-      await addDiaryApi(newDiary);
-      dispatch(addDiary(newDiary));
-      successToast('저장 성공');
+      await addDiary(newDiary);
     } catch (error) {
       console.log(error);
-      errorToast('저장 실패');
     }
   };
 
@@ -60,6 +57,17 @@ const Diary = () => {
       setContents(value);
     }
   };
+
+  useEffect(() => {
+    getDiary(currentDate);
+  }, [currentDate]);
+
+  useEffect(() => {
+    if (data) {
+      setContents(data.contents);
+      setEmotion(data.emotion);
+    }
+  }, [data]);
 
   return (
     <>

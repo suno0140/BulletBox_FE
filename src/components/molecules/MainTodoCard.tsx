@@ -17,7 +17,8 @@ type TodoInfo = {
   todoContent?: string;
   time?: string;
   color?: string;
-  setReloadTodos?: any;
+  setKeyword?: (keyword: string) => void;
+  setReload?: any;
 };
 
 const MainTodoCard = ({
@@ -25,7 +26,8 @@ const MainTodoCard = ({
   todoContent,
   time,
   color,
-  setReloadTodos,
+  setKeyword,
+  setReload,
 }: TodoInfo) => {
   const { goToDailyLogUpdate } = usePageLocation();
   const { request: deleteTodo } = useRequest({
@@ -39,7 +41,8 @@ const MainTodoCard = ({
     const todoId = e.currentTarget.value;
 
     await deleteTodo({ todoId });
-    setReloadTodos((prev) => !prev);
+    setReload((prev) => !prev);
+    setKeyword('');
   };
 
   return (

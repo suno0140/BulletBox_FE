@@ -217,3 +217,16 @@ export const EmotionBtn = styled.button<EmotionBtnProps>`
     pointer-events: none;
   }
 `;
+
+export const GuestLoginBtn = styled.button`
+  font-size: 15px;
+  font-family: 'HeirofLightBold';
+  background-color: white;
+  color: var(--color-main);
+  width: 50%;
+  height: 3vh;
+  margin-top: 20px;
+  border: none;
+  border-radius: 8px;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.15);
+`;

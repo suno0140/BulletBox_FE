@@ -16,6 +16,7 @@ import { useRequest } from '@hooks/useRequest';
 const Search = () => {
   const [keyword, setKeyword] = useState('');
   const [searchResults, setSearchResults] = useState([]);
+  const [reload, setReload] = useState(false);
   const debouncedKeyword = useDebounce(keyword, 500);
 
   const { data: todosData, request: getTodos } = useRequest({
@@ -32,19 +33,20 @@ const Search = () => {
 
   useEffect(() => {
     getTodos();
-  }, []);
+  }, [reload]);
 
   useEffect(() => {
-    if (debouncedKeyword && Array.isArray(todosData)) {
-      const filteredTodos = todosData.filter(
+    if (debouncedKeyword && typeof todosData === 'object') {
+      const filteredTodos = Object.entries(todosData).filter(
         ([todoId, todoItem]: [string, any]) =>
           todoItem.todo.toLowerCase().includes(debouncedKeyword.toLowerCase()),
       );
+
       setSearchResults(filteredTodos);
     } else {
       setSearchResults([]);
     }
-  }, [debouncedKeyword]);
+  }, [reload, debouncedKeyword]);
 
   return (
     <>
@@ -69,7 +71,7 @@ const Search = () => {
 
       <MainPageContaiver>
         <MainTodoContainer>
-          {todosData && todosData.length > 0 ? (
+          {searchResults.length > 0 ? (
             searchResults.map(([todoId, todoItem]: [string, any]) => (
               <MainTodoCard
                 key={todoId}
@@ -77,6 +79,8 @@ const Search = () => {
                 todoContent={todoItem.todo}
                 time={null}
                 color={todoItem.color}
+                setKeyword={setKeyword}
+                setReload={setReload}
               />
             ))
           ) : (

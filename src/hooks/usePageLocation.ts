@@ -22,8 +22,13 @@ export const usePageLocation = () => {
     });
   };
 
+  const goToMypage = () => {
+    navigate('/mypage');
+  };
+
   return {
     goToDailyLogAdd,
     goToDailyLogUpdate,
+    goToMypage,
   };
 };
