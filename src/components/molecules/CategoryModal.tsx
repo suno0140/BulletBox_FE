@@ -22,6 +22,7 @@ import { errorToast } from '@components/atoms/toast';
 import { CategoryInput } from '@components/atoms/Input';
 import { TitleLengthSpan } from '@components/atoms/Span';
 import { colorList } from '@components/atoms/ColorList';
+import { useRequest } from '@hooks/useRequest';
 
 type ModalProps = {
   isOpen: boolean;
@@ -45,6 +46,21 @@ export const CategoryModal: React.FC<ModalProps> = ({
   const [categoryName, setCategoryName] = useState(name || '');
   const [categoryColor, setCategoryColor] = useState(color || '');
 
+  const { request: addCategory } = useRequest({
+    apiFunc: addCategoryApi,
+    reduxKey: 'categories',
+  });
+
+  const { request: updateCategory } = useRequest({
+    apiFunc: updateCategoryApi,
+    reduxKey: 'categories',
+  });
+
+  const { request: deleteCategory } = useRequest({
+    apiFunc: deleteCategoryApi,
+    reduxKey: 'categories',
+  });
+
   const handleCategoryName = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.currentTarget.value;
     if (value.length <= 10) {
@@ -66,7 +82,7 @@ export const CategoryModal: React.FC<ModalProps> = ({
       errorToast('카테고리 색깔을 선택해주세요');
     } else {
       try {
-        await addCategoryApi({ categoryName, categoryColor });
+        await addCategory({ categoryName, categoryColor });
         setReload((prev) => !prev);
         onClose();
       } catch (error) {
@@ -82,7 +98,7 @@ export const CategoryModal: React.FC<ModalProps> = ({
       errorToast('카테고리 색깔을 선택해주세요');
     } else {
       try {
-        await updateCategoryApi({
+        await updateCategory({
           categoryName,
           categoryColor,
           id,
@@ -97,7 +113,7 @@ export const CategoryModal: React.FC<ModalProps> = ({
 
   const handleDeleteCategory = async () => {
     try {
-      await deleteCategoryApi({ id });
+      await deleteCategory({ id });
       setReload((prev) => !prev);
       onClose();
     } catch (error) {

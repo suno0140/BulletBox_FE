@@ -10,14 +10,13 @@ import { LogoutIcon, MypageIcon } from '@components/atoms/Icon';
 import { FlexContainer } from '@components/atoms/Container';
 import { DefaultBoldSpan, GrayBoldSpan } from '@components/atoms/Span';
 
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { errorToast, successToast } from '@components/atoms/toast';
 import { localEmail, localNickName } from '@core/localStorage';
 import CategoryList from '@components/molecules/CategoryList';
 
 const Mypage = () => {
   const navigate = useNavigate();
-  const location = useLocation();
 
   const handleLogout = async () => {
     localStorage.removeItem('token');
@@ -38,8 +37,16 @@ const Mypage = () => {
       <FlexContainer>
         <MypageIcon />
         <UserInfoContainer>
-          {localNickName && <DefaultBoldSpan>{localNickName}</DefaultBoldSpan>}
-          {localEmail && <GrayBoldSpan>{localEmail}</GrayBoldSpan>}
+          {localNickName ? (
+            <DefaultBoldSpan>{localNickName}</DefaultBoldSpan>
+          ) : (
+            <DefaultBoldSpan> Guest 로그인</DefaultBoldSpan>
+          )}
+          {localEmail ? (
+            <GrayBoldSpan>{localEmail}</GrayBoldSpan>
+          ) : (
+            <GrayBoldSpan>guest@example.com</GrayBoldSpan>
+          )}
         </UserInfoContainer>
         <LogoutBtnContainer>
           <LogoutBtn

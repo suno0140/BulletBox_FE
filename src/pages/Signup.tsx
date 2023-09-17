@@ -23,7 +23,6 @@ import {
 } from '@components/atoms/Container';
 import { Toaster } from 'react-hot-toast';
 import { errorToast, successToast } from '@components/atoms/toast';
-import { useDispatch } from 'react-redux';
 import { useRequest } from '@hooks/useRequest';
 
 const Signup = () => {

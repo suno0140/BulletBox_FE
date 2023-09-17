@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   DateContainer,
   FlexContainer,
@@ -13,7 +13,7 @@ import { useRequest } from '@hooks/useRequest';
 import { getTodoApi } from '@api/TodoApi';
 
 const DailyLog = () => {
-  const [reload, setReload] = React.useState(false);
+  const [reload, setReload] = useState(false);
   const { data: todosData, request: getTodos } = useRequest({
     apiFunc: getTodoApi,
     reduxKey: 'todos',
@@ -25,7 +25,7 @@ const DailyLog = () => {
 
   useEffect(() => {
     getTodos();
-  }, []);
+  }, [reload]);
 
   return (
     <>
@@ -41,6 +41,7 @@ const DailyLog = () => {
                   todoContent={todoItem.todo}
                   time={null}
                   color={todoItem.color}
+                  setReload={setReload}
                 />
               ),
             )}

@@ -3,6 +3,7 @@ import { MainCalendar } from '@components/molecules/Calendar';
 
 import MainTodoCard from '@components/molecules/MainTodoCard';
 import {
+  ColumnContainer,
   DateContainer,
   FlexContainer,
   MainPageContaiver,
@@ -16,7 +17,7 @@ import { useRequest } from '@hooks/useRequest';
 import { getTodoApi } from '@api/TodoApi';
 
 const Main = () => {
-  const [reloadTodos, setReloadTodos] = useState(false);
+  const [reload, setReload] = useState(false);
   const { data: todosData, request: getTodos } = useRequest({
     apiFunc: getTodoApi,
     reduxKey: 'todos',
@@ -26,7 +27,7 @@ const Main = () => {
 
   useEffect(() => {
     getTodos();
-  }, [reloadTodos]);
+  }, [reload]);
 
   const { goToDailyLogAdd } = usePageLocation();
 
@@ -36,7 +37,7 @@ const Main = () => {
       <MainPageContaiver>
         <DateContainer>{currentDate}</DateContainer>
         <MainTodoContainer>
-          {todosData &&
+          {todosData ? (
             Object.entries(todosData).map(
               ([todoId, todoItem]: [string, any]) => (
                 <MainTodoCard
@@ -45,13 +46,16 @@ const Main = () => {
                   todoContent={todoItem.todo}
                   time={null}
                   color={todoItem.color}
-                  setReloadTodos={setReloadTodos}
+                  setReload={setReload}
                 />
               ),
-            )}
+            )
+          ) : (
+            <p>할일 추가</p>
+          )}
         </MainTodoContainer>
 
-        <FlexContainer>
+        <ColumnContainer>
           <CategoryAddBtn
             onClick={() => {
               goToDailyLogAdd();
@@ -59,7 +63,7 @@ const Main = () => {
           >
             <AddCategoryIcon />
           </CategoryAddBtn>
-        </FlexContainer>
+        </ColumnContainer>
       </MainPageContaiver>
     </>
   );

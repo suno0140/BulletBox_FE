@@ -15,6 +15,7 @@ const CategoryList = () => {
   const [categoryName, setCategoryName] = useState('');
   const [categoryColor, setCategoryColor] = useState('');
   const [categoryId, setCategoryId] = useState('');
+  const [reload, setReload] = useState(false);
 
   const { data: categories, request: getCategories } = useRequest({
     apiFunc: getCategoryApi,
@@ -33,7 +34,7 @@ const CategoryList = () => {
 
   useEffect(() => {
     getCategories();
-  }, []);
+  }, [reload]);
 
   return (
     <CategoryListContainer>
@@ -71,6 +72,7 @@ const CategoryList = () => {
         name={categoryName}
         color={categoryColor}
         id={categoryId}
+        setReload={setReload}
       />
     </CategoryListContainer>
   );
