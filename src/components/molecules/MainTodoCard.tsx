@@ -17,7 +17,7 @@ type TodoInfo = {
   todoContent?: string;
   time?: string;
   color?: string;
-  setKeyword?: (keyword: string) => void;
+  setSearchResults?: any;
   setReload?: any;
 };
 
@@ -26,7 +26,7 @@ const MainTodoCard = ({
   todoContent,
   time,
   color,
-  setKeyword,
+  setSearchResults,
   setReload,
 }: TodoInfo) => {
   const { goToDailyLogUpdate } = usePageLocation();
@@ -42,7 +42,11 @@ const MainTodoCard = ({
 
     await deleteTodo({ todoId });
     setReload((prev) => !prev);
-    setKeyword('');
+    setSearchResults((prevResults) => {
+      return prevResults.filter(
+        ([existingTodoId]) => existingTodoId !== todoId,
+      );
+    });
   };
 
   return (

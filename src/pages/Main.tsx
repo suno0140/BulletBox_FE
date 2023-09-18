@@ -51,7 +51,7 @@ const Main = () => {
               ),
             )
           ) : (
-            <p>할일 추가</p>
+            <p>할일을 추가해보세요</p>
           )}
         </MainTodoContainer>
 

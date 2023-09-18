@@ -14,7 +14,7 @@ const Header = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const onClickHandler = () => {
-    navigate('/home');
+    navigate('/main');
   };
 
   const handleModal = () => {
@@ -23,7 +23,8 @@ const Header = () => {
 
   return (
     <HeaderContainer>
-      <SpaceContainer></SpaceContainer>
+      <SpaceContainer />
+
       <HeaderBtn
         onClick={() => {
           onClickHandler();
@@ -31,6 +32,7 @@ const Header = () => {
       >
         <HeaderLogoContainer>Bullet Box</HeaderLogoContainer>
       </HeaderBtn>
+
       <GuideBtn aria-label="Question" onClick={handleModal}>
         <QuestionIcon />
       </GuideBtn>

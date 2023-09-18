@@ -40,6 +40,12 @@ export const BulletIcon = styled(Logo)`
   fill: var(--color-main);
 `;
 
+export const HeaderIcon = styled(Logo)`
+  width: 7%;
+  height: 10%;
+  fill: var(--color-main);
+`;
+
 export const MypageIcon = styled(MyLogo)`
   fill: white;
   width: 15%;

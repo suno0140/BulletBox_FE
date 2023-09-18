@@ -23,8 +23,6 @@ const Search = () => {
     apiFunc: getTodoApi,
     reduxKey: 'todos',
   });
-  console.log(todosData);
-  console.log(searchResults, '검색 결과');
 
   const handleSearch = (e) => {
     const value = e.target.value;
@@ -79,7 +77,7 @@ const Search = () => {
                 todoContent={todoItem.todo}
                 time={null}
                 color={todoItem.color}
-                setKeyword={setKeyword}
+                setSearchResults={setSearchResults}
                 setReload={setReload}
               />
             ))
