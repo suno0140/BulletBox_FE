@@ -29,21 +29,23 @@ const DailyLogUpdate = () => {
   const initialState = location.state as {
     todoId: string;
     todoContent: string;
+    color: string;
   };
   const todoId = initialState?.todoId;
   const todoContent = initialState?.todoContent;
+  const initialColor = initialState?.color;
   const [todo, setTodo] = useState(todoContent);
-  const [selectedCategoryId, setSelectedCategoryId] = useState<string | null>(
-    null,
+  const [selectedColor, setSelectedColor] = useState<string | null>(
+    initialColor,
   );
-  const [color, setColor] = useState<string | null>(null);
+  const [color, setColor] = useState<string | null>(initialColor);
+
+  console.log(initialState, 'color');
 
   const { data: categories, request: getCategories } = useRequest({
     apiFunc: getCategoryApi,
     reduxKey: 'categories',
   });
-
-  console.log(categories);
 
   const { request: updateTodo } = useRequest({
     apiFunc: updateTodoApi,
@@ -67,9 +69,9 @@ const DailyLogUpdate = () => {
     }
   };
 
-  const handleCategoryClick = (id: string, color: string) => {
+  const handleCategoryClick = (color: string) => {
     setColor(color);
-    setSelectedCategoryId(id);
+    setSelectedColor(color);
   };
 
   const handleCancle = () => {
@@ -100,12 +102,9 @@ const DailyLogUpdate = () => {
                       name={categoryItem.categoryName}
                       color={categoryItem.categoryColor}
                       $backgroundColor={categoryItem.categoryColor}
-                      $isSelected={selectedCategoryId === categoryId}
+                      $isSelected={selectedColor === categoryItem.categoryColor}
                       onClick={() =>
-                        handleCategoryClick(
-                          categoryId,
-                          categoryItem.categoryColor,
-                        )
+                        handleCategoryClick(categoryItem.categoryColor)
                       }
                     >
                       {categoryItem.categoryName}

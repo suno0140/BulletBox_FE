@@ -59,7 +59,7 @@ const MainTodoCard = ({
       </TodoContentContainer>
       <EmailCheckBtn
         onClick={() => {
-          goToDailyLogUpdate({ todoId, todoContent });
+          goToDailyLogUpdate({ todoId, todoContent, color });
         }}
       >
         수정
