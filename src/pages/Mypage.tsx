@@ -1,5 +1,5 @@
 import React from 'react';
-import { logoutApi } from '@api/AuthApi';
+
 import {
   LogoutBtnContainer,
   MypageListContainer,
@@ -11,25 +11,17 @@ import { FlexContainer } from '@components/atoms/Container';
 import { DefaultBoldSpan, GrayBoldSpan } from '@components/atoms/Span';
 
 import { useNavigate } from 'react-router-dom';
-import { errorToast, successToast } from '@components/atoms/toast';
+import { successToast } from '@components/atoms/toast';
 import { localEmail, localNickName } from '@core/localStorage';
 import CategoryList from '@components/molecules/CategoryList';
 
 const Mypage = () => {
   const navigate = useNavigate();
 
-  const handleLogout = async () => {
+  const handleLogout = () => {
     localStorage.removeItem('token');
-    localStorage.removeItem('uid');
-
-    try {
-      await logoutApi();
-      navigate('/login');
-      successToast('로그아웃 성공');
-    } catch (error) {
-      console.log(error);
-      errorToast('로그아웃 실패');
-    }
+    navigate('/login');
+    successToast('로그아웃 성공');
   };
 
   return (

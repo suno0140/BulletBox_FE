@@ -43,7 +43,7 @@ const Login = () => {
     await request({ email, password });
   };
 
-  const LoginHandle = () => {
+  const handleSignup = () => {
     navigate('/signup');
   };
 
@@ -90,7 +90,7 @@ const Login = () => {
           <button
             type="button"
             onClick={() => {
-              LoginHandle();
+              handleSignup();
             }}
           >
             회원가입
