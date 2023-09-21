@@ -22,9 +22,10 @@ export const loginApi = async ({ email, password }: UserInfo) => {
   return response.data;
 };
 
-export const logoutApi = async () => {
-  await signOut(FireAuth);
-};
+// export const logoutApi = () => {
+//   // 로컬 스토리지에서 'token'을 삭제
+//   localStorage.removeItem('token');
+// };
 
 export const signupApi = async ({ email, password, nickName }: UserInfo) => {
   const authURL = `accounts:signUp?key=${API_KEY}`;

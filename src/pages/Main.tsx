@@ -5,7 +5,6 @@ import MainTodoCard from '@components/molecules/MainTodoCard';
 import {
   ColumnContainer,
   DateContainer,
-  FlexContainer,
   MainPageContaiver,
   MainTodoContainer,
 } from '@components/atoms/Container';
@@ -22,6 +21,7 @@ const Main = () => {
     apiFunc: getTodoApi,
     reduxKey: 'todos',
   });
+  console.log(todosData, 'todosdata');
 
   const currentDate = useCurrentDate();
 

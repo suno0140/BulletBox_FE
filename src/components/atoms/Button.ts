@@ -32,8 +32,7 @@ export const CancleBtn = styled.button`
   font-size: 14px;
   border: 0;
   border-radius: 8px;
-  background-color: var(--color-default);
-  color: var(--color-gray);
+  background-color: var(--color-likeWhite);
 `;
 
 export const GoBackBtn = styled.button`
@@ -151,11 +150,11 @@ export const TodoCategoryBtn = styled.button<{
   background-color: ${({ $backgroundColor }) =>
     $backgroundColor || 'var(--color-default)'};
 
-  // 선택됐을 때의 box-shadow
   ${(props) =>
     props.$isSelected &&
     css`
-      box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+      box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.6);
+      border: 3px solid white;
     `}
 `;
 
