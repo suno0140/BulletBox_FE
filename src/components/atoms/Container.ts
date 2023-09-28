@@ -368,10 +368,10 @@ export const TodoCateBtnContainer = styled.div`
 export const DiaryContainer = styled.div`
   display: flex;
   flex-direction: column;
-  width: 93%;
+  width: 92%;
   height: 30vh;
-  margin-top: 70px;
-  margin-left: 1px;
+  margin-top: 1vh;
+  margin-left: 3px;
   padding: 15px;
   border-radius: 16px;
   background-color: var(--color-default);
