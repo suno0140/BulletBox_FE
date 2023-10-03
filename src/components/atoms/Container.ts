@@ -368,10 +368,10 @@ export const TodoCateBtnContainer = styled.div`
 export const DiaryContainer = styled.div`
   display: flex;
   flex-direction: column;
-  width: 93%;
+  width: 92%;
   height: 30vh;
-  margin-top: 70px;
-  margin-left: 1px;
+  margin-top: 1vh;
+  margin-left: 3px;
   padding: 15px;
   border-radius: 16px;
   background-color: var(--color-default);
@@ -577,13 +577,9 @@ export const CalendarContainer = styled.div`
   }
   .react-calendar__tile:enabled:hover,
   .react-calendar__tile:enabled:focus {
-    border-radius: 5px;
-    /* color: white; */
     & > abbr {
-      padding: 8px 7px !important;
     }
     & > p {
-      padding: 2px 2px;
     }
   }
 
@@ -591,20 +587,15 @@ export const CalendarContainer = styled.div`
     border-radius: 8px;
     border: 0;
     & > abbr {
-      width: 26px;
-      height: 26px;
-      padding: 8px 7px;
       border-radius: 50%;
       color: var(--color-main);
       display: flex;
       justify-content: center;
-      align-items: center;
     }
   }
 
   .react-calendar__tile--hasActive {
     background: white;
-    border-radius: 5px;
   }
   .react-calendar__tile--hasActive:enabled:hover,
   .react-calendar__tile--hasActive:enabled:focus {
@@ -613,15 +604,9 @@ export const CalendarContainer = styled.div`
   }
   .react-calendar__tile--active {
     & > abbr {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      background-color: var(--color-main);
-      color: white;
-      width: 26px;
-      height: 26px;
-      padding: 8px 7px;
-      border-radius: 50%;
+      border: 1px solid var(--color-main);
+      border-radius: 8px;
+      color: black;
     }
   }
   .react-calendar__tile--active:enabled:hover,

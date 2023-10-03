@@ -1,7 +1,7 @@
 import { styled } from 'styled-components';
 
 export const DiaryText = styled.textarea`
-  margin-top: 10px;
+  margin-top: 20px;
   padding-left: 7px;
   border: none;
   background-color: var(--color-default);

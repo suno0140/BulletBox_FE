@@ -1,5 +1,3 @@
-import { signOut } from 'firebase/auth';
-import { FireAuth } from '@core/Firebase';
 import { API_KEY, URL, api } from '@core/api';
 
 type UserInfo = {

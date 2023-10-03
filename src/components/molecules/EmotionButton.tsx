@@ -6,6 +6,7 @@ import {
   SadBtn,
   SosoBtn,
 } from '@components/atoms/Icon';
+import { NavigateSpan } from '@components/atoms/Span';
 import React from 'react';
 
 export type EmotionBtnProps = {
@@ -15,11 +16,11 @@ export type EmotionBtnProps = {
 
 const EmotionButton = ({ emotion, selectedEmotion, setSelectedEmotion }) => {
   const Emotions = {
-    excited: <ExcitedBtn />,
-    happy: <HappyBtn />,
-    soso: <SosoBtn />,
-    sad: <SadBtn />,
-    angry: <AngryBtn />,
+    신남: <ExcitedBtn />,
+    행복: <HappyBtn />,
+    보통: <SosoBtn />,
+    슬픔: <SadBtn />,
+    화남: <AngryBtn />,
   };
 
   const handleButtonClick = () => {
@@ -33,6 +34,7 @@ const EmotionButton = ({ emotion, selectedEmotion, setSelectedEmotion }) => {
       onClick={handleButtonClick}
     >
       {Emotions[emotion]}
+      <NavigateSpan>{emotion}</NavigateSpan>
     </EmotionBtn>
   );
 };

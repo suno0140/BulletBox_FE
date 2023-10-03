@@ -20,7 +20,7 @@ import { useRequest } from '@hooks/useRequest';
 
 const Diary = () => {
   const currentDate = useCurrentDate();
-  const emotions = ['excited', 'happy', 'soso', 'sad', 'angry'];
+  const emotions = ['신남', '행복', '보통', '슬픔', '화남'];
 
   const { request: addDiary } = useRequest({
     apiFunc: addDiaryApi,
@@ -53,7 +53,7 @@ const Diary = () => {
 
   const handleTextChange = (e) => {
     const value = e.currentTarget.value;
-    if (value.length <= 400) {
+    if (value.length <= 500) {
       setContents(value);
     }
   };
@@ -105,7 +105,7 @@ const Diary = () => {
           placeholder="일기를 작성해보세요"
         />
 
-        <DiaryLengthSpan>({contents.length}/400)</DiaryLengthSpan>
+        <DiaryLengthSpan>({contents.length}/500)</DiaryLengthSpan>
       </DiaryContainer>
     </>
   );
